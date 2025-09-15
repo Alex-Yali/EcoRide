@@ -1,0 +1,34 @@
+footer{
+    background-color: #267240;
+    display: flex;
+    justify-content: flex-end;
+    height: 85px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 80px;
+    margin-right: 300px;
+}
+.footer-links a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+  }
+.footer-links p{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo-footer{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
