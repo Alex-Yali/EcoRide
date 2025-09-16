@@ -1,0 +1,10 @@
+/* Titre */
+h1{
+    font-family: "Montserrat", sans-serif;
+    font-size: 38px;
+    position: fixed;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
