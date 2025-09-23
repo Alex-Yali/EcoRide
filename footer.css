@@ -1,20 +1,18 @@
 footer{
+    position: fixed;
+    bottom: 0;
     background-color: #267240;
     display: flex;
     justify-content: flex-end;
     height: 85px;
     width: 100%;
-    position: fixed;
-    bottom: 0;
+
 }
 .footer-links {
     display: flex;
     align-items: center;
     gap: 40px;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    margin-left: 80px;
-    margin-right: 300px;
+    margin: 0 300px;
 }
 .footer-links a{
     text-decoration: none;
@@ -31,4 +29,27 @@ footer{
     width: 30px;
     height: 30px;
     border-radius: 50%;
+}
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .footer-links{
+        margin: 0 150px;
+        gap: 60px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 426px) {
+    .footer-links {
+        margin: 0 10px;
+        gap: 15px;
+    }
+
+    .footer-links a {
+        font-size: 12px;
+    }
+
+    .footer-links p {
+        font-size: 12px;
+    }
 }

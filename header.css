@@ -18,7 +18,6 @@ header{
 }
 
 .logo{
-    width: 60x;
     height: 60px;
     border-radius: 50%;
 }
@@ -29,19 +28,21 @@ header{
     font-size: 16px;
 }
 
-.rechercher, .menu{
+.rechercher{
     display: flex;
     align-items: center; 
 }
 
+.loupe{
+    height: 30px;
+}
+
 .nav-head {
     width: 100%;
-    margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: 300px;
-    padding-left: 300px;
+    padding: 300px;
 }
 
 .nav-links{
@@ -54,46 +55,47 @@ header{
 
 }
 
-.menu-img {
-    width: 75px;
-    cursor: pointer;
-    display: inline-block;
-}
-
-.loupe{
-    height: 30px;
-}
-
-/* Menu box déroulant */         
-.menu-box{
-    position: fixed;
-    right: 0;
-    margin-top: 85px;
-    margin-right: 300px;
-    height: 115px;
-    width: 130px;
+.menu {
     display: flex;
     flex-direction: column;
-    text-align: left;
-    gap: 5px;
+    justify-content: flex-end;
+
+}
+
+
+/* Menu box déroulant */         
+#menu-img {
+    width: 75px;
+    cursor: pointer;
+}
+
+#menu-box{
+    position: absolute;
+    top: 85px;
+    right: 300px;
+    width: 150px;
     padding: 10px;
     background-color: white;
     border-radius: 10px;
-    z-index: 1;
-    opacity: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+.hidden {
+  display: none;
+}   
 
 .menu-link{
     text-decoration: none;
     color: black;
-    padding: 2px;
+    padding: 4px;
     display: flex;
     justify-content: space-between;
-
 }
 
 .menu-link:hover{
     background-color: #CDCDCD;
+    border-radius: 6px;
+    padding: 5px;
 }
 
 .caret-right{
@@ -101,6 +103,45 @@ header{
     transform: rotate(-90deg);
 }
 
-.menu-box.active {
-    opacity: 1;
-}   
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .nav-head {
+        margin: 0 ;
+        padding: 150px;
+    }
+
+    .nav-bar{
+        margin: 150px 0 0;
+    }
+    
+    #menu-box {
+        right: 150px ;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-head {
+        padding: 40px;
+    }
+
+    #menu-box {
+        right: 40px ;
+    }
+}
+@media (max-width: 426px) {
+    .nav-head {
+        padding: 5px;
+    }
+
+    .nav-links{
+        width: 0;
+    }
+
+    .nav-head a {
+        font-size: 14px;
+    }
+
+    #menu-box {
+        right: 5px;
+    }
+}

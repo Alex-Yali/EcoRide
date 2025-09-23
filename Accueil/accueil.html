@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoRide</title>
     <link rel="stylesheet" href="/Projet/header.css">
     <link rel="stylesheet" href="/Projet/Accueil/accueil.css">
@@ -13,6 +14,7 @@
 </head>
 <body>
     <header>
+        <!-- Barre de navigation -->
         <nav class="nav-head">
             <section>
                 <a title="Page d'accueil EcoRide" href="/Projet/Accueil/accueil.html">
@@ -24,94 +26,92 @@
                     <img src="/Projet/images/loupe.png" class="loupe">
                     <span>Rechercher</span>
                 </a>
-                <a title="Proposer un trajet" href="#"> Proposer un trajet</a>
-                <span title="Menu">
-                    <img src="/Projet/images/icon compte.png" class="menu-img" alt="menu déroulant">
-                </span>
+                <a title="Proposer un trajet" href="/Projet/Trajet/trajet.html"> Proposer un trajet</a>
+                <!-- Menu deroulant -->
+                <section title="Menu" id="menu">
+                    <img src="/Projet/images/icon compte.png" id="menu-img" alt="menu déroulant">
+                        <section id="menu-box" class="hidden">
+                            <a title="Inscription" href="/Projet/Inscription/inscription.html" class="menu-link">
+                                <span>Inscription</span>
+                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+                            </a>
+                            <a title="Connection" href="/Projet/Connection/connection.html" class="menu-link">
+                                <span>Connection</span>
+                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+                            </a>
+                            <a title="Covoiturage" href="#" class="menu-link">
+                                <span>Covoiturage</span>
+                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+                            </a>
+                            <a title="Contatc" href="#" class="menu-link">
+                                <span>Contact</span>
+                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+                            </a>
+                        </section>
+                    </section>
             </section>
         </nav>        
     </header>
-    <main>
-        <!-- Menu deroulant -->
-        <section class="menu-box">
-            <a title="Inscription" href="/Projet/Inscription/inscription.html" class="menu-link">
-                <span>Inscription</span>
-                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-            </a>
-            <a title="Connection" href="#" class="menu-link">
-                <span>Connection</span>
-                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-            </a>
-            <a title="Covoiturage" href="#" class="menu-link">
-                <span>Covoiturage</span>
-                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-            </a>
-            <a title="Contatc" href="#" class="menu-link">
-                <span>Contact</span>
-                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-            </a>
-        </section>
-        
+    <main>   
         <!-- Barre de recherche -->
         <section class="nav-bar">
-            <form id="searchForm">
-                <!-- Départ -->
-                <section class="field">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <select id="depart">
-                        <option value="">Départ</option>
-                        <option value="Bordeaux">Bordeaux</option>
-                        <option value="Lens">Lens</option>
-                        <option value="Lille">Lille</option>
-                        <option value="Lyon">Lyon</option>
-                        <option value="Marseille">Marseille</option>
-                        <option value="Nantes">Nantes</option>
-                        <option value="Nice">Nice</option>
-                        <option value="Paris">Paris</option>    
-                        <option value="Toulon">Toulon</option>
-                        <option value="Toulouse">Toulouse</option>
-                    </select>
-                </section>
-                <!-- Destination -->
-                <section class="field">
-                    <i class="fa-solid fa-flag-checkered"></i>
-                    <select id="destination">
-                        <option value="">Destination</option>
-                        <option value="Bordeaux">Bordeaux</option>
-                        <option value="Lens">Lens</option>
-                        <option value="Lille">Lille</option>
-                        <option value="Lyon">Lyon</option>
-                        <option value="Marseille">Marseille</option>
-                        <option value="Nantes">Nantes</option>
-                        <option value="Nice">Nice</option>
-                        <option value="Paris">Paris</option>
-                        <option value="Toulon">Toulon</option>
-                        <option value="Toulouse">Toulouse</option>
-                    </select>
-                </section>
-                <!-- Date -->
-                <section class="field">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <input type="date" id="date" />
-                </section>
-                <!-- Passagers -->
-                <section class="field">
-                    <i class="fa-solid fa-user-group"></i>
-                    <select id="passagers">
-                        <option value="">Passagers</option>
-                        <option value="1">1 passager</option>
-                        <option value="2">2 passagers</option>
-                        <option value="3">3 passagers</option>
-                        <option value="4">4 passagers</option>
-                    </select>
-                </section>
-                <!-- Bouton -->
-                <button type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i> Rechercher
-                </button>
-            </form>
+            <!-- Départ -->
+            <section class="nav-choix">
+            <img src="/Projet/images/Cars 1.png" class="icon" alt="image voiture">
+            <select id="depart" name="nav" required>
+                <option value="" disabled selected hidden>Départ</option>
+                <option value="Bordeaux">Bordeaux</option>
+                <option value="Lens">Lens</option>
+                <option value="Lille">Lille</option>
+                <option value="Lyon">Lyon</option>
+                <option value="Marseille">Marseille</option>
+                <option value="Nantes">Nantes</option>
+                <option value="Nice">Nice</option>
+                <option value="Paris">Paris</option>    
+                <option value="Toulon">Toulon</option>
+                <option value="Toulouse">Toulouse</option>
+            </select>
+                <section class="separateur"></section>
+            </section>
+            <!-- Destination -->
+            <section class="nav-choix">
+            <img src="/Projet/images/ping.png" class="icon" alt="image destination">
+            <select id="destination" name="nav" required>
+                <option value="" disabled selected hidden>Destination</option>
+                <option value="Bordeaux">Bordeaux</option>
+                <option value="Lens">Lens</option>
+                <option value="Lille">Lille</option>
+                <option value="Lyon">Lyon</option>
+                <option value="Marseille">Marseille</option>
+                <option value="Nantes">Nantes</option>
+                <option value="Nice">Nice</option>
+                <option value="Paris">Paris</option>    
+                <option value="Toulon">Toulon</option>
+                <option value="Toulouse">Toulouse</option>
+            </select>
+            <section class="separateur"></section>
+            </section>
+            <!-- Calendrier -->
+            <section class="nav-choix">
+            <img src="/Projet/images/calendrier gris.png" class="icon" alt="image calendrier">
+            <input id="date" type="date" aria-label="Date" />
+            <section class="separateur"></section>
+            </section>
+            <!-- Passagers -->
+            <section class="nav-choix">
+            <img src="/Projet/images/compte gris.png" class="icon" alt="image passagers">
+            <select id="passager" name="nav" required>
+                <option value="1 Passager">1 Passager</option>
+                <option value="2 Passagers">2 Passagers</option>
+                <option value="3 Passagers">3 Passagers</option>
+                <option value="4 Passagers">4 Passagers</option>
+            </select>
+            <section class="separateur2"></section>
+            </section>
+            <!-- Bouton -->
+            <button id="btn" type="submit">Rechercher</button>
         </section>
-         
+          
         <!-- Image et texte description site -->
         <section class="descri">
             <section class="image-descri">
@@ -151,7 +151,7 @@
         </nav>
     </footer>
 
-        <!-- JS barre de recherche -->
-    <script src="/Projet/Accueil/accueil.js" type="module"></script>
+        <!-- JS  -->
+    <script src="/Projet/script.js"></script>
 </body>
 </html>
