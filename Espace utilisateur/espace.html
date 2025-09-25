@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoRide</title>
     <link rel="stylesheet" href="/Projet/header.css">
-    <link rel="stylesheet" href="/Projet/Trajet/trajet.css">
+    <link rel="stylesheet" href="/Projet/Espace utilisateur/espace.css">
     <link rel="stylesheet" href="/Projet/footer.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,7 @@
                     <img src="/Projet/images/loupe.png" class="loupe">
                     <span>Rechercher</span>
                 </a>
-                <a title="Proposer un trajet" href="#"> Proposer un trajet</a>
+                <a title="Proposer un trajet" href="/Projet/Trajet/trajet.html"> Proposer un trajet</a>
                 <!-- Menu deroulant -->
                 <section title="Menu" id="menu">
                     <img src="/Projet/images/icon compte.png" id="menu-img" alt="menu déroulant">
@@ -52,52 +52,40 @@
         </nav>        
     </header>
     <main>
-        <!-- Proposer trajet -->
-        <h1>Proposer un trajet :</h1>
-        <section id="trajet">
-            <section class="ajouter-trajet">
-                <!-- Départ -->
-                <section class="nav-cat">
-                    <img src="/Projet/images/Cars 1.png" class="icon" alt="image voiture">
-                    <input id="depart2" type="text" placeholder="Départ">
-                </section>
-                <!-- Destination -->
-                <section class="nav-cat">
-                    <img src="/Projet/images/ping.png" class="icon" alt="image destination">
-                    <input id="destination2" type="text" placeholder="Destination">
-                </section>
-                <!-- Calendrier -->
-                <section class="nav-cat">
-                <img src="/Projet/images/calendrier gris.png" class="icon" alt="image calendrier">
-                <input id="date2" type="date" placeholder="Choisir une date" aria-label="Date" />
-                </section>
-                <!-- Nombre place -->
-                <section class="nav-cat">
-                    <img src="/Projet/images/compte gris.png" class="icon" alt="image personne">
-                    <label for="places"></label><input type="number" name="places" id="places2" placeholder="Nombre place" required>
-                </section>
-                <!-- Prix -->
-                <section class="nav-cat">
-                    <img src="/Projet/images/prix gris.png" class="icon" alt="image piece">
-                    <input type="number" name="prix" id="prix2" placeholder="Saisir prix" required>
-                    <label for="prix">
-                        <span class="info-icon" title="2 crédits seront déduit de votre solde">ℹ️</span>
-                    </label>
-                </section>
-                <!-- Véhicule -->
-                <section class="nav-cat">
-                <img src="/Projet/images/ajouter voiture gris.png" class="icon" alt="image ajout voiture">
-                <select id="cars2" name="nav" required>
-                    <option value="" disabled selected hidden>Véhicules</option>
-                    <option value="vehicule 1">Véhicule 1</option>
-                </select>
-                <img src="/Projet/images/icon plus.png" id="icon-plus" alt="icon plus">
-                </section>
-                <!-- Bouton -->
-                <button id="btn2" type="submit">Publier</button>
-            </section>
-            <img src="/Projet/images/voiture 1.jpg" id="voiture" alt="image voiture orange">
+        <h1>Mon espace :</h1>
+
+        <section>
+            <ul>
+                <li id="profil">Profil</li>
+                <li id="compte">Compte</li>
+                <li id="pref">Préférences</li>
+                <li id="notif">Notifications</li>
+            </ul>
         </section>
+        <form id="user-type">
+            <fieldset>
+                <legend>Je suis :</legend>
+                    <label>
+                        <input type="checkbox" name="utilisateur" value="chauffeur">
+                        Chauffeur
+                    </label>
+                    <label>
+                        <input type="checkbox" name="utilisateur" value="passager">
+                        Passager
+                    </label>
+                    <label>
+                        <input type="checkbox" name="utilisateur" value="les-deux">
+                        Les deux
+                    </label>
+            </fieldset>
+        </form>
+        <section>
+            <section class="info-compte">
+                <img src="/Projet/images/compte noir.png" alt="image compte noir">
+                <span>Alexandre</span>
+            </section>
+        </section>
+
     </main>
     <footer>
         <nav class="footer-links">

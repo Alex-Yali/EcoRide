@@ -1,0 +1,72 @@
+/* Titre */
+h1{
+    font-family: "Montserrat", sans-serif;
+    font-size: 38px;
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Liste puce */
+ul{
+    font-size: 18px;
+    width: 100%;
+    padding: 0;
+    margin-top: 280px;
+    display: flex;
+    gap: 50px;
+    list-style-type: none;
+    justify-content: center;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+}
+
+/* Changement couleur texte liste puce */
+.color-grey{
+    color: #7E7E7E;
+}
+
+/* Styliser les checkboxes */
+#user-type{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+#user-type legend{
+    display: none;
+}
+
+#user-type fieldset {
+  border: none;       
+}
+
+#user-type label {      
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+#user-type input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #267240;
+}
+
+/* Info utilisateur */
+
+.info-compte img {
+    width: 50px;
+}
+
+.info-compte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    margin-left: 150px;
+    width: fit-content;
+}

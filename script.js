@@ -61,3 +61,44 @@
       }
     });
   }
+
+  /* Inscription utilisateur */ 
+
+  const btn3 = document.getElementById("btn3")
+
+    if (btn3) {
+      btn3.addEventListener("click", function(event) {
+        event.preventDefault();
+      
+      const pseudo = document.getElementById("pseudo").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+            if (pseudo && email && password) {
+        alert("Bienvenue ! Vous disposez dès maintenant de 20 crédits, valables sur tous les covoiturages disponibles ou pour créer votre propre trajet en tant que conducteur.");
+        window.location.href = "/Projet/Espace utilisateur/espace.html";
+
+      } else {
+        alert("Veuillez remplir tous les champs !");
+      }
+    });
+}
+  /* Connection utilisateur */
+
+    const btn4 = document.getElementById("btn4")
+
+    if (btn4) {
+      btn4.addEventListener("click", function(event) {
+        event.preventDefault();
+      
+      const email2 = document.getElementById("email2").value.trim();
+      const password2 = document.getElementById("password2").value.trim();
+
+            if (email2 && password2) {
+        window.location.href = "/Projet/Espace utilisateur/espace.html";
+
+      } else {
+        alert("Veuillez remplir tous les champs !");
+      }
+    });
+}
