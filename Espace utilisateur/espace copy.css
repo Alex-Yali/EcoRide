@@ -11,6 +11,7 @@ h1{
 /* Liste puce */
 .user-espace {
     font-size: 18px;
+    color: #7E7E7E;
     width: 100%;
     padding: 0;
     margin-top: 280px;
@@ -20,35 +21,32 @@ h1{
     justify-content: center;
 }
 
-.profil {
-    color: #7E7E7E;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
-    cursor: pointer;
-}
-
-.compte {
-    color: #7E7E7E;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
-    cursor: pointer;
-}
-.pref {
-    color: #7E7E7E;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
-    cursor: pointer;
-}
-
-.active {
+#profil {
     color: black;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+    cursor: pointer;
 }
+
+#compte {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+    cursor: pointer;
+}
+#pref {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+    cursor: pointer;
+}
+
 
 /* Styliser les checkboxes choix chauffeur */
 #user-type{
@@ -62,7 +60,7 @@ h1{
     display: none;
 }
 
-#user-type fieldset, #pref fieldset {
+#user-type fieldset, #tabac fieldset, #animaux fieldset, #musique fieldset, #discussion fieldset{
     border: none;       
 }
 
@@ -156,7 +154,7 @@ h1{
 }
 
 /* Section onglet préférences */
-#pref input[type="checkbox"] {
+#tabac input[type="checkbox"], #animaux input[type="checkbox"], #musique input[type="checkbox"], #discussion input[type="checkbox"] {
     appearance: none; 
     border: 1px solid #06461c;       
     border-radius: 50%;
@@ -165,7 +163,7 @@ h1{
     position: relative;
 }
 
-#pref input[type="checkbox"]:checked::after {
+#tabac input[type="checkbox"]:checked::after,#animaux input[type="checkbox"]:checked::after, #musique input[type="checkbox"]:checked::after,#discussion input[type="checkbox"]:checked::after {
     content: "";
     width: 10px;
     height: 10px;
@@ -177,24 +175,38 @@ h1{
     transform: translate(-50%, -50%);
 }
 
-#pref label {      
+#tabac label {      
     display: flex;
     align-items: center;
 }
 
+#animaux label {      
+    display: flex;
+    align-items: center;
+}
 
-#pref label {      
+#musique label {      
+    display: flex;
+    align-items: center;
+}
+
+#discussion label {      
+    display: flex;
+    align-items: center;
+}
+
+#tabac label, #animaux label, #musique label, #discussion label {      
     cursor: pointer;
     font-family: Arial, sans-serif;
     gap: 5px;
     margin-bottom: 10px;
 }
 
-#pref legend {
+#tabac legend, #animaux legend, #musique legend, #discussion legend {
     margin-bottom: 10px;
 }
 
-#pref {
+.pref-utilisateur {
     display:flex ;
 }
 
@@ -218,8 +230,21 @@ h1{
     transition-duration: 0.5s;
 }
 
-.user-compte, .user-pref, .user-notif  {
+/* Masquer les sections */
+
+.user-profil {
+    display: none;
+}
+
+.user-compte {
+    display: none;
+}
+
+.hidden {
   display: none;
+}   
+.display {
+    display: block;
 }
 
 @media (max-width: 768px) {

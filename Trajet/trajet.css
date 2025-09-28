@@ -41,7 +41,7 @@ h1{
     border-width: 1px;
 }
 
-button {
+#btn2 {
     flex: 1;
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
@@ -54,7 +54,7 @@ button {
     padding: none;
 }
 
-button:hover {
+#btn2:hover {
     background-color: #1f5d34;
 }
 

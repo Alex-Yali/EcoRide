@@ -31,7 +31,7 @@ input{
     gap: 15px;
 }
 
-button{
+#btn4{
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     background-color: #267240;
@@ -43,7 +43,7 @@ button{
     margin-top: 10px;
 }
 
-button:hover {
+#btn4:hover {
     background-color: #155f2f;
     transition-duration: 0.5s;
 }

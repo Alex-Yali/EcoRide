@@ -42,7 +42,7 @@
                                 <span>Covoiturage</span>
                                 <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
                             </a>
-                            <a title="Contact" href="#" class="menu-link">
+                            <a title="Contatc" href="#" class="menu-link">
                                 <span>Contact</span>
                                 <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
                             </a>
@@ -57,10 +57,10 @@
         <section class="user-profil">
             <nav>
                 <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
+                    <li id="profil">Profil</li>
+                    <li id="compte2">Compte</li>
+                    <li id="pref2">Préférences</li>
+                    <li id="notif2">Notifications</li>
                 </ul>
             </nav>
             <form id="user-type">
@@ -125,10 +125,10 @@
         <section class="user-compte">
             <nav>
                 <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
+                    <li id="profil3">Profil</li>
+                    <li id="compte">Compte</li>
+                    <li id="pref3">Préférences</li>
+                    <li id="notif3">Notifications</li>
                 </ul>
             </nav>
             <form id="user-type">
@@ -190,10 +190,10 @@
         <section class="user-pref">
             <nav>
                 <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
+                    <li id="profil4">Profil</li>
+                    <li id="compte4">Compte</li>
+                    <li id="pref4">Préférences</li>
+                    <li id="notif">Notifications</li>
                 </ul>
             </nav>
             <form id="user-type">
@@ -232,8 +232,8 @@
                         <span>Dernière connexion :</span>
                     </section>
                 </section>
-                <section>
-                    <form id="pref">
+                <section class="pref-utilisateur">
+                    <form id="tabac">
                     <fieldset>
                         <legend>Tabac</legend>
                             <label>
@@ -245,92 +245,46 @@
                                 Non autorisé
                             </label>
                     </fieldset>
-                    <fieldset>
-                        <legend>Animaux</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                Autorisé
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Non autorisé
-                            </label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Musique</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                J'écoute de la musique ou la radio
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Je préfère le silence
-                            </label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Discussion</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                Je suis ouvert à la discussion
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Je préfère le silence
-                            </label>
-                    </fieldset>
                     </form>
-                </section>
-            </section>
-            <button id="btn5" type="submit">Enregistrer</button>
-        </section>
-        <!-- Section notifications -->
-        <section class="user-notif">
-            <nav>
-                <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
-                </ul>
-            </nav>
-            <form id="user-type">
-                <fieldset>
-                    <legend>Je suis :</legend>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="chauffeur">
-                            Chauffeur
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="passager">
-                            Passager
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="les-deux">
-                            Les deux
-                        </label>
-                </fieldset>
-            </form>
-            <section class="user-menu">
-                <section class="user-id">
-                    <section class="user-name">
-                        <img src="/Projet/images/compte noir.png" alt="image compte noir">
-                        <span>Alexandre</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/bouton-notifications.png" alt="image cloche noir">
-                        <span>Notifications</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/temps.png" alt="image temps">
-                        <span>Dernière connexion :</span>
-                    </section>
-                </section>
-                <section>
-
+                    <form id="animaux">
+                        <fieldset>
+                            <legend>Animaux</legend>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Autorisé">
+                                    Autorisé
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Non autorisé">
+                                    Non autorisé
+                                </label>
+                        </fieldset>
+                    </form>
+                    <form id="musique">
+                        <fieldset>
+                            <legend>Musique</legend>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Autorisé">
+                                    J'écoute de la musique ou la radio
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Non autorisé">
+                                    Je préfère le silence
+                                </label>
+                        </fieldset>
+                    </form>
+                    <form id="discussion">
+                        <fieldset>
+                            <legend>Discussion</legend>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Autorisé">
+                                    Je suis ouvert à la discussion
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="utilisateur" value="Non autorisé">
+                                    Je préfère le silence
+                                </label>
+                        </fieldset>
+                    </form>
                 </section>
             </section>
             <button id="btn5" type="submit">Enregistrer</button>

@@ -102,3 +102,33 @@
       }
     });
 }
+
+/* Choix onglet espace utiliateur */
+
+document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll(".user-profil, .user-compte, .user-pref, .user-notif");
+
+    function showSection(sectionClass) {
+        sections.forEach(sec => sec.style.display = "none");
+        const target = document.querySelector("." + sectionClass);
+        if (target) target.style.display = "block";
+    }
+
+    // Navigation
+    document.querySelectorAll(".profil").forEach(el =>
+        el.addEventListener("click", () => showSection("user-profil"))
+    );
+    document.querySelectorAll(".compte").forEach(el =>
+        el.addEventListener("click", () => showSection("user-compte"))
+    );
+    document.querySelectorAll(".pref").forEach(el =>
+        el.addEventListener("click", () => showSection("user-pref"))
+    );
+    document.querySelectorAll(".notif").forEach(el =>
+        el.addEventListener("click", () => showSection("user-notif"))
+    );
+
+    // Affiche le profil par défaut
+    showSection("user-profil");
+});
+
