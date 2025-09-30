@@ -8,7 +8,9 @@ h1{
     transform: translateX(-50%);
     text-align:center;
     width: 70%;
-    z-index: -1;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-underline-offset: 15px;
 }
 
 /* --- Proposer trajet --- */
@@ -39,9 +41,10 @@ h1{
     font-size: 16px;
     padding: 8px;
     border-width: 1px;
+    border-radius: 10px;
 }
 
-#btn2 {
+#btnTrajet {
     flex: 1;
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
@@ -54,7 +57,7 @@ h1{
     padding: none;
 }
 
-#btn2:hover {
+#btnTrajet:hover {
     background-color: #1f5d34;
 }
 
@@ -73,6 +76,7 @@ input{
     border-color: black;
     border-width: 1px;
     padding-left: 10px;
+    border-radius: 10px;
 }
 
 input::placeholder{
@@ -143,6 +147,17 @@ input::placeholder{
 @media (max-width: 426px) {
 
     #voiture{
-        width: 80%;
+        height: 100%;
+    }
+    input {
+        font-size: 14px;
+        height: 30px;
+    }
+    .nav-cat select {
+        font-size: 14px;
+        height: 35px;
+    }
+    h1 {
+        margin-top: 0;
     }
 }

@@ -103,20 +103,41 @@
     });
 }
 
-/* Choix utiliateur */
+/* Choix onglet espace utiliateur */
 
-const radios = document.querySelectorAll('input[name="user-role"]');
-const chauffeurSection = document.getElementById('chauffeur-info');
+document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll(".user-profil, .user-compte, .user-pref, .user-notif");
 
-chauffeurSection.style.display = 'none';
-
-radios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    if (radio.value === 'chauffeur') {
-      chauffeurSection.style.display = 'flex';
-    } else {
-      chauffeurSection.style.display = 'none';
+    function showSection(sectionClass) {
+        sections.forEach(sec => sec.style.display = "none");
+        const target = document.querySelector("." + sectionClass);
+        if (target) target.style.display = "block";
     }
-  });
+    // Navigation
+    document.querySelectorAll(".profil").forEach(el =>
+        el.addEventListener("click", () => showSection("user-profil"))
+    );
+    document.querySelectorAll(".compte").forEach(el =>
+        el.addEventListener("click", () => showSection("user-compte"))
+    );
+    document.querySelectorAll(".pref").forEach(el =>
+        el.addEventListener("click", () => showSection("user-pref"))
+    );
+    document.querySelectorAll(".notif").forEach(el =>
+        el.addEventListener("click", () => showSection("user-notif"))
+    );
+    // Affiche le profil par défaut
+    showSection("user-profil");
 });
 
+/* Choix onglet espace utiliateur */
+  const links = document.querySelectorAll('.user-espace li');
+
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      // retirer "active" de tous
+      links.forEach(l => l.classList.remove('active'));
+      // ajouter "active" au lien cliqué
+      link.classList.add('active');
+  });
+});

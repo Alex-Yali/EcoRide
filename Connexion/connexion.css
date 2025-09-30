@@ -6,6 +6,9 @@ h1{
     top: 150px;
     left: 50%;
     transform: translateX(-50%);
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-underline-offset: 15px;
 }
 
 /* Formulaire inscription */
@@ -31,7 +34,7 @@ input{
     gap: 15px;
 }
 
-#btn4{
+#btnConect{
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     background-color: #267240;
@@ -40,10 +43,10 @@ input{
     border-radius: 20px;
     border: #267240;
     color: white;
-    margin-top: 10px;
+    margin-top: 50px;
 }
 
-#btn4:hover {
+#btnConect:hover {
     background-color: #155f2f;
     transition-duration: 0.5s;
 }
@@ -55,4 +58,21 @@ input{
     font-style: italic;
     text-decoration: underline;
     padding: 8px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 426px) {
+
+    h1 {
+        font-size: 28px;
+        white-space: nowrap;
+    }
+    input {
+        width: 300px;
+        font-size: 14px;
+    }
+    #btnConect {
+        margin-top: 50px;
+    }
+
 }

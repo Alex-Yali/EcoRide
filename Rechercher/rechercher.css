@@ -7,6 +7,9 @@ h1{
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-underline-offset: 15px;
 }
 
 /* --- Barre de recherche --- */
@@ -39,7 +42,7 @@ h1{
     padding: 8px;
 }
 
-#btn {
+#btnNav {
     flex: 1;
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
@@ -51,7 +54,7 @@ h1{
     transition: background 0.3s;
 }
 
-#btn:hover {
+#btnNav:hover {
     background-color: #1f5d34;
 }
 
@@ -68,11 +71,26 @@ h1{
     margin: 0 10px;
 }
 
+.image-foret {
+    width: 100%;
+    margin-top: 120px;
+    height: 480px;
+}
+
+.texte-sur-image {
+    width: 100%;
+    font-size: clamp(24px, 5vw, 60px);
+    color: #F0F0F0;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    text-align: center;
+    margin-top: -200px;
+    position: relative;
+} 
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .nav-bar{
         flex-direction: column;
-        width: 60%;
         height: 300px;
     }
 
@@ -88,5 +106,12 @@ h1{
     @media (max-width: 426px) {
     h1{
         font-size: 24px;
+    }
+    .image-foret {
+        height: 300px;
+    }
+
+    .texte-sur-image {
+        font-size: 20px;
     }
 }

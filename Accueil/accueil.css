@@ -28,7 +28,7 @@
     padding: 8px;
 }
 
-#btn {
+#btnNav {
     flex: 1;
     font-family: "Open Sans", sans-serif;
     font-size: 16px;
@@ -40,7 +40,7 @@
     transition: background 0.3s;
 }
 
-#btn:hover {
+#btnNav:hover {
     background-color: #1f5d34;
 }
 

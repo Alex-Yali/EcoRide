@@ -11,7 +11,6 @@ h1{
 /* Liste puce */
 .user-espace {
     font-size: 18px;
-    color: #7E7E7E;
     width: 100%;
     padding: 0;
     margin-top: 280px;
@@ -21,32 +20,19 @@ h1{
     justify-content: center;
 }
 
-#profil {
-    color: black;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
+.profil, .compte, .pref, .notif {
+    color: #7E7E7E;
     cursor: pointer;
 }
 
-#compte {
-    color: black;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
-    cursor: pointer;
-}
-#pref {
-    color: black;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 10px;
-    cursor: pointer;
-}
 
+.user-espace li.active {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #267240;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 10px;
+}
 
 /* Styliser les checkboxes choix chauffeur */
 #user-type{
@@ -60,7 +46,7 @@ h1{
     display: none;
 }
 
-#user-type fieldset, #tabac fieldset, #animaux fieldset, #musique fieldset, #discussion fieldset{
+#user-type fieldset, #pref fieldset {
     border: none;       
 }
 
@@ -82,12 +68,13 @@ h1{
     justify-content: center;
     align-items: center;
     width: 100%;
+    height: 250px;
 }
 
 /* Section id utilisateur */
 .user-id {
-    position: relative;
-    left: -300px;
+    position: fixed;
+    left: 10%;
 }
 
 .user-name {
@@ -119,12 +106,12 @@ h1{
 }
 
 /* Section choix onglet profil et compte*/
+
 .user-link {
-    position: relative;
-    left: -90px;
-
+    border: #267240 solid 1px;
+    border-radius: 10px;
+    padding: 40px;
 }
-
 .user-link a {
     text-decoration: none;
     color: black;
@@ -145,7 +132,7 @@ h1{
     background-color: #D9D9D9;
     transition-duration: 0.5s;
     border-radius: 16px;
-    padding-left: 15px;
+    padding-left: 10px;
 }
 
 #caret-right{
@@ -154,19 +141,28 @@ h1{
 }
 
 /* Section onglet préférences */
-#tabac input[type="checkbox"], #animaux input[type="checkbox"], #musique input[type="checkbox"], #discussion input[type="checkbox"] {
-    appearance: none; 
-    border: 1px solid #06461c;       
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    position: relative;
+#pref {
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+    border: #267240 solid 1px;
+    border-radius: 10px;
+    padding: 40px;
 }
 
-#tabac input[type="checkbox"]:checked::after,#animaux input[type="checkbox"]:checked::after, #musique input[type="checkbox"]:checked::after,#discussion input[type="checkbox"]:checked::after {
+    /* Rond exterieur */
+#pref input[type="radio"] {
+    border: 1px solid #06461c;       
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    position: relative;
+}
+    /* Rond interieur */
+#pref input[type="radio"]:checked::after {
     content: "";
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background-color: #267240;
     border-radius: 50%;    
     position: absolute;
@@ -175,43 +171,94 @@ h1{
     transform: translate(-50%, -50%);
 }
 
-#tabac label {      
+#pref label {    
     display: flex;
-    align-items: center;
-}
-
-#animaux label {      
-    display: flex;
-    align-items: center;
-}
-
-#musique label {      
-    display: flex;
-    align-items: center;
-}
-
-#discussion label {      
-    display: flex;
-    align-items: center;
-}
-
-#tabac label, #animaux label, #musique label, #discussion label {      
+    align-items: center;  
     cursor: pointer;
     font-family: Arial, sans-serif;
     gap: 5px;
     margin-bottom: 10px;
 }
 
-#tabac legend, #animaux legend, #musique legend, #discussion legend {
+#pref legend {
     margin-bottom: 10px;
 }
 
-.pref-utilisateur {
-    display:flex ;
-}
+/* Section onglet notifications */
+
+    /* Bouton switch notif */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      top: 2px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #267240;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(16px);
+    }
+
+    .switch-text {
+        display:flex ;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .switch-text p {
+        font-family: Arial, sans-serif;
+    }
+
+    .switch-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .switch-section {
+        display:flex ;
+        gap: 50px;
+        border: #267240 solid 1px;
+        border-radius: 10px;
+        padding: 40px;
+    }
 
 /* Bouton */
-#btn5{
+#btnDeco, #btnClot, #btnSave{
     font-family: "Montserrat", sans-serif;
     background-color: #267240;
     width: 150px;
@@ -225,33 +272,79 @@ h1{
     transform: translateX(-50%);
 }
 
-#btn5:hover {
+#btnDeco:hover, #btnClot:hover, #btnSave:hover {
     background-color: #155f2f;
     transition-duration: 0.5s;
 }
 
-/* Masquer les sections */
-
-.user-profil {
-    display: none;
-}
-
-.user-compte {
-    display: none;
-}
-
-.hidden {
-  display: none;
-}   
-.display {
-    display: block;
+ /* --- Responsive --- */
+@media (max-width: 1024px) {
+    .user-link li {
+        gap: 80px;
+    }
+    .user-id {
+        left: 5%;
+    }
 }
 
 @media (max-width: 768px) {
-    .user-menu {
-        gap: 80px;
+
+    .user-link {
+        margin-left: 150px;
     }
-    .user-link a {
-        padding-right: 20px;
+        .user-link li {
+        gap: 30px;
+    }
+    #pref {
+        margin-left: 250px;
+        width: 500px;
     }
 }
+
+@media (max-width: 426px) {
+
+    .user-id {
+        position: relative;
+        left: 0;
+        font-size: 14px;
+        display: flex;
+    }
+    .user-menu {
+        flex-direction: column;
+        margin-top: 80px;
+    }
+    .user-link {
+        margin-top: 50px;
+        margin-left: 0;
+
+    }
+    .user-link a {
+        font-size: 14px;
+    }
+    .user-info {
+        margin-top: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .user-info span {
+        font-size: 12px;
+    }
+    h1 {
+        white-space: nowrap;
+    }
+    .user-espace {
+        font-size: 16px;
+        gap: 30px;
+    }
+    #pref {
+        margin-left: 20px;
+        margin-top: 60px;
+        font-size: 14px;
+        width: 400px;
+        gap: 0;
+    }
+    #user-type label {
+        font-size: 14px;
+    }
+}
+

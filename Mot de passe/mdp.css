@@ -34,7 +34,7 @@ input{
     gap: 30px;
 }
 
-button{
+#btn6{
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
     background-color: #267240;
@@ -46,7 +46,7 @@ button{
     margin-top: 10px;
 }
 
-button:hover {
+#btn6:hover {
     background-color: #155f2f;
     transition-duration: 0.5s;
 }
@@ -57,4 +57,20 @@ button:hover {
     color: #267240;
     font-style: italic;
     text-decoration: underline;
+}
+
+/* --- Responsive --- */
+@media (max-width: 426px) {
+
+    h1 {
+        font-size: 22px;
+    }
+    input {
+        width: 300px;
+        font-size: 14px;
+    }
+    #btn6 {
+        margin-top: 50px;
+    }
+
 }

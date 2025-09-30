@@ -26,60 +26,73 @@
                     <span>Rechercher</span>
                 </a>
                 <a title="Proposer un trajet" href="/Projet/Trajet/trajet.html"> Proposer un trajet</a>
-                <!-- Menu deroulant -->
+                <!-- Image menu deroulant  -->
                 <section title="Menu" id="menu">
                     <img src="/Projet/images/icon compte.png" id="menu-img" alt="menu déroulant">
-                        <section id="menu-box" class="hidden">
-                            <a title="Inscription" href="/Projet/Inscription/inscription.html" class="menu-link">
-                                <span>Inscription</span>
-                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <a title="Connexion" href="/Projet/Connexion/connexion.html" class="menu-link">
-                                <span>Connexion</span>
-                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <a title="Covoiturage" href="#" class="menu-link">
-                                <span>Covoiturage</span>
-                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <a title="Contact" href="#" class="menu-link">
-                                <span>Contact</span>
-                                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                        </section>
-                    </section>
+                </section>
             </section>
         </nav>        
     </header>
     <main>
+        <!-- Menu deroulant  -->  
+        <section id="menu-box" class="hidden">
+            <a title="Inscription" href="/Projet/Inscription/inscription.html" class="menu-link">
+                <span>Inscription</span>
+                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+            </a>
+            <a title="Connexion" href="/Projet/Connexion/connexion.html" class="menu-link">
+                <span>Connexion</span>
+                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+            </a>
+            <a title="Covoiturage" href="#" class="menu-link">
+                <span>Covoiturage</span>
+                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+            </a>
+            <a title="Contatc" href="#" class="menu-link">
+                <span>Contact</span>
+                <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
+            </a>
+        </section>
         <h1>Mon espace :</h1>
-        <!-- Section profil -->
-        <section class="user-profil">
-            <nav>
-                <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
-                </ul>
-            </nav>
+        <section class="user-box">
             <form id="user-type">
                 <fieldset>
                     <legend>Je suis :</legend>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="chauffeur">
-                            Chauffeur
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="passager">
-                            Passager
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="les-deux">
-                            Les deux
-                        </label>
+                    <label><input type="radio" name="user-role" value="passager" checked>Passager</label>
+                    <label><input type="radio" name="user-role" value="chauffeur">Chauffeur</label>
+                    <label><input type="radio" name="user-role" value="chauffeur">Les deux</label>
                 </fieldset>
             </form>
+        </section>
+        <!-- Section qui sera affichée uniquement si "Chauffeur" est choisi -->
+        <section id="chauffeur-info">
+        <h2>Informations chauffeur</h2>
+            <label>Plaque d’immatriculation :<input type="text" name="immatriculation"></label>
+            <label>Date de 1ère immatriculation :<input type="text" name="dateImat"></label>
+            <label>Modèle :<input type="text" name="modele"></label>
+            <label>Couleur :<input type="text" name="couleur"></label>
+            <label>Marque :<input type="text" name="marque"></label>
+            <label>Place dispo :<input type="number" name="place"></label>
+            <section class="separator"></section>
+            <section class="pref">
+                <h2>Préférences :</h2>
+                <form id="user-pref">
+                    <fieldset>
+                        <legend>Tabac</legend>
+                        <label><input type="radio" name="radio" value="fumeur">Fumeur</label>
+                        <label><input type="radio" name="radio" value="nonfumeur">Non fumeur</label>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Animal</legend>
+                        <label><input type="radio" name="radio" value="autorise">Autorisé</label>
+                        <label><input type="radio" name="radio" value="nonautorise">Non autorisé</label>
+                    </fieldset>
+                </form>
+                <button id="btnInfo" type="submit">Enregistrer</button>
+            </section>
+        </section>
+        <!-- Section infos profil -->
+        <section class="user-profil">
             <section class="user-menu">
                 <section class="user-id">
                     <section class="user-name">
@@ -101,7 +114,7 @@
                 </section>
                     <nav class="user-link">
                         <ul>
-                            <li><a href="">Saisir un voyage</a>
+                            <li><a href="/Projet/Trajet/trajet.html">Saisir un voyage</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
                             <li><a href="">Covoiturages en cours</a>
@@ -119,223 +132,8 @@
                         </ul>
                     </nav>
             </section>
-            <button id="btn5" type="submit">Se déconnecter</button>
+            <button id="btnProfil" type="submit">Se déconnecter</button>
         </section>
-        <!-- Section compte -->
-        <section class="user-compte">
-            <nav>
-                <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
-                </ul>
-            </nav>
-            <form id="user-type">
-                <fieldset>
-                    <legend>Je suis :</legend>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="chauffeur">
-                            Chauffeur
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="passager">
-                            Passager
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="les-deux">
-                            Les deux
-                        </label>
-                </fieldset>
-            </form>
-            <section class="user-menu">
-                <section class="user-id">
-                    <section class="user-name">
-                        <img src="/Projet/images/compte noir.png" alt="image compte noir">
-                        <span>Alexandre</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/bouton-notifications.png" alt="image cloche noir">
-                        <span>Notifications</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/temps.png" alt="image temps">
-                        <span>Dernière connexion :</span>
-                    </section>
-                </section>
-                    <nav class="user-link">
-                        <ul>
-                            <li><a href="">Modifier informations personnelles</a>
-                                <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="">Modifier mot de passe</a>
-                                <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="">Modifier adresse postale</a>
-                                <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="">Modifier informations bancaire</a>
-                                <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                        </ul>
-                    </nav>
-            </section>
-            <button id="btn5" type="submit">Cloturer mon compte</button>
-        </section>
-        <!-- Section préférences -->
-        <section class="user-pref">
-            <nav>
-                <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
-                </ul>
-            </nav>
-            <form id="user-type">
-                <fieldset>
-                    <legend>Je suis :</legend>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="chauffeur">
-                            Chauffeur
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="passager">
-                            Passager
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="les-deux">
-                            Les deux
-                        </label>
-                </fieldset>
-            </form>
-            <section class="user-menu">
-                <section class="user-id">
-                    <section class="user-name">
-                        <img src="/Projet/images/compte noir.png" alt="image compte noir">
-                        <span>Alexandre</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/bouton-notifications.png" alt="image cloche noir">
-                        <span>Notifications</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/temps.png" alt="image temps">
-                        <span>Dernière connexion :</span>
-                    </section>
-                </section>
-                <section>
-                    <form id="pref">
-                    <fieldset>
-                        <legend>Tabac</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                Autorisé
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Non autorisé
-                            </label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Animaux</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                Autorisé
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Non autorisé
-                            </label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Musique</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                J'écoute de la musique ou la radio
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Je préfère le silence
-                            </label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Discussion</legend>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Autorisé">
-                                Je suis ouvert à la discussion
-                            </label>
-                            <label>
-                                <input type="checkbox" name="utilisateur" value="Non autorisé">
-                                Je préfère le silence
-                            </label>
-                    </fieldset>
-                    </form>
-                </section>
-            </section>
-            <button id="btn5" type="submit">Enregistrer</button>
-        </section>
-        <!-- Section notifications -->
-        <section class="user-notif">
-            <nav>
-                <ul class="user-espace">
-                    <li class="profil">Profil</li>
-                    <li class="compte">Compte</li>
-                    <li class="pref">Préférences</li>
-                    <li class="notif">Notifications</li>
-                </ul>
-            </nav>
-            <form id="user-type">
-                <fieldset>
-                    <legend>Je suis :</legend>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="chauffeur">
-                            Chauffeur
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="passager">
-                            Passager
-                        </label>
-                        <label>
-                            <input type="checkbox" name="utilisateur" value="les-deux">
-                            Les deux
-                        </label>
-                </fieldset>
-            </form>
-            <section class="user-menu">
-                <section class="user-id">
-                    <section class="user-name">
-                        <img src="/Projet/images/compte noir.png" alt="image compte noir">
-                        <span>Alexandre</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/bouton-notifications.png" alt="image cloche noir">
-                        <span>Notifications</span>
-                    </section>
-                    <section class="user-info">
-                        <img src="/Projet/images/temps.png" alt="image temps">
-                        <span>Dernière connexion :</span>
-                    </section>
-                </section>
-                <section>
-
-                </section>
-            </section>
-            <button id="btn5" type="submit">Enregistrer</button>
-        </section>
-
     </main>
     <footer>
         <nav class="footer-links">
