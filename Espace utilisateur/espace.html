@@ -25,7 +25,7 @@
                     <img src="/Projet/images/loupe.png" class="loupe">
                     <span>Rechercher</span>
                 </a>
-                <a title="Proposer un trajet" href="/Projet/Trajet/trajet.html"> Proposer un trajet</a>
+                <!--<a title="Proposer un trajet" href="/Projet/Trajet/trajet.html"> Proposer un trajet</a>-->
                 <!-- Image menu deroulant  -->
                 <section title="Menu" id="menu">
                     <img src="/Projet/images/icon compte.png" id="menu-img" alt="menu déroulant">
@@ -44,7 +44,7 @@
                 <span>Connexion</span>
                 <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
             </a>
-            <a title="Covoiturage" href="#" class="menu-link">
+            <a title="Covoiturage" href="/Projet/Rechercher/rechercher.html" class="menu-link">
                 <span>Covoiturage</span>
                 <img src="/Projet/images/caret-vers-le-bas.png" class="caret-right">    
             </a>
@@ -67,25 +67,25 @@
         <!-- Section qui sera affichée uniquement si "Chauffeur" est choisi -->
         <section id="chauffeur-info">
         <h2>Informations chauffeur</h2>
-            <label>Plaque d’immatriculation :<input type="text" name="immatriculation"></label>
-            <label>Date de 1ère immatriculation :<input type="text" name="dateImat"></label>
-            <label>Modèle :<input type="text" name="modele"></label>
-            <label>Couleur :<input type="text" name="couleur"></label>
-            <label>Marque :<input type="text" name="marque"></label>
-            <label>Place dispo :<input type="number" name="place"></label>
+            <label>Plaque d’immatriculation :<input type="text" id="immat" name="immatriculation"></label>
+            <label>Date de 1ère immatriculation :<input type="text" id="dateImmat" name="dateImat"></label>
+            <label>Modèle :<input type="text" id="modele" name="modele"></label>
+            <label>Couleur :<input type="text" id="couleur" name="couleur"></label>
+            <label>Marque :<input type="text" id="marque" name="marque"></label>
+            <label>Place dispo :<input type="number" id="place" name="place"></label>
             <section class="separator"></section>
             <section class="pref">
                 <h2>Préférences :</h2>
                 <form id="user-pref">
                     <fieldset>
                         <legend>Tabac</legend>
-                        <label><input type="radio" name="radio" value="fumeur">Fumeur</label>
-                        <label><input type="radio" name="radio" value="nonfumeur">Non fumeur</label>
+                        <label><input type="radio" name="tabac" value="Autorisé" checked>Autorisé</label>
+                        <label><input type="radio" name="tabac" value="Non autorisé">Non autorisé</label>
                     </fieldset>
                     <fieldset>
                         <legend>Animal</legend>
-                        <label><input type="radio" name="radio" value="autorise">Autorisé</label>
-                        <label><input type="radio" name="radio" value="nonautorise">Non autorisé</label>
+                        <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
+                        <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
                     </fieldset>
                 </form>
                 <button id="btnInfo" type="submit">Enregistrer</button>
@@ -117,16 +117,16 @@
                             <li><a href="/Projet/Trajet/trajet.html">Saisir un voyage</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
-                            <li><a href="">Covoiturages en cours</a>
+                            <li><a href="#">Covoiturages en cours</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
-                            <li><a href="">Historique covoiturages</a>
+                            <li><a href="#">Historique covoiturages</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
-                            <li><a href="">Avis</a>
+                            <li><a href="#">Avis</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
-                            <li><a href="">Mes véhicules</a>
+                            <li><a href="#">Mes véhicules</a>
                                 <img src="/Projet/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
                         </ul>
