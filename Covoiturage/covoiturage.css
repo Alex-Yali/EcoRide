@@ -31,7 +31,7 @@
 #btnCovoit {
     flex: 1;
     font-family: "Open Sans", sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     background-color: #267240;
     color: white;
     border: none;
@@ -57,6 +57,14 @@
     margin: 0 10px;
 }
 
+.covoit {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 150px;
+}
+
+
 /* --- Filtre box --- */
 .filtres {
     display: flex;
@@ -67,8 +75,7 @@
     border-radius: 16px;
     width: 15%;
     height: 500px;
-    margin-top: 100px;
-    margin-left: 150px;
+    margin-top: 80px;
 }
 
 h1 {
@@ -81,7 +88,7 @@ h1 {
     justify-content: center;
 }
 
-/* --- Filtre durée voyage et prix --- */
+    /* --- Voyage et prix --- */
 .time {
     display: flex;
     justify-content: center;
@@ -97,7 +104,7 @@ h1 {
     margin-right: 10px;
 }
 
-/* --- Filtre note --- */
+    /* --- Note --- */
 #note h1 {
     margin-bottom: 20px;
 }
@@ -127,7 +134,7 @@ h1 {
   color: gold;
 }
 
-/* --- Filtre ecologie --- */
+    /* --- Ecologie --- */
 
 #voiture-elec legend{
     display: none;
@@ -163,6 +170,136 @@ h1 {
 .icon-ecolo {
     width: 26px;
     margin-right: 15px;
+}
+
+/* --- Covoiturage box --- */
+
+.box-covoit {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+#date-covoit {
+    margin: 0;
+    padding-left: 8px;
+    padding-bottom: 8px;
+    color: #267240;
+}
+
+.info-covoit {
+    background-color: white;
+    border-radius: 16px;
+    width: 800px;
+    height: 150px;
+    margin-bottom: 20px
+}
+
+.time-covoit {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.start-time {
+    width: 8%;
+    height: 25%;
+}
+
+.start-time p {
+    margin: 0;
+}
+
+.duree {
+    color: #7E7E7E;
+    margin: 0 75px;
+    font-size: 14px;
+}
+.ligne {
+    width: 200px;
+    height: 4px;
+    background-color: black;
+}
+
+.ligne:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: black solid 3px;
+    transform: translateY(-35%);
+    background: white;
+}
+
+.ligne:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin-left: 190px;
+    border-radius: 50%;
+    border: black solid 3px;
+    transform: translateY(-35%);
+    background: white;
+}
+
+.end-time {
+    width: 8%;
+    height: 25%;
+    padding-left: 20px;
+}
+
+.end-time p {
+    margin: 0;
+}
+
+.nbr-place {
+    font-size: 18px;
+    padding-left: 100px;
+}
+
+.prix-place {
+    font-size: 26px;
+    padding-left: 150px;
+}
+
+.perso-covoit {
+    display: flex;
+}
+
+.perso {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    gap: 15px;
+}
+
+.icon-perso {
+    width: 40px;
+}
+
+.perso-avis p {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#btnDetail {
+    font-family: "Open Sans", sans-serif;
+    margin-left: 450px;
+    width: 150px;
+    font-size: 16px;
+    background-color: #267240;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#btnDetail:hover {
+    background-color: #1f5d34;
 }
 
 /* --- Responsive --- */

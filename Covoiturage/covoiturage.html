@@ -116,55 +116,159 @@
             <button id="btnCovoit" type="submit">Rechercher</button>
         </section>
         <!-- Box filtres -->
-         <section class="filtres">
-            <section>
-                <h1>Durée du voyage</h1>
-                    <section class="time">
-                        <img src="/Projet/images/sablier.png" class="icon-ecolo" alt="icon sablier">
-                        <input type="number" name="maxTime" class="maxTime"  required>
-                        <span>Max</span>
-                    </section>
-            </section>
-            <section>
-                <h1>Prix</h1>
-                    <section class="time">
-                        <img src="/Projet/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
-                        <input type="number" name="maxPrix" class="maxTime"  required>
-                        <span>Max</span>
-                    </section>
-            </section>
-            <section id="note">
-                <h1>Note</h1>
-                    <form>
-                    <section class="stars">
-                        <input id="r5" name="rating" type="radio" value="5">
-                        <label for="r5" title="5 étoiles">★</label>
+         <section class="covoit">
+            <aside class="filtres">
+                <section>
+                    <h1>Durée du voyage</h1>
+                        <section class="time">
+                            <img src="/Projet/images/sablier.png" class="icon-ecolo" alt="icon sablier">
+                            <input type="number" name="maxTime" class="maxTime"  required>
+                            <span>Max</span>
+                        </section>
+                </section>
+                <section>
+                    <h1>Prix</h1>
+                        <section class="time">
+                            <img src="/Projet/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
+                            <input type="number" name="maxPrix" class="maxTime"  required>
+                            <span>Max</span>
+                        </section>
+                </section>
+                <section id="note">
+                    <h1>Note</h1>
+                        <form>
+                        <section class="stars">
+                            <input id="r5" name="rating" type="radio" value="5">
+                            <label for="r5" title="5 étoiles">★</label>
 
-                        <input id="r4" name="rating" type="radio" value="4">
-                        <label for="r4" title="4 étoiles">★</label>
+                            <input id="r4" name="rating" type="radio" value="4">
+                            <label for="r4" title="4 étoiles">★</label>
 
-                        <input id="r3" name="rating" type="radio" value="3">
-                        <label for="r3" title="3 étoiles">★</label>
+                            <input id="r3" name="rating" type="radio" value="3">
+                            <label for="r3" title="3 étoiles">★</label>
 
-                        <input id="r2" name="rating" type="radio" value="2">
-                        <label for="r2" title="2 étoiles">★</label>
+                            <input id="r2" name="rating" type="radio" value="2">
+                            <label for="r2" title="2 étoiles">★</label>
 
-                        <input id="r1" name="rating" type="radio" value="1">
-                        <label for="r1" title="1 étoile">★</label>
-                    </section>
-                    </form>
-            </section>
-            <section>
-                <h1>Voyage ecologique</h1>
-                <section class="ecolo">
-                    <img src="/Projet/images/voiture-electrique.png" class="icon-elec" alt="icon voiture electrique">
-                        <form id="voiture-elec">
-                            <fieldset>
-                                <legend>Je suis :</legend>
-                                <label><input type="radio" name="ecolo" value="oui" checked>oui</label>
-                                <label><input type="radio" name="ecolo" value="non">non</label>
-                            </fieldset>
+                            <input id="r1" name="rating" type="radio" value="1">
+                            <label for="r1" title="1 étoile">★</label>
+                        </section>
                         </form>
+                </section>
+                <section>
+                    <h1>Voyage ecologique</h1>
+                    <section class="ecolo">
+                        <img src="/Projet/images/voiture-electrique.png" class="icon-elec" alt="icon voiture electrique">
+                            <form id="voiture-elec">
+                                <fieldset>
+                                    <legend>Je suis :</legend>
+                                    <label><input type="radio" name="ecolo" value="oui">oui</label>
+                                    <label><input type="radio" name="ecolo" value="non">non</label>
+                                </fieldset>
+                            </form>
+                    </section>
+                </section>
+            </aside>
+            <section class="box-covoit">
+                <p id="date-covoit">Jeudi 26 juin</p>
+                <section class="info-covoit">
+                    <section class="time-covoit">
+                        <section class="start-time">
+                            <p>Paris</p>
+                            <p>08:20</p>
+                        </section>
+                        <section>
+                            <p class="duree">5h10</p>
+                            <section class="ligne"></section>
+                        </section>
+                        <section class="end-time">
+                            <p>Lyon</p>
+                            <p>13:30</p>
+                        </section>
+                        <section class="nbr-place">
+                            <p>3 places</p>
+                        </section>
+                        <section class="prix-place">
+                            <p>45 €</p>
+                        </section>
+                    </section>
+                    <section class="perso-covoit">
+                        <section class="perso">
+                            <img class="icon-perso" src="/Projet/images/voiture-noir.png" alt="icon voiture noir">
+                            <img class="icon-perso" src="/Projet/images/homme.png" alt="icon homme">
+                            <section class="perso-avis">
+                                <p>Alex</p>
+                                <p>★ 4,6</p>
+                            </section>
+                        </section>
+                        <button id="btnDetail" type="submit">Voir détails</button>
+                    </section>
+                </section>
+                <section class="info-covoit">
+                    <section class="time-covoit">
+                        <section class="start-time">
+                            <p>Paris</p>
+                            <p>12:00</p>
+                        </section>
+                        <section>
+                            <p class="duree">5h30</p>
+                            <section class="ligne"></section>
+                        </section>
+                        <section class="end-time">
+                            <p>Lyon</p>
+                            <p>17:30</p>
+                        </section>
+                        <section class="nbr-place">
+                            <p>1 places</p>
+                        </section>
+                        <section class="prix-place">
+                            <p>40 €</p>
+                        </section>
+                    </section>
+                    <section class="perso-covoit">
+                        <section class="perso">
+                            <img class="icon-perso" src="/Projet/images/voiture-electrique.png" alt="icon voiture noir">
+                            <img class="icon-perso" src="/Projet/images/femme.png" alt="icon homme">
+                            <section class="perso-avis">
+                                <p>Stef</p>
+                                <p>★ 4,8</p>
+                            </section>
+                        </section>
+                        <button id="btnDetail" type="submit">Voir détails</button>
+                    </section>
+                </section>
+                <section class="info-covoit">
+                    <section class="time-covoit">
+                        <section class="start-time">
+                            <p>Paris</p>
+                            <p>15:30</p>
+                        </section>
+                        <section>
+                            <p class="duree">5h15</p>
+                            <section class="ligne"></section>
+                        </section>
+                        <section class="end-time">
+                            <p>Lyon</p>
+                            <p>20:45</p>
+                        </section>
+                        <section class="nbr-place">
+                            <p>2 places</p>
+                        </section>
+                        <section class="prix-place">
+                            <p>60 €</p>
+                        </section>
+                    </section>
+                    <section class="perso-covoit">
+                        <section class="perso">
+                            <img class="icon-perso" src="/Projet/images/voiture-noir.png" alt="icon voiture noir">
+                            <img class="icon-perso" src="/Projet/images/femme 2.png" alt="icon homme">
+                            <section class="perso-avis">
+                                <p>Marie</p>
+                                <p>★ 4,5</p>
+                            </section>
+                        </section>
+                        <button id="btnDetail" type="submit">Voir détails</button>
+                    </section>
                 </section>
             </section>
          </section>
