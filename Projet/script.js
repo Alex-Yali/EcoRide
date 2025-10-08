@@ -33,9 +33,8 @@ function handleCovoitClick(event) {
   const depart = document.getElementById("depart")?.value.trim();
   const destination = document.getElementById("destination")?.value.trim();
   const date = document.getElementById("date")?.value.trim();
-  const passager = document.getElementById("passager")?.value.trim();
 
-  if (depart && destination && date && passager) {
+  if (depart && destination && date) {
     
     // Transformer la date
     const dateObj = new Date(date);
@@ -49,8 +48,7 @@ function handleCovoitClick(event) {
     alert(
           "Départ : " + depart + "\n" +
           "Destination : " + destination + "\n" +
-          "Date : " + date + "\n" +
-          "Passager: " + passager );
+          "Date : " + date + "\n" );
 
     // Redirection vers covoiturage.html
     window.location.href = "/Projet/Covoiturage/covoiturage.html";

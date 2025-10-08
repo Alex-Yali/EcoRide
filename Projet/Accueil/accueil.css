@@ -1,15 +1,22 @@
+/* --- Titre --- */
+h1 {
+    margin-top: 150px;
+    margin-bottom: 60px;
+    text-align: center;
+    font-size: clamp(32px, 5vw, 44px);
+    color: #267240;
+    text-shadow: 0 4px 10px rgba(38, 114, 64, 0.3);
+}
+
 /* --- Barre de recherche --- */
 .nav-bar {
     background-color: white;
-    margin-top: 150px;
-    width: 80%;
+    width: 60%;
     height: 60px;
     display: flex;
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin:0 auto;
 }
 
 .nav-choix {
@@ -67,7 +74,6 @@ select{
     justify-content: center;
     gap: 40px;
     padding-top: 80px;
-    position: relative;
 }
 
 .image-voiture,
@@ -87,11 +93,17 @@ select{
     gap: 20px;
 }
 
-h1 {
+h2 {
     color: #267240;
     font-size: 20px;
     margin: 0;
     padding-top: 15px;
+}
+
+.text {
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 10px;
+
 }
 
 /* --- Image forêt + texte --- */
@@ -99,32 +111,21 @@ h1 {
     width: 100%;
     margin-top: -225px;
     height: 480px;
+    position: absolute;
+    z-index: -1;
 }
 
-.texte-sur-image {
-    width: 100%;
-    font-size: clamp(24px, 5vw, 60px);
-    color: #F0F0F0;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    text-align: center;
-    margin-top: -200px;
-    position: relative;
-}
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
+
     .nav-bar{
-        flex-direction: column;
-        width: 60%;
-        height: 300px;
+        width: 75%;
+        padding-left: 10px;
     }
 
-    #btnNav {
-        border-radius: 0 0px 16px 16px;
-    }
-
-    .separateur{
-        display: none;
+    .nav-choix {
+        padding: 0;
     }
 
     .descri {
@@ -144,8 +145,30 @@ h1 {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 768px) {
+
     .nav-bar{
+        flex-direction: column;
+        width: 60%;
+        height: 300px;
+        padding: 0;
+    }
+
+    #btnNav {
+        border-radius: 0 0px 16px 16px;
+    }
+    
+    .separateur {
+        display: none;
+    }
+
+    .nav-choix {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 426px) {
+     .nav-bar{
         width: 80%;
     }
     
@@ -158,8 +181,4 @@ h1 {
         height: 300px;
     }
 
-    .texte-sur-image{
-        margin-top: -150px;
-        font-size: 20px;
-    }
 }

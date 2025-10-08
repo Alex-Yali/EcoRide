@@ -1,11 +1,10 @@
 /* Titre */
 h1{
     font-family: "Montserrat", sans-serif;
-    font-size: 38px;
-    position: fixed;
-    top: 150px;
-    left: 50%;
-    transform: translateX(-50%);
+    font-size: clamp(20px, 5vw, 38px);
+    margin-top: 150px;
+    margin-bottom: 100px;
+    text-align: center;
     white-space: nowrap;
     text-decoration: underline;
     text-decoration-color: #267240;
@@ -15,15 +14,13 @@ h1{
 /* --- Barre de recherche --- */
 .nav-bar {
     background-color: white;
-    margin-top: 300px;
-    width: 80%;
+    margin-top: 100px;
+    width: 60%;
     height: 60px;
     display: flex;
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin:0 auto;
 }
 
 .nav-choix {
@@ -79,39 +76,54 @@ h1{
 
 .texte-sur-image {
     width: 100%;
-    font-size: clamp(24px, 5vw, 60px);
+    font-size: clamp(20px, 5vw, 60px);
     color: #F0F0F0;
     text-shadow: 0 4px 10px rgba(0,0,0,0.3);
     text-align: center;
     margin-top: -200px;
-    position: relative;
 } 
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .nav-bar{
+        width: 75%;
+        padding-left: 10px;
+    }
+
+    .nav-choix {
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+     .nav-bar{
         flex-direction: column;
+        width: 60%;
         height: 300px;
+        padding: 0;
     }
 
     #btnNav {
         border-radius: 0 0px 16px 16px;
     }
-
-    .separateur{
+    
+    .separateur {
         display: none;
+    }
+
+    .nav-choix {
+        padding: 10px;
     }
 }
 
     @media (max-width: 426px) {
-    h1{
-        font-size: 24px;
+
+    .nav-bar{
+        width: 80%;
     }
+
     .image-foret {
         height: 300px;
     }
 
-    .texte-sur-image {
-        font-size: 20px;
-    }
 }

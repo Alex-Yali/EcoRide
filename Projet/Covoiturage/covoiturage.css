@@ -1,15 +1,12 @@
 /* --- Barre de recherche --- */
 .nav-bar {
     background-color: white;
-    margin-top: 150px;
-    width: 80%;
+    width: 60%;
     height: 60px;
     display: flex;
     border-radius: 16px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin:150px auto 0;
 }
 
 .nav-choix {
@@ -108,6 +105,7 @@ h1 {
 #note h1 {
     margin-bottom: 20px;
 }
+
 .stars {
   display: inline-flex;
   flex-direction: row-reverse;
@@ -175,8 +173,6 @@ h1 {
 /* --- Covoiturage box --- */
 
 .box-covoit {
-    display: flex;
-    flex-direction: column;
     margin-top: 50px;
 }
 
@@ -305,16 +301,155 @@ h1 {
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .nav-bar{
+        width: 75%;
+        padding-left: 10px;
+    }
+
+    .separateur{
+        display: none;
+    }
+
+    .covoit {
         flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+    .filtres {
+        width: 75%;
+        height: auto;
+        flex-direction: row;
+        gap: 40px;
+
+    }
+}
+
+@media (max-width: 768px) {
+
+    .nav-bar{
+        flex-direction: column;
+        width: 60%;
         height: 300px;
+        padding: 0;
     }
 
     #btnCovoit {
         border-radius: 0 0px 16px 16px;
     }
 
-    .separateur{
-        display: none;
+    .filtres {
+        width: 90%;
+    }
+
+    .info-covoit {
+        width: 95%;
+        margin: 0 auto 30px;
+    }
+
+    .box-covoit {
+        margin: 50px auto 0;
+    }
+
+    .nbr-place {
+        padding-left: 50px;
+    }
+
+    #btnDetail {
+        height: 40px;
+        margin: 10px 20px 0 380px ;
+    }
+
+    .perso-avis {
+        font-size: 14px;
+        width: 50px;
     }
 }
 
+@media (max-width: 426px) {
+    .nav-bar {
+        width: 80%;
+    }
+
+    .filtres {
+        width: 70%;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    h1 {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .icon-ecolo {
+        width: 22px;
+    }
+
+    .icon-elec {
+        width: 30px;
+    }
+
+    .time span {
+        font-size: 12px;
+    }
+
+    #note h1 {
+        margin-bottom: 0;
+    }
+
+    #date-covoit {
+        font-size: 14px;
+        padding-left: 20px;
+    }
+
+    .box-covoit {
+        margin-top: 50px;
+        height: auto;
+    }
+
+    .time-covoit {
+        width: 95%;
+    }
+
+    .start-time p,.end-time p,.nbr-place p, .perso-avis p {
+        font-size: 12px;
+    }
+
+    .start-time {
+        padding-right: 20px;
+    }
+
+    .ligne {
+        width: 100px;
+    }
+
+    .ligne:after {
+        margin-left: 90px;
+    }
+
+    .duree {
+        font-size: 10px;
+        margin: 0 40px;
+    }
+
+    .prix-place {
+        padding-left: 20px;
+        font-size: 14px;
+    }
+
+    .icon-perso {
+        width: 20px;
+    }
+
+    .info-covoit {
+        margin: 0 auto 30px;
+        height: auto;
+    }
+
+    #btnDetail {
+        margin: 10px 20px 0 150px;
+        font-size: 12px;
+        width: 100px;
+        height: 20px;
+    }
+}
