@@ -1,0 +1,61 @@
+<?php
+    $user = "utilisateur";
+    $mail = "utilisateur@gmail.com";
+    $pass = "Motdepasse123!";
+        if(isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {
+            $pseudo = $_POST['pseudo'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            // Vérification des identifiants
+            if($pseudo === $user && $email === $mail && $password === $pass) {
+            header('location:espace.php');
+            exit;
+            } else {
+                echo "creer le message en html et le placer avec css + display none";
+            }
+        } ;
+?> 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Inscription</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/pages/inscription.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <?php
+    require 'includes/header.php'
+    ?>
+    <main>
+        <h1 class="gros-titre">Inscription :</h1>
+        <!-- Formulaire -->
+        <form id="formulaire" action="inscription.php" method="POST">
+            <section>
+                <label for="pseudo"></label><input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
+            </section>
+            <section>
+                <label for="email"></label><input type="email" id="email" name="email" placeholder="Email@mail.com" required>
+            </section>
+            <section>
+                <label for="password"></label><input type="password" name="password" id="password" placeholder="Mot de passe" required>
+            </section>
+            <button id="btnInscri" type="submit">S'inscrire</button>
+            <a title="Deja inscrit ?" href="./connexion.php" class="lien-membre">Vous êtes déja membre ?</a>
+        </form>
+    </main>
+    <footer>
+    <!-- Footer -->
+    <?php
+    require 'includes/footer.php'
+    ?>
+        <!-- JS  -->
+    <script src="./assets/js/main.js" type="module"></script>
+</body>
+</html>

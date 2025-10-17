@@ -1,0 +1,144 @@
+/* --- Proposer trajet --- */
+.ajouter-trajet {
+    background-color: white;
+    margin-top: 4.375rem;
+    max-width: 18.75rem;
+    height: 28.125rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 0.625rem rgba(0,0,0,0.1);
+    gap: 0.5rem;
+}
+
+.nav-cat {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+}
+
+.nav-cat select,
+#date {
+    width: 100%;
+    border-color: black;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-width: 0.0625rem;
+    border-radius: 0.625rem;
+}
+
+#btnTrajet {
+    flex: 1;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    background-color: #267240;
+    color: white;
+    border: none;
+    border-radius: 0 0 1rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 0;
+}
+
+#btnTrajet:hover {
+    background-color: #1f5d34;
+}
+
+.icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+input {
+    font-family: "Open Sans", sans-serif;
+    width: 100%;
+    font-size: 1rem;
+    height: 2.5rem;
+    border-color: black;
+    border-width: 0.0625rem;
+    padding-left: 0.625rem;
+    border-radius: 0.625rem;
+}
+
+input::placeholder {
+    color: black;
+}
+
+#icon-plus {
+    width: 1.25rem;
+    padding-left: 0.9375rem;
+}
+
+.info-icon {
+    cursor: pointer;
+    margin-left: 0.3125rem;
+    font-size: 1rem;
+}
+
+#prix {
+    width: 100%;
+}
+
+label {
+    display: flex;
+    align-items: center;
+}
+
+/* --- Image voiture --- */
+#voiture {
+    width: 46.875rem;
+    height: 28.125rem;
+    border-radius: 1rem;
+}
+
+#trajet {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.875rem;
+}
+
+@media (max-width: 1024px) {
+    .ajouter-trajet {
+        width: 80%;
+        height: 21.875rem;
+    }
+    #voiture {
+        width: 31.25rem;
+        height: 21.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .ajouter-trajet {
+        max-width: none;
+    }
+    #trajet {
+        flex-direction: column;
+        align-items: center;
+    }
+    #voiture {
+        height: 18.75rem;
+        width: 80%;
+    }
+}
+
+@media (max-width: 426px) {
+    #voiture {
+        height: 100%;
+    }
+    input {
+        font-size: 0.875rem;
+        height: 1.875rem;
+    }
+    .nav-cat select {
+        font-size: 0.875rem;
+        height: 2.1875rem;
+    }
+    h1 {
+        margin-top: 0;
+    }
+}

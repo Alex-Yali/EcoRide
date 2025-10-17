@@ -1,4 +1,11 @@
 <?php
-$total = array_sum($rates);
-$numberOfElements = count($rates);
-$average = $total / $numberOfElements;
+class Personne 
+{
+    public string $nom;
+    public string $prenom;
+    public int $age;
+
+
+}
+
+

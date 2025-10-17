@@ -1,0 +1,59 @@
+/* Formulaire inscription */
+input {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    background-color: #D9D9D9;
+    width: 34.375rem;
+    height: 2.5rem;
+    border: #D9D9D9;
+    border-radius: 1.25rem;
+    text-align: center;
+}
+
+#formulaire {
+    margin-top: 6.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9375rem;
+}
+
+#btnConect {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    background-color: #267240;
+    width: 9.375rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border: #267240;
+    color: white;
+    margin-top: 2.5rem;
+}
+
+#btnConect:hover {
+    background-color: #155f2f;
+    transition-duration: 0.5s;
+}
+
+.lien-membre {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #267240;
+    font-style: italic;
+    text-decoration: underline;
+    padding: 0.5rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 426px) {
+    h1 {
+        white-space: nowrap;
+    }
+    input {
+        width: 18.75rem;
+        font-size: 0.875rem;
+    }
+    #btnConect {
+        margin-top: 3.125rem;
+    }
+}
