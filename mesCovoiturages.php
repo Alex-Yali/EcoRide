@@ -14,7 +14,7 @@
 <body>
     <!-- Header -->
     <?php
-    require 'includes/headerConect.php'
+    require 'includes/header.php'
     ?>
     <main>
         <h1 class="gros-titre">Covoiturages en cours :</h1>
