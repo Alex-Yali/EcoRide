@@ -108,7 +108,7 @@
                                 <p>Alex<br>★ 4,6</p>
                             </section>
                         </section>
-                        <button id="btnDetail" type="submit">Détails</button>
+                        <button id="btnDetail" class="button" type="submit">Détails</button>
                     </section>
                 </section>
                 <section class="info-covoit">
@@ -138,7 +138,7 @@
                                 <p>Stef<br>★ 4,8</p>
                             </section>
                         </section>
-                        <button id="btnDetail" type="submit">Détails</button>
+                        <button id="btnDetail" class="button" type="submit">Détails</button>
                     </section>
                 </section>
                 <section class="info-covoit">
@@ -168,7 +168,7 @@
                                 <p>Marie<br>★ 4,5</p>
                             </section>
                         </section>
-                        <button id="btnDetail" type="submit">Détails</button>
+                        <button id="btnDetail" class="button" type="submit">Détails</button>
                     </section>
                 </section>
             </section>

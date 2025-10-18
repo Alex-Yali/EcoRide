@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Affichage du message d'erreur -->
             <?php require 'back/messagesErreur.php'; ?> 
 
-            <button id="btnConect" type="submit">Se connecter</button>
+            <button id="btnConect" class="button" type="submit">Se connecter</button>
 
             <a title="Mot de passe oublié ?" href="./mdp.php" class="lien-membre">Mot de passe oublié ?</a>
             <a title="Vous n'êtes pas encore inscrit ?" href="./inscription.php" class="lien-membre">Vous n'êtes pas encore inscrit ?</a>

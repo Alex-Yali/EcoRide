@@ -1,11 +1,11 @@
 /* Liste puce */
 .user-espace {
-    font-size: 1.125rem;
+    font-size: 1rem;
     width: 100%;
     padding: 0;
     margin-top: 17.5rem;
     display: flex;
-    gap: 3.125rem;
+    gap: 3rem;
     list-style-type: none;
     justify-content: center;
 }
@@ -14,8 +14,8 @@
     color: black;
     text-decoration: underline;
     text-decoration-color: #267240;
-    text-decoration-thickness: 0.125rem;
-    text-underline-offset: 0.625rem;
+    text-decoration-thickness: 0.12rem;
+    text-underline-offset: 0.62rem;
 }
 
 .user-box {
@@ -54,7 +54,7 @@
 
 /* Section id + section differents onglet */
 .user-menu {
-    margin-top: 3.125rem;
+    margin-top: 3rem;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -65,13 +65,13 @@
 .user-id {
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.875rem;
-    border: 0.125rem solid #267240;
-    box-shadow: 0 0.25rem 0.625rem rgba(0,0,0,0.15);
+    padding: 1.87rem;
+    border: 0.12rem solid #267240;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
 }
 
 .user-name img {
-    width: 3.125rem;
+    width: 3rem;
 }
 
 .user-name {
@@ -86,25 +86,25 @@
     align-items: center;
     gap: 1.25rem;
     margin-top: 1.25rem;
-    margin-left: 0.625rem;
+    margin-left: 0.62rem;
 }
 
 .user-info img {
-    width: 1.5625rem;
+    width: 1.56rem;
 }
 
 .user-info span {
-    font-size: 0.875rem;
+    font-size: 0.87rem;
     font-family: Arial, sans-serif;
 }
 
 /* Section choix onglet profil */
 .user-link {
-    border: 0.125rem solid #267240;
+    border: 0.12rem solid #267240;
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.875rem;
-    box-shadow: 0 0.25rem 0.625rem rgba(0,0,0,0.15);
+    padding: 1.87rem;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
 }
 
 .user-link a {
@@ -117,10 +117,10 @@
 }
 
 .user-link li {
-    margin-top: 0.9375rem;
+    margin-top: 1rem;
     display: flex;
     justify-content: space-between;
-    gap: 9.375rem;
+    gap: 1rem;
 }
 
 .user-link li :hover {
@@ -134,27 +134,27 @@
 
 /* Choix chauffeur */
 h2 {
-    margin: 0.625rem auto 1.25rem;
+    margin: 0.62rem auto 1.25rem;
     color: #267240;
     font-size: 1.5rem;
     text-align: center;
 }
 
 #chauffeur-info {
-    border: 0.125rem solid #267240;
+    border: 0.12rem solid #267240;
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.875rem;
+    padding: 1.87rem;
     flex-direction: column;
     width: 40%;
     margin: 1.25rem auto 0;
-    box-shadow: 0 0.25rem 0.625rem rgba(0,0,0,0.15);
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
 }
 
 #chauffeur-info label {
     display: flex;
-    gap: 0.625rem;
-    padding: 0.3125rem;
+    gap: 0.62rem;
+    padding: 0.3rem;
 }
 
 #user-pref fieldset {
@@ -184,28 +184,16 @@ h2 {
 .separator {
     margin-top: 1.25rem;
     width: 100%;
-    height: 0.0625rem;
+    height: 0.06rem;
     background-color: #267240;
 }
 
 /* Bouton */
 #btnInfo {
-    font-family: "Montserrat", sans-serif;
-    background-color: #267240;
-    width: 9.375rem;
-    height: 2.5rem;
-    border-radius: 1.25rem;
-    border: #267240;
-    color: white;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 1.25rem;
-}
-
-#btnInfo:hover {
-    background-color: #155f2f;
-    transition-duration: 0.5s;
 }
 
 /* --- Responsive --- */
@@ -215,25 +203,25 @@ h2 {
     }
     #chauffeur-info {
         width: 50%;
-        margin-left: 1.25rem;
+        margin-left: 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .user-link li {
-        gap: 1.875rem;
+        gap: 1.87rem;
     }
     #chauffeur-info {
         width: 60%;
-        margin-left: 0.9375rem;
+        margin-left: 1rem;
     }
 }
 
 @media (max-width: 426px) {
     .user-id {
         position: relative;
-        left: 0.625rem;
-        font-size: 0.875rem;
+        left: 0.62rem;
+        font-size: 0.87rem;
         display: flex;
         padding: 0;
         width: 95%;
@@ -243,11 +231,11 @@ h2 {
         flex-direction: column;
     }
     .user-link {
-        margin-left: 0.625rem;
-        margin-right: 0.625rem;
+        margin-left: 0.62rem;
+        margin-right: 0.62rem;
     }
     .user-info {
-        margin-top: 0.625rem;
+        margin-top: 0.62rem;
         flex-direction: column;
         align-items: flex-start;
     }
@@ -258,15 +246,15 @@ h2 {
         white-space: nowrap;
     }
     #user-type label {
-        font-size: 0.875rem;
+        font-size: 0.87rem;
     }
     #chauffeur-info {
-        margin-left: 0.625rem;
-        margin-right: 0.625rem;
+        margin-left: 0.62rem;
+        margin-right: 0.62rem;
         width: 80%;
     }
     #chauffeur-info label {
-        font-size: 0.875rem;
+        font-size: 0.87rem;
         white-space: nowrap;
         flex-direction: column;
     }

@@ -166,6 +166,25 @@ main {
     margin: 0 0 0 1rem;
 }
 
+/* Bouton */
+
+.button {
+    font-family: "Montserrat", sans-serif;
+    width: 9rem;
+    height: 2.5rem;
+    background-color: #267240;
+    border: #267240;
+    color: white;
+    border-radius: 1.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #155f2f;
+    transition-duration: 0.5s;
+}
+
 /* Navigation footer */
 .footer-links {
     background-color: #267240;

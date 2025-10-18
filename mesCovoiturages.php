@@ -47,7 +47,7 @@
                                 <p>Alex<br>★ 4,6</p>
                             </section>
                         </section>
-                        <button id="btnDetail" type="submit">Détails</button>
+                        <button id="btnDetail" class="button" type="submit">Détails</button>
                     </section>
                 </section>
             </section>

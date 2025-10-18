@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Affichage du message d'erreur -->
             <?php require 'back/messagesErreur.php'; ?> 
 
-            <button id="btnInscri" type="submit">S'inscrire</button>
+            <button id="btnInscri" class="button" type="submit">S'inscrire</button>
             <a title="Deja inscrit ?" href="./connexion.php" class="lien-membre">Vous êtes déja membre ?</a>
         </form>
     </main>

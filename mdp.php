@@ -23,7 +23,7 @@
             <section>
                 <label for="email"></label><input type="email" id="email" name="email" placeholder="Email@mail.com" required>
             </section>
-            <button id="btn6" type="submit">Envoyer le lien</button>
+            <button id="btnMdp" class="button" type="submit">Envoyer le lien</button>
             <a title="Deja inscrit ?" href="./connexion.php" class="lien-membre">Vous êtes déja membre ?</a>
         </form>
     </main>
