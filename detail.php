@@ -67,7 +67,7 @@
                         <p>1 passager</p>
                         <p>5 crédits</p>
                     </section>
-                    <button id="btnReserve" type="submit">Participer</button>
+                    <button id="btnReserve" type="button">Participer</button>
                 </section>
                 <section class="valid">
                     <p id="valid-size">Souhaitez vous utiliser 5 crédits pour réserver votre place sur ce voyage ?</p>
@@ -85,6 +85,7 @@
     ?>
         <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
+    <script> const isConect = <?php echo isset($_SESSION['user_pseudo']) ? 'true' : 'false'; ?>; </script>
     <script src="./assets/js/pages/detail.js" type="module"></script>
 </body>
 </html>

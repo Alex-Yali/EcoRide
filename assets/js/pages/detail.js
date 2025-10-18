@@ -13,9 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const participe = document.querySelector(".participe");
   const valid = document.querySelector(".valid");
-  const btnRemplacer = document.getElementById("btnReserve");
+  const btnReserve = document.getElementById("btnReserve");
 
-  btnReserve.addEventListener("click", () => {
-    participe.style.display = "none";  // Cache section 1
-    valid.style.display = "block"; // Affiche section 2
-  });
+  if (btnReserve) {
+    btnReserve.addEventListener("click",() =>{
+      if(!isConect) {
+        window.location.href = "./connexion.php"
+      } else {
+          participe.style.display = "none";  // Cache section 1
+          valid.style.display = "block"; // Affiche section 2
+      }
+    }
+  )
+  }

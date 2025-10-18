@@ -1,20 +1,44 @@
 <?php
-    $user = "utilisateur";
-    $mail = "utilisateur@gmail.com";
-    $pass = "Motdepasse123!";
-        if(isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {
-            $pseudo = $_POST['pseudo'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-            // Vérification des identifiants
-            if($pseudo === $user && $email === $mail && $password === $pass) {
-            header('location:espace.php');
-            exit;
-            } else {
-                echo "creer le message en html et le placer avec css + display none";
-            }
-        } ;
-?> 
+session_start();
+require_once 'back/db.php';
+
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pseudo = $_POST['pseudo'] ?? '';
+    $_SESSION['user_pseudo'] = $pseudo;
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    
+    //Vérifier si un champ est vide
+    if ($pseudo === '' || $email === '' || $password === '') {
+        $message = "Veuillez renseigner le pseudo, l'email et le mot de passe.";
+    //Vérifier si l'utilisateur existe déjà
+    } else {
+        $stmt = $pdo->prepare('SELECT * FROM utilisateur WHERE email = :email OR pseudo = :pseudo LIMIT 1');
+        $stmt->execute([
+            'email' => $email,
+            'pseudo' => $pseudo
+        ]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        //Cas utilisateur existe déjà ou non
+        if ($user) {
+            $message = "Un utilisateur avec ce pseudo ou cet email existe déjà.";
+        } else {
+            $stmt = $pdo->prepare('INSERT INTO utilisateur (pseudo, email, password) VALUES (:pseudo, :email, :password)');
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->execute([
+                'pseudo' => $pseudo,
+                'email' => $email,
+                'password' => $hashedPassword
+            ]);
+            header('Location: espace.php');
+            echo("Bienvenue ! Vous disposez dès maintenant de 20 crédits, valables sur tous les covoiturages disponibles ou pour créer votre propre trajet en tant que conducteur.");
+
+}}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -46,6 +70,10 @@
             <section>
                 <label for="password"></label><input type="password" name="password" id="password" placeholder="Mot de passe" required>
             </section>
+
+            <!-- Affichage du message d'erreur -->
+            <?php require 'back/messagesErreur.php'; ?> 
+
             <button id="btnInscri" type="submit">S'inscrire</button>
             <a title="Deja inscrit ?" href="./connexion.php" class="lien-membre">Vous êtes déja membre ?</a>
         </form>

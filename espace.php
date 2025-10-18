@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (empty($_SESSION['user_id'])) {
+    header('Location: connexion.php');
+    exit;
+}
+
+$pseudo = $_SESSION['user_pseudo'] ?? 'Utilisateur';
+$pseudo = ucfirst($pseudo);
+$display_pseudo = htmlspecialchars($pseudo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,7 +27,7 @@
 <body>
     <!-- Header -->
     <?php
-    require 'includes/headerConect.php'
+    require 'includes/header.php'
     ?>
     <main>
         <h1 class="gros-titre">Mon espace :</h1>
@@ -61,7 +74,7 @@
                 <section class="user-id">
                     <section class="user-name">
                         <img src="./assets/images/compte noir.png" alt="image compte noir">
-                        <span id="first-name">Alexandre</span>
+                        <span id="first-name"><?= $display_pseudo ?></span>
                     </section>
                     <section class="user-info">
                         <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
@@ -88,7 +101,7 @@
                 <section class="user-id">
                     <section class="user-name">
                         <img src="./assets/images/compte noir.png" alt="image compte noir">
-                        <span id="first-name">Alexandre</span>
+                        <span id="first-name"><?= $display_pseudo ?></span>
                     </section>
                     <section class="user-info">
                         <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">

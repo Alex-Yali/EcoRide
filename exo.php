@@ -1,41 +1,44 @@
+<!-- Une agence immobilière doit gérer des biens immobiliers. Chaque bien possède un prix et une adresse, 
+ ainsi qu'un identifiant numérique permettant de récupérer ces informations.
+
+Un bien est également composé d'un certain nombre de pièces. Ces pièces seront gérées dans une table à part, 
+et sont composées d'un identifiant numérique, d'un nom (cuisine, salon...) et d'une surface.
+
+Chaque pièce n'appartenant qu'à un seul bien, elles possèdent également une référence vers le bien auquel elles sont rattachées.
+
+Concevez une base de données permettant de gérer ces données, puis créez un script en PHP permettant de créer la base de données et les tables. -->
 <?php
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['nom'])) {
-    $nom_client = $_POST['nom'];
-    $adresse_client = $_POST['adresse'];
-    $produit_commande = $_POST['produit'];
-    $prix_commande = $_POST['prix'];    
-    $file = fopen('commandes.txt', 'a');    
-    fwrite($file, "$nom_client<br>, $adresse_client<br>, $produit_commande<br>, $prix_commande\n");
-    fclose($file);    
-    echo "La commande a été enregistrée avec succès !<br>";   
-    if (!is_dir('backup')) {
-        mkdir('backup');
+try {
+    $pdo = new PDO('mysql:host=localhost', 'root', 'Maximelukas28!');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if ($pdo->exec('DROP DATABASE IF EXISTS realEstate') !== false) {
+        if ($pdo->exec('CREATE DATABASE realEstate') !== false) {
+            $realEstate = new PDO('mysql:dbname=realEstate;host=localhost', 'root', 'Maximelukas28!');
+            if ($realEstate->exec('CREATE TABLE realEstates (
+   id INT(11) PRIMARY KEY AUTO_INCREMENT,
+   address VARCHAR(500),
+   price  DECIMAL (20,2)
+)') !== false) {
+            if ($realEstate->exec('CREATE TABLE rooms (
+   id INT(11) PRIMARY KEY AUTO_INCREMENT,
+   realEstateId INT(11),
+   name VARCHAR(100),
+   surface DECIMAL (20,2),
+   FOREIGN KEY (realEstateId) REFERENCES realEstates(id)
+)') !== false) {
+                    echo 'Installation terminée !';
+                } else {
+                    echo 'Impossible de créer la table rooms<br>';
+                }
+            } else {
+                echo 'Impossible de créer la table realEstates<br>';
+            }
+        } else {
+            echo 'Impossible de créer la base<br>';
+        }
+    } else {
+        echo 'Impossible de supprimer la base<br>';
     }
-    copy('commandes.txt', 'backup/commandes_backup.txt');    
-    echo "La commande a été sauvegardée avec succès !";
-}}
-$file = fopen('commandes.txt', 'r');
-
-?>
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Formulaire de commande</title>
-  </head>
-  <body>
-    <h1>Formulaire de commande</h1>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-      <label for="nom">Nom :</label>
-      <input type="text" name="nom" id="nom" required><br><br>
-      <label for="adresse">Adresse :</label>
-      <textarea name="adresse" id="adresse" required></textarea><br><br>
-      <label for="produit">Produit :</label>
-     <input type="text" name="produit" id="produit" required><br><br>
-      <label for="prix">Prix :</label>
-      <input type="number" name="prix" id="prix" required><br><br>
-      <input type="submit" value="Envoyer">
-    </form>
-  </body>
-</html>
+} catch (PDOException $exception){
+    die($exception->getMessage());
+}

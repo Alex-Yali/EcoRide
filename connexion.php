@@ -1,10 +1,12 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'back/db.php';
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $pseudo = $_POST['pseudo'] ?? '';
+    $_SESSION["pseudo"] = $pseudo;
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -74,8 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php require 'includes/header.php'; ?>
-
+    <!-- Header -->
+    <?php
+    require 'includes/header.php'
+    ?>
     <main>
         <h1 class="gros-titre">Je me connecte :</h1>
 
@@ -90,11 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </section>
 
             <!-- Affichage du message d'erreur -->
-            <?php if(!empty($message)) : ?>
-                <p style="color:red; font-size:0.8rem; margin:0; text-align:center;padding-top:1rem;">
-                    <?= htmlspecialchars($message) ?>
-                </p>
-            <?php endif; ?>
+            <?php require 'back/messagesErreur.php'; ?> 
 
             <button id="btnConect" type="submit">Se connecter</button>
 
