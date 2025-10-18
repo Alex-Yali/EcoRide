@@ -16,8 +16,8 @@ h1 {
     text-align: center;
     color: #267240;
     text-decoration: underline;
-    text-shadow: 0 0.25rem 0.625rem rgba(38, 114, 64, 0.3);
-    margin: 0 auto 0.625rem;
+    text-shadow: 0 0.25rem 0.6rem rgba(38, 114, 64, 0.3);
+    margin: 0 auto 0.6rem;
 }
 
 .contact-section {
@@ -29,12 +29,12 @@ input, textarea {
     width: 80%;
     height: 2rem;
     border: 1px solid #ccc;
-    border-radius: 0.375rem;
+    border-radius: 0.4rem;
     margin: 0.5rem auto 0;
 }
 
 label {
-    margin: 1rem auto 0 2.125rem;
+    margin: 1rem auto 0 2rem;
 }
 
 textarea {
@@ -42,13 +42,6 @@ textarea {
 }
 
 #btnContact {
-    font-family: "Montserrat", sans-serif;
-    background-color: #267240;
-    width: 9.375rem;
-    height: 2.5rem;
-    border-radius: 1.25rem;
-    border: #267240;
-    color: white;
     margin: 1.25rem auto 0;
 }
 

@@ -59,7 +59,7 @@
                 <img src="./assets/images/icon plus.png" id="icon-plus" alt="icon plus">
                 </section>
                 <!-- Bouton -->
-                <button id="btnTrajet" type="submit">Publier</button>
+                <button id="btnTrajet" class="button" type="submit">Publier</button>
             </section>
             <img src="./assets/images/voiture 1.jpg" id="voiture" alt="image voiture orange">
         </form>

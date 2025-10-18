@@ -3,7 +3,7 @@ input {
     font-family: "Montserrat", sans-serif;
     font-size: 1rem;
     background-color: #D9D9D9;
-    width: 34.375rem;
+    width: 34rem;
     height: 2.5rem;
     border: #D9D9D9;
     border-radius: 1.25rem;
@@ -19,20 +19,7 @@ input {
 }
 
 #btnConect {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1rem;
-    background-color: #267240;
-    width: 9.375rem;
-    height: 2.5rem;
-    border-radius: 1.25rem;
-    border: #267240;
-    color: white;
     margin-top: 2.5rem;
-}
-
-#btnConect:hover {
-    background-color: #155f2f;
-    transition-duration: 0.5s;
 }
 
 .lien-membre {
@@ -51,9 +38,6 @@ input {
     }
     input {
         width: 18.75rem;
-        font-size: 0.875rem;
-    }
-    #btnConect {
-        margin-top: 3.125rem;
+        font-size: 1rem;
     }
 }

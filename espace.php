@@ -65,7 +65,7 @@ $display_pseudo = htmlspecialchars($pseudo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'
                         <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
                     </fieldset>
                 </form>
-                <button id="btnInfo" type="submit">Enregistrer</button>
+                <button id="btnInfo" class="button" type="submit">Enregistrer</button>
             </section>
         </section>
         <!-- Section infos profil -->

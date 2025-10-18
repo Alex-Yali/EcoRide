@@ -32,7 +32,7 @@
             <section class="contact-section">
                 <label for="name">Message :</label><textarea name="message" id="message"></textarea>
             </section>
-            <button id="btnContact" type="submit">Envoyer</button>
+            <button id="btnContact" class="button" type="submit">Envoyer</button>
          </form>
     </main>
     <!-- Footer -->

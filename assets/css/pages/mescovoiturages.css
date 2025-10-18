@@ -18,14 +18,14 @@
     background-color: white;
     border-radius: 1rem;
     width: 50rem;
-    height: 9.37rem;
+    height: 9rem;
     margin-bottom: 1.25rem;
 }
 
 .time-covoit {
     display: flex;
     align-items: center;
-    padding-left: 1.87rem;
+    padding-left: 1.8rem;
 }
 
 .start-time {
@@ -39,7 +39,7 @@
 
 .duree {
     color: #7E7E7E;
-    margin: 0 4.69rem;
+    margin: 0 4.7rem;
     font-size: 0.87rem;
 }
 
@@ -65,7 +65,7 @@
     position: absolute;
     width: 0.62rem;
     height: 0.62rem;
-    margin-left: 11.87rem;
+    margin-left: 12rem;
     border-radius: 50%;
     border: 0.19rem solid black;
     transform: translateY(-35%);
@@ -115,20 +115,7 @@
 }
 
 #btnDetail {
-    font-family: "Open Sans", sans-serif;
     margin-left: 28rem;
-    width: 9.37rem;
-    font-size: 1rem;
-    background-color: #267240;
-    color: white;
-    border: none;
-    border-radius: 1.56rem;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#btnDetail:hover {
-    background-color: #1f5d34;
 }
 
 /* --- Responsive --- */
