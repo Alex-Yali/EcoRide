@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $message = "Veuillez renseigner l'email et le mot de passe.";
     } else {
-        $stmt = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password FROM utilisateur WHERE email = :email LIMIT 1');
-        $stmt->execute(['email' => $email]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password FROM utilisateur WHERE email = :email LIMIT 1');
+        $pdoStatement->execute(['email' => $email]);
+        $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
 
         if (!$user) {
             $message = "Email ou mot de passe incorrect.";
