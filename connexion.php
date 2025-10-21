@@ -5,15 +5,13 @@ require_once 'back/db.php';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pseudo = $_POST['pseudo'] ?? '';
-    $_SESSION["pseudo"] = $pseudo;
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if ($email === '' || $password === '') {
         $message = "Veuillez renseigner l'email et le mot de passe.";
     } else {
-        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password FROM utilisateur WHERE email = :email LIMIT 1');
+        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur WHERE email = :email LIMIT 1');
         $pdoStatement->execute(['email' => $email]);
         $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
 
@@ -32,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_id'] = $user['utilisateur_id'];
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['user_pseudo'] = $user['pseudo'];
+                    $_SESSION['user_credits'] = $user['credits'];
                     header('Location: espace.php');
                     exit;
                 } else {
@@ -51,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_id'] = $user['utilisateur_id'];
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['user_pseudo'] = $user['pseudo'];
+                    $_SESSION['user_credits'] = $user['credits'];
                     header('Location: espace.php');
                     exit;
                 } else {

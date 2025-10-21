@@ -1,15 +1,7 @@
-<?php
-session_start();
+    <?php
+    require 'back/infosUtilisateur.php'
+    ?>
 
-if (empty($_SESSION['user_id'])) {
-    header('Location: connexion.php');
-    exit;
-}
-
-$pseudo = $_SESSION['user_pseudo'] ?? 'Utilisateur';
-$pseudo = ucfirst($pseudo);
-$display_pseudo = htmlspecialchars($pseudo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -74,11 +66,11 @@ $display_pseudo = htmlspecialchars($pseudo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'
                 <section class="user-id">
                     <section class="user-name">
                         <img src="./assets/images/compte noir.png" alt="image compte noir">
-                        <span id="first-name"><?= $display_pseudo ?></span>
+                        <span id="first-name"><?= $displayPseudo ?></span>
                     </section>
                     <section class="user-info">
                         <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
+                        <span>Crédits restants : <?= $displayCredits ?></span>
                     </section>
                 </section>
                     <nav class="user-link">
