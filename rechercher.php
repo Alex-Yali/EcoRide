@@ -25,6 +25,9 @@
     <?php
     require 'includes/barreRecherche.php'
     ?>
+    <!-- Affichage du message d'erreur -->
+    <?php require 'back/messagesErreur.php'; ?> 
+    
         <section class="foret">
                 <img src="./assets/images/route foret.jpg" class="image-foret" alt="image route foret">
                 <p class="texte-sur-image">Un trajet partagé, un monde allégé</p>

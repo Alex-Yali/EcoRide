@@ -21,39 +21,27 @@
     }
   });
 
-/* Barre de recherche onglet accueil, rechercher et covoiturage */ 
+/* Afficher date du covoiturage  
 
 const btnNav = document.getElementById("btnNav");
 
 function handleCovoitClick(event) {
   event.preventDefault();
 
-  const depart = document.getElementById("depart")?.value.trim();
-  const destination = document.getElementById("destination")?.value.trim();
   const date = document.getElementById("date")?.value.trim();
 
-  if (depart && destination && date) {
+  if (date) {
     
-    // Transformer la date
     const dateObj = new Date(date);
+    / Formater la date en français
     const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
     const formattedDate = dateObj.toLocaleDateString("fr-FR", options);
+    // Majuscule sur la première lettre
     const dateMaj = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
     // Sauvegarder la date dans localStorage avant la redirection
     localStorage.setItem("covoitDate", dateMaj);
-
-    alert(
-          "Départ : " + depart + "\n" +
-          "Destination : " + destination + "\n" +
-          "Date : " + date + "\n" );
-
-    // Redirection vers covoiturage.html
-    window.location.href = "./covoiturage.php";
-
-  } else {
-    alert("⚠️ Veuillez remplir tous les champs !");
-  }
+  } 
 }
 
-if (btnNav) btnNav.addEventListener("click", handleCovoitClick);
+if (btnNav) btnNav.addEventListener("click", handleCovoitClick);*/
