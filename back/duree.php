@@ -1,32 +1,26 @@
 <?php
-require 'db.php'; // Connexion PDO
+require_once 'db.php'; // Connexion PDO
 
 try {
-    // Requête SQL avec alias pour plus de clarté
-    $sql = "
-        SELECT 
-            lieu_depart, 
-            lieu_arrivee, 
-            TIMEDIFF(heure_arrivee, heure_depart) AS duree
-        FROM covoiturage;
-    ";
-    $stmt = $pdo->prepare($sql);
+    // Récupération des trajets
+    $stmt = $pdo->prepare('SELECT lieu_depart, lieu_arrivee, heure_depart, heure_arrivee FROM covoiturage');
     $stmt->execute();
-    $durees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Parcours des résultats
-    foreach ($durees as $trajet) {
-        // Récupération de la durée brute (format HH:MM:SS)
-        $raw = $trajet['duree'];
-        list($heures, $minutes, $secondes) = explode(':', $raw);
+    foreach ($trajets as $trajet) {
+        $heureDepart = new DateTime($trajet['heure_depart']);
+        $heureArrivee = new DateTime($trajet['heure_arrivee']);
 
-        // Conversion en format lisible (par ex. "4h00", "2h45")
-        $dureeLisible = (int)$heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
+        $interval = $heureDepart->diff($heureArrivee);
 
-       echo "De {$trajet['lieu_depart']} à {$trajet['lieu_arrivee']} : durée $dureeLisible<br>";
+        $dureeLisible = $interval->h . 'h' . str_pad($interval->i, 2, '0', STR_PAD_LEFT);
+
+        //echo "De {$trajet['lieu_depart']} à {$trajet['lieu_arrivee']} : durée $dureeLisible<br>";
     }
 
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();
 }
 ?>
+
+

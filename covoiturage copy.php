@@ -83,12 +83,6 @@ require_once 'back/duree.php';
                 <p id="date-covoit"><?= htmlspecialchars($dateAffiche) ?></p>
                 <?php if (!empty($covoits)): ?>
                     <?php foreach ($covoits as $c): ?>
-                        <?php
-                            $heureDepart = new DateTime($c['heure_depart']);
-                            $heureArrivee = new DateTime($c['heure_arrivee']);
-                            $interval = $heureDepart->diff($heureArrivee);
-                            $dureeLisible = $interval->h . 'h' . str_pad($interval->i, 2, '0', STR_PAD_LEFT);
-                        ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
                                 <section class="start-time">
