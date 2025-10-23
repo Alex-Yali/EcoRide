@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $message = "Veuillez renseigner l'email et le mot de passe.";
     } else {
-        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur WHERE email = :email LIMIT 1');
+        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur WHERE email = :email');
         $pdoStatement->execute(['email' => $email]);
         $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
 
@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $dbPass = $user['password'];
 
-            // Détection simple d'un hash bcrypt/argon2 (ajoute d'autres préfixes si besoin)
-            $is_hashed = (strpos($dbPass, '$2y$') === 0) || (strpos($dbPass, '$argon2') === 0);
+            // Détection simple d'un hash bcrypt
+            $is_hashed = (strpos($dbPass, '$2y$') === 0);
 
             if ($is_hashed) {
                 // Mot de passe déjà haché -> vérifier avec password_verify
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Mot de passe en clair en base : on vérifie l'égalite puis on hache et met à jour
                 if ($password === $dbPass) {
                     // Hachage sécurisé via PHP
-                    $newHash = password_hash($password, PASSWORD_DEFAULT);
+                    $newHash = password_hash($password, PASSWORD_BCRYPT);
 
                     $update = $pdo->prepare("UPDATE utilisateur SET password = :hash WHERE utilisateur_id = :id");
                     $update->execute(['hash' => $newHash, 'id' => $user['utilisateur_id']]);

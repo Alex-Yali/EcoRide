@@ -1,4 +1,4 @@
-  /* Recuperation date de covoiturage 
+  /* Recuperation date de covoiturage */
 
 document.addEventListener("DOMContentLoaded", () => {
   const result = document.getElementById("date-covoit"); // zone de texte modifié
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (date && result) {
     result.textContent = `${date}`;
   }
-});*/
+});
 
   /* Acces page detail */
 

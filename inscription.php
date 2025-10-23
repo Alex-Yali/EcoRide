@@ -14,9 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Vérifier si un champ est vide
     if ($pseudo === '' || $email === '' || $password === '') {
         $message = "Veuillez renseigner le pseudo, l'email et le mot de passe.";
-    //Vérifier si l'utilisateur existe déjà
+    //Vérifier si le mot de passe respect notre demande
     }elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$/', $password)) {
     $message = "Le mot de passe doit contenir au moins 9 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
+     //Vérifier si l'utilisateur existe déjà
     }else {
         $stmt = $pdo->prepare('SELECT * FROM utilisateur WHERE email = :email OR pseudo = :pseudo LIMIT 1');
         $stmt->execute([
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = "Un utilisateur avec ce pseudo ou cet email existe déjà.";
         } else {
             $stmt = $pdo->prepare('INSERT INTO utilisateur (pseudo, email, password, credits) VALUES (:pseudo, :email, :password, :credits)');
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $stmt->execute([
                 'pseudo' => $pseudo,
                 'email' => $email,

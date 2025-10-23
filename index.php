@@ -22,6 +22,8 @@
     <?php
     require 'includes/barreRecherche.php'
     ?>
+    <!-- Affichage du message d'erreur -->
+    <?php require 'back/messagesErreur.php'; ?> 
         <!-- Image et texte description site -->
         <section class="descri">
             <section class="image-descri">

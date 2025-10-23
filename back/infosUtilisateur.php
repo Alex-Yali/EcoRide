@@ -17,7 +17,7 @@ $stmt->execute(['user_id' => $user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user) {
-    $displayPseudo = htmlspecialchars($user['pseudo'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $displayPseudo = htmlspecialchars(ucfirst($user['pseudo']), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $displayCredits = htmlspecialchars($user['credits'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 } else {
     // utilisateur non trouvé → déconnexion
