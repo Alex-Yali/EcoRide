@@ -1,7 +1,6 @@
 <?php require_once 'back/infosCovoiturage.php';
 require_once 'back/fonctionDate.php';
-require_once 'back/duree.php';
- ?>
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,12 +29,12 @@ require_once 'back/duree.php';
         <?php require 'back/messagesErreur.php'; ?> 
         <section class="covoit">
             <!-- Filtres latéraux -->
-            <aside class="filtres">
+            <form class="filtres" action="" method="POST">
                 <section>
                     <h1>Durée du voyage</h1>
                     <section class="time">
                         <img src="./assets/images/sablier.png" class="icon-ecolo" alt="icon sablier">
-                        <input type="number" name="maxTime" class="maxTime" required>
+                        <input type="number" name="maxTime" class="maxTime">
                         <span>Max</span>
                     </section>
                 </section>
@@ -43,13 +42,12 @@ require_once 'back/duree.php';
                     <h1>Prix</h1>
                     <section class="time">
                         <img src="./assets/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
-                        <input type="number" name="maxPrix" class="maxTime" required>
+                        <input type="number" name="maxPrix" class="maxTime">
                         <span>Max</span>
                     </section>
                 </section>
                 <section id="note" name="note">
                     <h1>Note</h1>
-                    <form>
                         <section class="stars">
                             <input id="r5" name="rating" type="radio" value="5">
                             <label for="r5" title="5 étoiles">★</label>
@@ -62,32 +60,28 @@ require_once 'back/duree.php';
                             <input id="r1" name="rating" type="radio" value="1">
                             <label for="r1" title="1 étoile">★</label>
                         </section>
-                    </form>
                 </section>
                 <section>
                     <h1>Voyage écologique</h1>
                     <section class="ecolo" name="ecolo">
                         <img src="./assets/images/voiture-electrique.png" class="icon-elec" alt="icon voiture electrique">
-                        <form id="voiture-elec">
-                            <fieldset>
-                                <legend>Je suis :</legend>
+                        <section id="voiture-elec">
                                 <label><input type="radio" name="ecolo" value="oui">oui</label>
                                 <label><input type="radio" name="ecolo" value="non">non</label>
-                            </fieldset>
-                        </form>
+                        </section>
                     </section>
                 </section>
-            </aside>
+                <button id="btnFiltres" class="button" type="button">Appliquer</button>
+            </form>
             <!-- Résultats -->
             <section class="box-covoit">
-                <p id="date-covoit"><?= htmlspecialchars($dateAffiche) ?></p>
-                <?php if (!empty($covoits)): ?>
+                <p id="date-covoit"><?= htmlspecialchars($dateCovoit) ?></p>
                     <?php foreach ($covoits as $c): ?>
                         <?php
                             $heureDepart = new DateTime($c['heure_depart']);
                             $heureArrivee = new DateTime($c['heure_arrivee']);
-                            $interval = $heureDepart->diff($heureArrivee);
-                            $dureeLisible = $interval->h . 'h' . str_pad($interval->i, 2, '0', STR_PAD_LEFT);
+                            $duree = $heureDepart->diff($heureArrivee);
+                            $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
                         ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
@@ -95,7 +89,7 @@ require_once 'back/duree.php';
                                     <p><?= htmlspecialchars($c['lieu_depart']) ?><br><?= date('H:i', strtotime($c['heure_depart'])) ?></p>
                                 </section>
                                 <section>
-                                    <p class="duree"><?= htmlspecialchars($dureeLisible) ?></p>
+                                    <p class="duree"><?= htmlspecialchars($dureeCovoit) ?></p>
                                     <section class="ligne"></section>
                                 </section>
                                 <section class="end-time">
@@ -113,16 +107,15 @@ require_once 'back/duree.php';
                                     <img class="icon-perso" src="./assets/images/voiture-noir.png" alt="voiture">
                                     <img class="icon-perso" src="./assets/images/homme.png" alt="conducteur">
                                     <section class="perso-avis">
-                                        <p>ID : <?= htmlspecialchars($c['covoiturage_id']) ?><br>
+                                        <p><?= htmlspecialchars($c['pseudo'] ?? 'N/A') ?><br>
                                            ★ <?= htmlspecialchars($c['note'] ?? 'N/A') ?>
                                         </p>
                                     </section>
                                 </section>
-                                <button class="button" type="button">Détails</button>
+                                <button class="button" type="button" id="btnDetail">Détails</button>
                             </section>
                         </section>
                     <?php endforeach; ?>
-                <?php endif; ?>
             </section>
         </section>
     </main>
@@ -132,6 +125,6 @@ require_once 'back/duree.php';
 
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
-    <script src="./assets/js/pages/covoiturage.js" type="module"></script>
+    <!--<script src="./assets/js/pages/covoiturage.js" type="module"></script>-->
 </body>
 </html>

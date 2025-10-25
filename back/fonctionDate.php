@@ -2,10 +2,7 @@
 session_start();
 
 // Récupération sécurisée des données de session
-$covoits = $_SESSION['covoits'] ?? [];
 $date = $_SESSION['date'] ?? null;
-// Nettoyage de la session 
-unset($_SESSION['covoits'], $_SESSION['date']);
 
 // Fonction pour formater la date
 function formatDateFr(?string $dateStr): ?string {
@@ -36,5 +33,5 @@ function formatDateFr(?string $dateStr): ?string {
     return ucfirst("$jourSemaine $jourNum $moisNom $annee");
 }
 
-$dateAffiche = formatDateFr($date);
+$dateCovoit = formatDateFr($date);
 ?>

@@ -14,7 +14,7 @@
     justify-content: center;
     border-radius: 1rem;
     width: 15%;
-    height: 29.5rem;
+    height: 30.5rem;
     margin-top: 5rem;
 }
 
@@ -108,6 +108,14 @@ h1 {
 .icon-ecolo {
     width: 1.6rem;
     margin-right: 1rem;
+}
+
+#btnFiltres {
+    margin: 0;
+    height: 2rem;
+    width: 100%;
+    border-radius: 0 0 1rem 1rem;
+    margin-top: 1rem;
 }
 
 /* --- Covoiturage box --- */
@@ -204,6 +212,8 @@ h1 {
 .perso-covoit {
     display: flex;
     margin-top: 1.25rem;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .perso {
@@ -223,8 +233,8 @@ h1 {
     justify-content: center;
 }
 
-.button {
-    margin-left: 28rem;
+#btnDetail {
+    margin-right: 1rem;
 }
 
 
