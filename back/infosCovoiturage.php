@@ -16,7 +16,7 @@ $sql = "SELECT pseudo,
         FROM participe 
         join utilisateur on utilisateur_utilisateur_id= utilisateur_id
         join covoiturage on covoiturage_covoiturage_id = covoiturage_id
-        WHERE conducteur = 'oui' ";
+        WHERE role = 'conducteur' ";
 
 
 // Préparation et exécution de la requête
