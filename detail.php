@@ -1,3 +1,7 @@
+<?php require_once 'back/infosCovoiturage.php';
+require_once 'back/fonctionDate.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,11 +30,13 @@
             <aside class="box-detail">
                 <section class="user-photo">
                     <img id="photo" src="./assets/images/homme.png" alt="photo de l'utilisateur">
-                    <p>Alex ★ 4,6</p>
+                    <p><?= htmlspecialchars($covoits['pseudo'] ?? 'N/A') ?><br>
+                        ★ <?= htmlspecialchars($c['note'] ?? 'N/A') ?>
+                    </p>
                 </section>
                 <section class="user-detail">
                     <img class="user-icon" src="./assets/images/voiture-noir.png" alt="icon voiture">
-                    <p class="detail-size">Renault : égane 4 <br> Essence</p>
+                    <p class="detail-size">Renault : Mégane 4 <br> Essence</p>
                 </section>
                 <section class="user-detail">
                     <img class="user-icon" src="./assets/images/pattes.png" alt="icon pate animal">

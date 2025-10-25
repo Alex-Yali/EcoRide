@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($resultats) {
             // Stocke les résultats dans la session
             $_SESSION['covoits'] = $resultats;
+            $_SESSION['depart'] = $depart;
+            $_SESSION['arrivee'] = $arrivee;
             $_SESSION['date'] = $date;
             header('Location: covoiturage.php'); // redirection
             exit;
@@ -31,25 +33,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message = "Veuillez remplir tous les champs.";
     }
 }
+$depart_value = isset($_SESSION['depart']) ? $_SESSION['depart'] : '';
+$arrivee_value = isset($_SESSION['arrivee']) ? $_SESSION['arrivee'] : '';
+$date_value = isset($_SESSION['date']) ? $_SESSION['date'] : '';
 ?>
 
 <form class="nav-bar" action="" method="POST">
             <!-- Départ -->
     <section class="nav-choix">
         <img src="./assets/images/Cars 1.png" class="icon" alt="image voiture">
-        <input type="text" name="depart" id="depart" placeholder="Ville départ" required>
+        <input type="text" name="depart" id="depart" placeholder="Ville départ" value="<?= htmlspecialchars($depart_value) ?>" required>
         <section class="separateur"></section>
     </section>
             <!-- Destination -->
     <section class="nav-choix">
         <img src="./assets/images/ping.png" class="icon" alt="image destination">
-        <input type="text" name="arrivee" id="destination" placeholder="Ville d'arrivée" required>
+        <input type="text" name="arrivee" id="destination" placeholder="Ville d'arrivée" value="<?= htmlspecialchars($arrivee_value) ?>" required>
         <section class="separateur"></section>
     </section>
             <!-- Calendrier -->
     <section class="nav-choix">
-        <img src="./assets/images/calendrier gris.png" class="icon" alt="image calendrier" required>
-        <input id="date" type="date" name="date">
+        <img src="./assets/images/calendrier gris.png" class="icon" alt="image calendrier" >
+        <input id="date" type="date" name="date" require>
     </section>
             <!-- Bouton -->
         <button id="btnNav" type="submit">Rechercher</button> 
