@@ -65,7 +65,6 @@ if ($ecolo) {
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $covoits = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Debug optionnel pour vérifier les résultats
  //echo '<pre>'; print_r($covoits); echo '</pre>';
 ?>
