@@ -29,11 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = "Un utilisateur avec ce pseudo ou cet email existe déjà.";
             //Cas utilisateur n'existe pas
         }else {
+             // Hashage du mot de passe en utilisant BCRYPT
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            
             $statement = $pdo->prepare('INSERT INTO utilisateur (pseudo, email, password, credits) VALUES (:pseudo, :email, :password, :credits)');
             $statement->bindValue(':email', $email);
             $statement->bindValue(':pseudo', $pseudo);
             $statement->bindValue(':credits', $startCredit);
-            $statement->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));  // Hash du mot de passe en utilisant BCRYPT
+            $statement->bindValue(':password', $hashedPassword); 
             if ($statement->execute()) {
                 $user_id = $pdo->lastInsertId(); //Récupère l’ID du nouvel utilisateur
                 $_SESSION['user_id'] = $user_id; //Stocke les informations essentielles en session
