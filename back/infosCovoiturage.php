@@ -1,28 +1,72 @@
 <?php
-require 'db.php'; // Connexion PDO
+require_once 'back/db.php';
 
-// Récupération des paramètres de recherche
-$depart   = $_POST['depart'] ??  null;
-$arrivee  = $_POST['arrivee'] ??  null;
-$date     = $_POST['date'] ??  null;
+$message = "";
 
-$sql = "SELECT pseudo,
-        lieu_depart,
-        heure_depart,
-        lieu_arrivee,
-        heure_arrivee,
-        nb_place,
-        prix_personne 
-        FROM participe 
-        join utilisateur on utilisateur_utilisateur_id= utilisateur_id
-        join covoiturage on covoiturage_covoiturage_id = covoiturage_id
-        WHERE role = 'conducteur' ";
+$depart  = trim($_POST['depart'] ?? '');
+$arrivee = trim($_POST['arrivee'] ?? '');
+$date    = trim($_POST['date'] ?? '');
+
+if (!empty($depart) && !empty($arrivee) && !empty($date)) {
+        $sql = "SELECT 
+                u.utilisateur_id,
+                u.pseudo,
+                AVG(a.note) AS moyenne,
+                pa.role,
+                c.covoiturage_id,
+                c.lieu_depart,
+                c.date_depart,
+                c.heure_depart,
+                c.lieu_arrivee,
+                c.date_arrivee,
+                c.heure_arrivee,
+                c.nb_place,
+                c.prix_personne,
+                v.voiture_id,
+                v.modele,
+                v.energie
+                FROM utilisateur u
+                JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
+                JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
+                JOIN gere ge ON ge.utilisateur_utilisateur_id = u.utilisateur_id
+                JOIN voiture v ON v.voiture_id = ge.voiture_voiture_id
+                JOIN depose d ON u.utilisateur_id = d.utilisateur_utilisateur_id
+                JOIN avis a ON d.avis_avis_id = a.avis_id
+                WHERE c.lieu_depart = :depart
+                AND c.lieu_arrivee = :arrivee
+                AND c.date_depart = :date
+                AND pa.role = 'conducteur'
+                GROUP BY u.utilisateur_id,
+                         u.pseudo,
+                         pa.role,
+                         c.covoiturage_id,
+                         c.lieu_depart,
+                         c.date_depart,
+                         c.heure_depart,
+                         c.lieu_arrivee,
+                         c.date_arrivee,
+                         c.heure_arrivee,
+                         c.nb_place,
+                         c.prix_personne,
+                         v.voiture_id,
+                         v.modele,
+                         v.energie
+                ORDER BY c.heure_depart";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+                        ':depart'  => $depart,
+                        ':arrivee' => $arrivee,
+                        ':date'    => $date
+                        ]);
+        $covoits = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-// Préparation et exécution de la requête
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$covoits = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$covoits) {
+        $message = "Aucun covoiturage trouvé pour cette recherche.";
+    }
 
-//echo '<pre>'; print_r($covoits); echo '</pre>';  //debug
+} else {
+    $message = "Merci de remplir tous les champs.";
+}
 ?>
