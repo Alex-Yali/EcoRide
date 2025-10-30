@@ -75,14 +75,23 @@ require_once 'back/fonctionDate.php';
             </form>
             <!-- Résultats -->
             <section class="box-covoit">
-                <p id="date-covoit"><?= htmlspecialchars($dateCovoit) ?></p>
+                <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateCovoit)) ?></p>
                     <?php foreach ($covoits as $c): ?>
                         <?php
                             $heureDepart = new DateTime($c['heure_depart']);
                             $heureArrivee = new DateTime($c['heure_arrivee']);
                             $duree = $heureDepart->diff($heureArrivee);
                             $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
-                        ?>
+
+                            //  Choix de l’image selon le type d’énergie
+                            $energie = strtolower(trim($c['energie'])); // trim() → supprime les espaces inutiles au début et à la fin.
+                                                                         //  strtolower() → met tout en minuscules (Essence devient essence).
+                            if ($energie === 'essence') {
+                                $image = './assets/images/voiture-noir.png';
+                            } elseif ($energie === 'électrique') {
+                                $image = './assets/images/voiture-electrique.png';
+                            }
+                                            ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
                                 <section class="start-time">
@@ -104,11 +113,11 @@ require_once 'back/fonctionDate.php';
                             </section>
                             <section class="perso-covoit">
                                 <section class="perso">
-                                    <img class="icon-perso" src="./assets/images/voiture-noir.png" alt="voiture">
+                                    <img class="icon-perso" src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($energie) ?>">
                                     <img class="icon-perso" src="./assets/images/homme.png" alt="conducteur">
                                     <section class="perso-avis">
-                                        <p><?= htmlspecialchars($c['pseudo'] ?? 'N/A') ?><br>
-                                           ★ <?= htmlspecialchars($c['note'] ?? 'N/A') ?>
+                                        <p><?= htmlspecialchars(ucfirst($c['pseudo'] ?? 'N/A')) ?><br>
+                                           ★ <?= htmlspecialchars($c['moyenne'] ?? 'N/A') ?>
                                         </p>
                                     </section>
                                 </section>
@@ -125,6 +134,6 @@ require_once 'back/fonctionDate.php';
 
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
-    <!--<script src="./assets/js/pages/covoiturage.js" type="module"></script>-->
+    <script src="./assets/js/pages/covoiturage.js" type="module"></script>
 </body>
 </html>
