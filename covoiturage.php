@@ -52,7 +52,9 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                         <span>Heures Max</span>
                     </section>
                 </section>
+
                 <section class="separateurFiltres"></section>
+
                 <section>
                     <h1>Prix</h1>
                     <section class="time">
@@ -61,7 +63,9 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                         <span>Crédits Max</span>
                     </section>
                 </section>
+
                 <section class="separateurFiltres"></section>
+
                 <section id="note">
                     <h1>Note</h1>
                     <section class="stars">
@@ -70,8 +74,10 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                             <label for="r<?= $i ?>" title="<?= $i ?> étoiles">★</label>
                         <?php endfor; ?>
                     </section>
+
                 </section>
                 <section class="separateurFiltres"></section>
+
                 <section>
                     <h1>Voyage écologique</h1>
                     <section class="ecolo">
@@ -82,7 +88,9 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                         </section>
                     </section>
                 </section>
+
                 <section class="separateurFiltres"></section>
+                
                 <button name="btnReset" id="btnReset" value="1" type="submit">Tout effacer</button>
                 <button id="btnFiltres" class="button" type="submit">Appliquer</button>
             </form>
