@@ -13,9 +13,9 @@
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
-    width: 15%;
-    height: 30.5rem;
-    margin-top: 5rem;
+    width: 20%;
+    height: auto;
+    margin: 2rem 0;
 }
 
 h1 {
@@ -33,10 +33,6 @@ h1 {
     display: flex;
     justify-content: center;
     margin-bottom: 1.25rem;
-}
-
-.time span {
-    font-size: 0.8rem;
 }
 
 .maxTime {
@@ -111,16 +107,32 @@ h1 {
 }
 
 #btnFiltres {
-    margin: 0;
-    height: 2rem;
     width: 100%;
     border-radius: 0 0 1rem 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
+#btnReset {
+    width: auto;
+    background-color: white;
+    border: none;
+    color: #9e9e9e;
+    font-family: "Montserrat", sans-serif;
+    margin: 0.5rem auto 0;
+} 
+
+#btnReset:hover {
+    color: #267240;
+}
+
+.separateurFiltres {
+    width: 90%;
+    height: 0.2rem;
+    background-color: #F0F0F0;
+}
 /* --- Covoiturage box --- */
 .box-covoit {
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 #date-covoit {
@@ -246,17 +258,13 @@ h1 {
         gap: 0;
     }
     .filtres {
-        width: 75%;
+        width: 40%;
         height: auto;
-        flex-direction: row;
-        gap: 2.5rem;
     }
 }
 
+
 @media (max-width: 768px) {
-    .filtres {
-        width: 90%;
-    }
     .info-covoit {
         width: 95%;
         margin: 0 auto 2rem;
@@ -280,6 +288,9 @@ h1 {
     }
     .prix-place {
     padding-left: 5rem;
+    }
+    #btnFiltres {
+        margin: 0;
     }
 }
 
@@ -330,7 +341,7 @@ h1 {
     }
     .duree {
         font-size: 0.6rem;
-        margin: 0 2.5rem;
+        margin: 0 auto 0 4.5rem;
     }
     .nbr-place {
         padding-left: 2rem;
@@ -355,5 +366,8 @@ h1 {
 
     .perso-covoit {
         margin: 0;
+    }
+    .perso {
+        padding-left: 1rem;
     }
 }

@@ -1,13 +1,6 @@
-<?php
-require_once 'back/infosCovoiturage.php';
-$covoits = $covoits ?? []; // Si $covoits n'existe pas, tableau vide
+<?php require_once 'back/infosCovoiturage.php';
+$covoits = $covoits ?? []; // si $covoits n'existe pas, on le transforme en tableau vide
 require_once 'back/fonctionDate.php';
-
-// Récupération des filtres optionnels pour conserver les valeurs dans le formulaire
-$maxPrix = trim($_POST['maxPrix'] ?? '');
-$maxTime = trim($_POST['maxTime'] ?? '');
-$rating  = trim($_POST['rating'] ?? '');
-$ecolo   = trim($_POST['ecolo'] ?? '');
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +15,8 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -29,78 +24,75 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
     <?php require 'includes/header.php'; ?>
     <main>
         <h1 class="gros-titre">Covoiturages disponibles :</h1>
-
         <!-- Barre de recherche -->
         <?php require 'includes/barreRecherche.php'; ?>
-
         <!-- Messages d'erreur -->
         <?php require 'back/messagesErreur.php'; ?> 
-
         <section class="covoit">
             <!-- Filtres latéraux -->
             <form class="filtres" action="" method="POST">
-                <!-- Inputs cachés pour conserver la recherche -->
-                <input type="hidden" name="depart" value="<?= htmlspecialchars($_POST['depart'] ?? '') ?>">
-                <input type="hidden" name="arrivee" value="<?= htmlspecialchars($_POST['arrivee'] ?? '') ?>">
-                <input type="hidden" name="date" value="<?= htmlspecialchars($_POST['date'] ?? '') ?>">
-
                 <section>
                     <h1>Durée du voyage</h1>
                     <section class="time">
                         <img src="./assets/images/sablier.png" class="icon-ecolo" alt="icon sablier">
-                        <input type="number" name="maxTime" class="maxTime" value="<?= htmlspecialchars($maxTime) ?>">
-                        <span>Heures Max</span>
+                        <input type="number" name="maxTime" class="maxTime">
+                        <span>Max</span>
                     </section>
                 </section>
-                <section class="separateurFiltres"></section>
                 <section>
                     <h1>Prix</h1>
                     <section class="time">
                         <img src="./assets/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
-                        <input type="number" name="maxPrix" class="maxTime" value="<?= htmlspecialchars($maxPrix) ?>">
-                        <span>Crédits Max</span>
+                        <input type="number" name="maxPrix" class="maxTime">
+                        <span>Max</span>
                     </section>
                 </section>
-                <section class="separateurFiltres"></section>
                 <section id="note">
                     <h1>Note</h1>
-                    <section class="stars">
-                        <?php for ($i = 5; $i >= 1; $i--): ?>
-                            <input id="r<?= $i ?>" name="rating" type="radio" value="<?= $i ?>" <?= ($rating == $i) ? 'checked' : '' ?>>
-                            <label for="r<?= $i ?>" title="<?= $i ?> étoiles">★</label>
-                        <?php endfor; ?>
-                    </section>
+                        <section class="stars">
+                            <input id="r5" name="rating" type="radio" value="5">
+                            <label for="r5" title="5 étoiles">★</label>
+                            <input id="r4" name="rating" type="radio" value="4">
+                            <label for="r4" title="4 étoiles">★</label>
+                            <input id="r3" name="rating" type="radio" value="3">
+                            <label for="r3" title="3 étoiles">★</label>
+                            <input id="r2" name="rating" type="radio" value="2">
+                            <label for="r2" title="2 étoiles">★</label>
+                            <input id="r1" name="rating" type="radio" value="1">
+                            <label for="r1" title="1 étoile">★</label>
+                        </section>
                 </section>
-                <section class="separateurFiltres"></section>
                 <section>
                     <h1>Voyage écologique</h1>
-                    <section class="ecolo">
+                    <section class="ecolo" name="ecolo">
                         <img src="./assets/images/voiture-electrique.png" class="icon-elec" alt="icon voiture electrique">
                         <section id="voiture-elec">
-                            <label><input type="radio" name="ecolo" value="oui" <?= ($ecolo==='oui') ? 'checked' : '' ?>>oui</label>
-                            <label><input type="radio" name="ecolo" value="non" <?= ($ecolo==='non') ? 'checked' : '' ?>>non</label>
+                                <label><input type="radio" name="ecolo" value="oui">oui</label>
+                                <label><input type="radio" name="ecolo" value="non">non</label>
                         </section>
                     </section>
                 </section>
-                <section class="separateurFiltres"></section>
-                <button name="btnReset" id="btnReset" value="1" type="submit">Tout effacer</button>
                 <button id="btnFiltres" class="button" type="submit">Appliquer</button>
             </form>
-
             <!-- Résultats -->
             <section class="box-covoit">
-                <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateCovoit ?? '')) ?></p>
-                <?php if ($covoits): ?>
+                <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateCovoit)) ?></p>
                     <?php foreach ($covoits as $c): ?>
                         <?php
                             $heureDepart = new DateTime($c['heure_depart']);
                             $heureArrivee = new DateTime($c['heure_arrivee']);
                             $duree = $heureDepart->diff($heureArrivee);
                             $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
-                            // Choix de l’image selon l’énergie
-                            $energie = strtolower(trim($c['energie']));
-                            $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
-                        ?>
+
+                            //  Choix de l’image selon le type d’énergie
+                            $energie = strtolower(trim($c['energie'])); // trim() → supprime les espaces inutiles au début et à la fin.
+                                                                        //  strtolower() → met tout en minuscules (Essence devient essence).
+                            if ($energie === 'essence') {
+                                $image = './assets/images/voiture-noir.png';
+                            } elseif ($energie === 'électrique') {
+                                $image = './assets/images/voiture-electrique.png';
+                            }
+                                            ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
                                 <section class="start-time">
@@ -134,14 +126,13 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                             </section>
                         </section>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Aucun covoiturage ne correspond aux critères.</p>
-                <?php endif; ?>
             </section>
         </section>
     </main>
+
     <!-- Footer -->
     <?php require 'includes/footer.php'; ?>
+
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
     <script src="./assets/js/pages/covoiturage.js" type="module"></script>
