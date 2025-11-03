@@ -114,6 +114,7 @@ main {
     border-radius: 1rem;
     box-shadow: 0 0.25rem 0.625rem rgba(0,0,0,0.1); 
     margin: 0 auto;
+    border: 1px solid #ccc;
 }
 
 .nav-choix {
@@ -164,6 +165,12 @@ main {
     height: 2.5rem; 
     background-color: #7E7E7E;
     margin: 0 0 0 1rem;
+}
+
+.separateurFiltres {
+    width: 90%;
+    height: 0.2rem;
+    background-color: #F0F0F0;
 }
 
 /* Bouton */

@@ -42,7 +42,7 @@
             <label>Couleur :<input type="text" id="couleur" name="couleur"></label>
             <label>Marque :<input type="text" id="marque" name="marque"></label>
             <label>Place dispo :<input type="number" id="place" name="place"></label>
-            <section class="separator"></section>
+            <section class="separateurFiltres"></section>
             <section class="pref">
                 <h2>Préférences :</h2>
                 <form id="user-pref">

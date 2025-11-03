@@ -16,6 +16,7 @@
     width: 20%;
     height: auto;
     margin: 2rem 0;
+    border: 1px solid #ccc;
 }
 
 h1 {
@@ -109,7 +110,7 @@ h1 {
 #btnFiltres {
     width: 100%;
     border-radius: 0 0 1rem 1rem;
-    margin-top: 0.5rem;
+    margin: 0.5rem 0 0 0 ;
 }
 
 #btnReset {
@@ -125,11 +126,6 @@ h1 {
     color: #267240;
 }
 
-.separateurFiltres {
-    width: 90%;
-    height: 0.2rem;
-    background-color: #F0F0F0;
-}
 /* --- Covoiturage box --- */
 .box-covoit {
     margin-top: 2rem;
@@ -148,6 +144,7 @@ h1 {
     width: 50rem;
     height: 9rem;
     margin-bottom: 1.25rem;
+    border: 1px solid #ccc;
 }
 
 .time-covoit {
@@ -212,8 +209,8 @@ h1 {
 }
 
 .nbr-place {
-    font-size: 1rem;
-    padding-left: 6.25rem;
+    font-size: 1.1rem;
+    padding-left: 5rem;
 }
 
 .prix-place {
@@ -245,7 +242,7 @@ h1 {
     justify-content: center;
 }
 
-#btnDetail {
+.button {
     margin-right: 1rem;
 }
 
