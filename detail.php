@@ -1,5 +1,5 @@
-<?php require_once 'back/infosCovoiturage.php';
-require_once 'back/fonctionDate.php';
+<?php require_once 'back/detailCovoiturage.php';
+require_once 'back/fonctionCalculTrajetDetail.php';
 ?>
 
 <!DOCTYPE html>
@@ -7,7 +7,7 @@ require_once 'back/fonctionDate.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoRide - Details</title>
+    <title>EcoRide - Details du voyage</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/pages/detail.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,58 +27,68 @@ require_once 'back/fonctionDate.php';
         <!-- Box filtres -->
          <h1 class="gros-titre">Détail du voyage :</h1>
          <section class="detail">
-            <aside class="box-detail">
+            <form class="box-detail" method="POST" >
                 <section class="user-photo">
                     <img id="photo" src="./assets/images/homme.png" alt="photo de l'utilisateur">
-                    <p><?= htmlspecialchars($covoits['pseudo'] ?? 'N/A') ?><br>
-                        ★ <?= htmlspecialchars($c['note'] ?? 'N/A') ?>
+                    <p><?= htmlspecialchars(ucfirst($covoit['pseudo'] ?? 'N/A')) ?><br>
+                        <a href="#" class="note" data-id="<?= htmlspecialchars($covoit['covoiturage_id']) ?>">
+                            <?= $covoit['moyenne'] ? round($covoit['moyenne'], 1) . ' ★' : 'Non noté' ?>
+                        </a>
                     </p>
                 </section>
+
+                <section class="separateurFiltres"></section>
+
                 <section class="user-detail">
-                    <img class="user-icon" src="./assets/images/voiture-noir.png" alt="icon voiture">
-                    <p class="detail-size">Renault : Mégane 4 <br> Essence</p>
+                    <img class="user-icon" src="<?= htmlspecialchars($image) ?>" alt="icon voiture">
+                    <p class="detail-size"><?= htmlspecialchars(ucfirst($covoit['marqueVoiture'] ?? 'N/A')) ?> : <?= htmlspecialchars(ucfirst($covoit['modele'] ?? 'N/A')) ?><br>
+                        Energie : <?= htmlspecialchars(ucfirst($covoit['energie'] ?? 'N/A')) ?></p>
                 </section>
+
+                <section class="separateurFiltres"></section>
+
                 <section class="user-detail">
                     <img class="user-icon" src="./assets/images/pattes.png" alt="icon pate animal">
                     <p class="detail-size">Animaux : autorisés</p>
                 </section>
+
+                <section class="separateurFiltres"></section>
+
                 <section class="user-detail">
                     <img class="user-icon" src="./assets/images/fumeur.png" alt="icon fumer">
                     <p class="detail-size">Non fumeur</p>
                 </section>
-            </aside>
+            </form>
             <section class="box-covoit">
                 <section class="info-covoit">
-                    <p id="date-covoit">Jeudi 26 juin</p>
+                    <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateDetailCovoit ?? '')) ?></p>
                     <section class="time-covoit">
                         <section class="start-time">
-                            <p>Paris</p>
-                            <p>08:20</p>
+                            <p><?= htmlspecialchars(ucfirst($covoit['lieu_depart'])) ?><br><?= date('H:i', strtotime($covoit['heure_depart'])) ?></p>
                         </section>
                         <section>
-                            <p class="duree">5h10</p>
+                            <p class="duree"><?= htmlspecialchars($dureeCovoit) ?></p>
                             <section class="ligne"></section>
                         </section>
                         <section class="end-time">
-                            <p>Lyon</p>
-                            <p>13:30</p>
+                            <p><?= htmlspecialchars(ucfirst($covoit['lieu_arrivee'])) ?><br><?= date('H:i', strtotime($covoit['heure_arrivee'])) ?></p>
                         </section>
                         <section class="nbr-place">
-                            <p>3 places</p>
+                            <p><?= htmlspecialchars($covoit['nb_place']) ?> places</p>
                         </section>
                     </section>
                 </section>
                 <section class="participe">
                     <section class="prix-place">
                         <p>1 passager</p>
-                        <p>5 crédits</p>
+                        <p><?= htmlspecialchars($covoit['prix_personne']) ?> crédits</p>
                     </section>
                     <button id="btnReserve" class="button" type="button">Participer</button>
                 </section>
                 <section class="valid">
-                    <p id="valid-size">Souhaitez vous utiliser 5 crédits pour réserver votre place sur ce voyage ?</p>
+                    <p id="valid-size">Souhaitez vous utiliser <?= htmlspecialchars($covoit['prix_personne']) ?> crédits pour réserver votre place sur ce voyage ?</p>
                     <section id="notif-valid">
-                        <a href="./detail.php">Retour</a>
+                        <a href="detail.php?id=<?= urlencode($covoit['covoiturage_id']) ?>">Retour</a>
                         <button id="btnValid" class="button" type="submit">Oui</button>
                     </section>
                 </section>
@@ -91,8 +101,8 @@ require_once 'back/fonctionDate.php';
     ?>
     <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
+    <script src="./assets/js/pages/detail.js" type="module"></script>
         <!-- Vérification si l'utilisateur est connecté ou non  -->
     <script> const isConect = <?php echo isset($_SESSION['user_pseudo']) ? 'true' : 'false'; ?>; </script>
-    <script src="./assets/js/pages/detail.js" type="module"></script>
 </body>
 </html>

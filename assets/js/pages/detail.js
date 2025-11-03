@@ -1,13 +1,3 @@
-/* Recuperation date de covoiturage */
-
-document.addEventListener("DOMContentLoaded", () => {
-  const result = document.getElementById("date-covoit"); // zone de texte modifié
-  const date = localStorage.getItem("covoitDate"); // id ou est stocké la date
-
-  if (date && result) {
-    result.textContent = `${date}`;
-  }
-});
 
 /* Affichage notiv validation covoiturage */
 
@@ -26,3 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   )
 }
+
+/* Acces page avis conducteur */
+
+const btnAvis = document.querySelectorAll(".note");
+btnAvis.forEach((avis) => {
+  avis.addEventListener("click", (event) => {
+    event.preventDefault();
+    const idAvis = avis.dataset.id;
+    window.open(`./avis.php?id=${idAvis}`, "_blank"); // Ouvre la page de détails dans un nouvel onglet
+  });
+});

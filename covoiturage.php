@@ -1,7 +1,5 @@
 <?php
 require_once 'back/infosCovoiturage.php';
-$covoits = $covoits ?? []; // Si $covoits n'existe pas, tableau vide
-require_once 'back/fonctionDate.php';
 
 // Récupération des filtres optionnels pour conserver les valeurs dans le formulaire
 $maxPrix = trim($_POST['maxPrix'] ?? '');
@@ -49,7 +47,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                     <section class="time">
                         <img src="./assets/images/sablier.png" class="icon-ecolo" alt="icon sablier">
                         <input type="number" name="maxTime" class="maxTime" value="<?= htmlspecialchars($maxTime) ?>">
-                        <span>Heures Max</span>
+                        <span>heures Max</span>
                     </section>
                 </section>
 
@@ -60,7 +58,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                     <section class="time">
                         <img src="./assets/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
                         <input type="number" name="maxPrix" class="maxTime" value="<?= htmlspecialchars($maxPrix) ?>">
-                        <span>Crédits Max</span>
+                        <span>crédits Max</span>
                     </section>
                 </section>
 
@@ -134,11 +132,11 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                                     <img class="icon-perso" src="./assets/images/homme.png" alt="conducteur">
                                     <section class="perso-avis">
                                         <p><?= htmlspecialchars(ucfirst($c['pseudo'] ?? 'N/A')) ?><br>
-                                           ★ <?= htmlspecialchars($c['moyenne'] ?? 'N/A') ?>
+                                            <?= $c['moyenne'] ? round($c['moyenne'], 1) . ' ★' : 'Non noté' ?>
                                         </p>
                                     </section>
                                 </section>
-                                <button class="button" type="button" id="btnDetail">Détails</button>
+                                <button class="button btn-detail" type="button" data-id="<?= htmlspecialchars($c['covoiturage_id']) ?>">Détails</button>
                             </section>
                         </section>
                     <?php endforeach; ?>

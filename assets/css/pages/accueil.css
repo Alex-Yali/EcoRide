@@ -25,6 +25,7 @@ h1 {
     background-color: white;
     text-align: center;
     position: relative;
+    border: 1px solid #ccc;
 }
 
 .image-descri {
