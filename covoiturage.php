@@ -96,8 +96,8 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
             <!-- Résultats -->
             <section class="box-covoit">
                 <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateCovoit ?? '')) ?></p>
-                <?php if ($covoits): ?>
-                    <?php foreach ($covoits as $c): ?>
+                <?php if ($covoitsDateExacte): ?>
+                    <?php foreach ($covoitsDateExacte as $c): ?>
                         <?php
                             $heureDepart = new DateTime($c['heure_depart']);
                             $heureArrivee = new DateTime($c['heure_arrivee']);
