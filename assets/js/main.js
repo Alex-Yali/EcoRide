@@ -21,27 +21,3 @@
     }
   });
 
-/* Afficher date du covoiturage  
-
-const btnNav = document.getElementById("btnNav");
-
-function handleCovoitClick(event) {
-  event.preventDefault();
-
-  const date = document.getElementById("date")?.value.trim();
-
-  if (date) {
-    
-    const dateObj = new Date(date);
-    / Formater la date en français
-    const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
-    const formattedDate = dateObj.toLocaleDateString("fr-FR", options);
-    // Majuscule sur la première lettre
-    const dateMaj = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-
-    // Sauvegarder la date dans localStorage avant la redirection
-    localStorage.setItem("covoitDate", dateMaj);
-  } 
-}
-
-if (btnNav) btnNav.addEventListener("click", handleCovoitClick);*/

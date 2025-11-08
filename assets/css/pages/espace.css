@@ -30,7 +30,9 @@
 /* Styliser les checkboxes choix chauffeur */
 #user-type {
     display: flex;
+    align-items: center;
     justify-content: center;
+    border-radius: 1.25rem;
 }
 
 #user-type legend {
@@ -52,6 +54,11 @@
     accent-color: #267240;
 }
 
+#btnRole {
+    height: 1.5rem;
+    width: 6rem;
+}
+
 /* Section id + section differents onglet */
 .user-menu {
     margin-top: 3rem;
@@ -68,6 +75,7 @@
     padding: 1.87rem;
     border: 1px solid #ccc;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    height: 8rem;
 }
 
 .user-name img {
@@ -99,7 +107,16 @@
 }
 
 /* Section choix onglet profil */
-.user-link {
+.passagerLink {
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 1.87rem;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    height: 20%;
+}
+
+.chauffeurLink {
     border: 1px solid #ccc;
     background-color: white;
     border-radius: 1.25rem;
@@ -107,23 +124,23 @@
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
 }
 
-.user-link a {
+.passagerLink a, .chauffeurLink a {
     text-decoration: none;
     color: black;
 }
 
-.user-link ul {
+ul {
     padding: 0;
 }
 
-.user-link li {
+.passagerLink li, .chauffeurLink li {
     margin-top: 1rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
 }
 
-.user-link li :hover {
+.passagerLink li :hover, .chauffeurLink li :hover {
     transform: scale(1.05);
 }
 
@@ -157,28 +174,33 @@ h2 {
     padding: 0.3rem;
 }
 
-#user-pref fieldset {
+.user-pref fieldset {
     border: none;      
 }
 
-#user-pref {
+.user-pref {
     display: flex;
     justify-content: center;
 }
 
-#user-pref legend {
+.user-pref legend {
     margin-left: 1.25rem;
 }
 
-#user-pref label {      
+.user-pref label {      
     cursor: pointer;
     padding-right: 2.5rem;
 }
 
-#user-pref input[type="radio"] {
+.user-pref input[type="radio"] {
     width: 1rem;
     height: 1rem;
     accent-color: #267240;
+}
+
+.energie {
+    display: flex;
+    gap: 0.2rem;
 }
 
 .separateurFiltres {
@@ -195,7 +217,7 @@ h2 {
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
-    .user-link li {
+    .passagerLink li {
         gap: 5rem;
     }
     #chauffeur-info {
@@ -205,7 +227,7 @@ h2 {
 }
 
 @media (max-width: 768px) {
-    .user-link li {
+    .passagerLink li {
         gap: 1.87rem;
     }
     #chauffeur-info {

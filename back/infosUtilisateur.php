@@ -1,6 +1,10 @@
 <?php 
-session_start();
+
 require_once 'back/db.php'; // connexion PDO
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Vérifier que l'utilisateur est connecté
 if (empty($_SESSION['user_id'])) {

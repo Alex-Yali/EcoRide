@@ -1,5 +1,9 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Calcul durée du trajet
 $heureDepart = new DateTime($covoit['heure_depart']);
 $heureArrivee = new DateTime($covoit['heure_arrivee']);

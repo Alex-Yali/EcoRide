@@ -1,5 +1,7 @@
     <?php
-    require 'back/infosUtilisateur.php'
+    require 'back/infosUtilisateur.php';
+    require 'back/ajoutVoiture.php';
+    require 'back/switchPassagerChauffeur.php';
     ?>
 
 
@@ -23,101 +25,192 @@
     ?>
     <main>
         <h1 class="gros-titre">Mon espace :</h1>
+        <!-- Messages d'erreur -->
+        <?php require 'back/messagesErreur.php'; ?> 
         <section class="user-box">
-            <form id="user-type">
+            <form id="user-type" method="POST">
                 <fieldset>
                     <legend>Je suis :</legend>
-                    <label><input type="radio" name="user-role" value="passager" checked>Passager</label>
-                    <label><input type="radio" name="user-role" value="chauffeur">Chauffeur</label>
-                    <label><input type="radio" name="user-role" value="chauffeur">Les deux</label>
+                    <label><input type="radio" name="user-role" value="passager" <?PHP if ($radio === 'passager') echo 'checked'; ?>>Passager</label>
+                    <label><input type="radio" name="user-role" value="chauffeur" <?PHP if ($radio === 'chauffeur') echo 'checked'; ?>>Chauffeur</label>
+                    <label><input type="radio" name="user-role" value="lesDeux" <?PHP if ($radio === 'lesDeux') echo 'checked'; ?>>Les deux </label>
                 </fieldset>
+                <button id="btnRole" class="button" type="submit">Valider</button>
             </form>
         </section>
-        <!-- Section qui sera affichée uniquement si "Chauffeur" est choisi -->
-        <section id="chauffeur-info">
-        <h2>Informations chauffeur</h2>
-            <label>Plaque d’immatriculation :<input type="text" id="immat" name="immatriculation"></label>
-            <label>Date de 1ère immatriculation :<input type="text" id="dateImmat" name="dateImat"></label>
-            <label>Modèle :<input type="text" id="modele" name="modele"></label>
-            <label>Couleur :<input type="text" id="couleur" name="couleur"></label>
-            <label>Marque :<input type="text" id="marque" name="marque"></label>
-            <label>Place dispo :<input type="number" id="place" name="place"></label>
-            <section class="separateurFiltres"></section>
-            <section class="pref">
-                <h2>Préférences :</h2>
-                <form id="user-pref">
-                    <fieldset>
-                        <legend>Tabac</legend>
-                        <label><input type="radio" name="tabac" value="Autorisé" checked>Autorisé</label>
-                        <label><input type="radio" name="tabac" value="Non autorisé">Non autorisé</label>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Animal</legend>
-                        <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
-                        <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
-                    </fieldset>
-                </form>
-                <button id="btnInfo" class="button" type="submit">Enregistrer</button>
-            </section>
-        </section>
-        <!-- Section infos profil -->
+        <!-- Section passager -->
+        <?PHP if ($radio === 'passager') :?>
         <section id="user-profil">
             <section class="user-menu">
                 <section class="user-id">
                     <section class="user-name">
                         <img src="./assets/images/compte noir.png" alt="image compte noir">
-                        <span id="first-name"><?= $displayPseudo ?></span>
+                        <span id="first-name"><?= htmlspecialchars ($displayPseudo) ?></span>
                     </section>
                     <section class="user-info">
                         <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : <?= $displayCredits ?></span>
+                        <span>Crédits restants : <?= htmlspecialchars ($displayCredits) ?></span>
                     </section>
                 </section>
-                    <nav class="user-link">
+                    <nav class="passagerLink">
                         <ul>
-                            <li><a href="./mesCovoiturages.php">Covoiturages en cours</a>
+                            <li><a href="./mesCovoiturages.php" target="_blank">Covoiturages en cours</a>
                                 <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
                             <li><a href="#">Historique covoiturages</a>
-                                <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="#">Mes véhicules</a>
                                 <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
                             </li>
                         </ul>
                     </nav>
             </section>
         </section>
-        <section id="user-chauffeur">
-            <section class="user-menu">
-                <section class="user-id">
-                    <section class="user-name">
-                        <img src="./assets/images/compte noir.png" alt="image compte noir">
-                        <span id="first-name"><?= $display_pseudo ?></span>
-                    </section>
-                    <section class="user-info">
-                        <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
-                        <span>Crédits restants : 20</span>
+        <!-- Section chauffeur -->
+        <?PHP elseif ($radio === 'chauffeur') :?>
+            <?php if (!isset($voitureValide) || !$voitureValide): ?>
+                <section id="chauffeur-info">
+                <h2>Informations chauffeur</h2>
+                    <form action="espace.php" method="POST">
+                        <label>Plaque d’immatriculation :<input type="text" id="immat" name="immatriculation"></label>
+                        <label>Date de 1ère immatriculation :<input type="text" id="dateImmat" name="dateImmat"></label>
+                        <label>Marque :<input type="text" id="marque" name="marque"></label>
+                        <label>Modèle :<input type="text" id="modele" name="modele"></label>
+                        <label>Couleur :<input type="text" id="couleur" name="couleur"></label>
+                        <label>Place dispo :<input type="number" id="place" name="place"></label>
+                        <section class="energie">
+                            <label for="energie">Energier utilisée :</label>
+                            <input list="typeEnergie" id="energie" name="energie" placeholder="Choisir énergie">
+                                <datalist id="typeEnergie">
+                                    <option value="Essence">
+                                    <option value="Diesel">
+                                    <option value="Electrique">
+                                </datalist>
+                        </section>
+                        <section class="separateurFiltres"></section>
+                        <section class="pref">
+                            <h2>Préférences :</h2>
+                            <section class="user-pref">
+                                <fieldset>
+                                    <legend>Tabac</legend>
+                                    <label><input type="radio" name="tabac" value="Autorisé" checked>Autorisé</label>
+                                    <label><input type="radio" name="tabac" value="Non autorisé">Non autorisé</label>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Animal</legend>
+                                    <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
+                                    <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
+                                </fieldset>
+                            </section>
+                            <input type="hidden" name="formType" value="ajoutVoiture"> <!-- input masqué pour dif les deux form  -->
+                            <button id="btnInfo" class="button" type="submit">Enregistrer</button>
+                        </section>
+                    </form>
+                </section>
+            <?php else: ?>
+                <section id="chauffeur-profil">
+                    <section class="user-menu">
+                        <section class="user-id">
+                            <section class="user-name">
+                                <img src="./assets/images/compte noir.png" alt="image compte noir">
+                                <span id="first-name"><?= htmlspecialchars ($displayPseudo) ?></span>
+                            </section>
+                            <section class="user-info">
+                                <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
+                                <span>Crédits restants : <?= htmlspecialchars ($displayCredits) ?></span>
+                            </section>
+                        </section>
+                            <nav class="chauffeurLink">
+                                <ul>
+                                    <li><a href="./trajet.php">Saisir un voyage</a>
+                                        <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                    </li>
+                                    <li><a href="./mesCovoiturages.php" target="_blank">Covoiturages en cours</a>
+                                        <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                    </li>
+                                    <li><a href="#">Historique covoiturages</a>
+                                        <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                    </li>
+                                    <li><a href="./vehicule.php" target="_blank">Mes véhicules</a>
+                                        <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                    </li>
+                                </ul>
+                            </nav>
                     </section>
                 </section>
-                    <nav class="user-link">
-                        <ul>
-                            <li><a href="./trajet.php">Saisir un voyage</a>
-                                <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="./mesCovoiturages.php">Covoiturages en cours</a>
-                                <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="#">Historique covoiturages</a>
-                                <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                            <li><a href="#">Mes véhicules</a>
-                                <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
-                            </li>
-                        </ul>
-                    </nav>
-            </section>
-        </section>
+        <?php endif; ?>
+        <!-- Section passager / chauffeur -->
+        <?PHP elseif ($radio === 'lesDeux') :?>
+            <?php if (!isset($voitureValide) || !$voitureValide): ?>
+                <section id="chauffeur-info">
+                    <h2>Informations chauffeur</h2>
+                        <form action="" method="POST">
+                            <label>Plaque d’immatriculation :<input type="text" id="immat" name="immatriculation"></label>
+                            <label>Date de 1ère immatriculation :<input type="text" id="dateImmat" name="dateImmat"></label>
+                            <label>Marque :<input type="text" id="marque" name="marque"></label>
+                            <label>Modèle :<input type="text" id="modele" name="modele"></label>
+                            <label>Couleur :<input type="text" id="couleur" name="couleur"></label>
+                            <label>Place dispo :<input type="number" id="place" name="place"></label>
+                            <section class="energie">
+                                <label for="energie">Energier utilisée :</label>
+                                <input list="typeEnergie" id="energie" name="energie" placeholder="Choisir énergie">
+                                    <datalist id="typeEnergie">
+                                        <option value="Essence">
+                                        <option value="Diesel">
+                                        <option value="Electrique">
+                                    </datalist>
+                            </section>
+                            <section class="separateurFiltres"></section>
+                            <section class="pref">
+                                <h2>Préférences :</h2>
+                                <section class="user-pref">
+                                    <fieldset>
+                                        <legend>Tabac</legend>
+                                        <label><input type="radio" name="tabac" value="Autorisé" checked>Autorisé</label>
+                                        <label><input type="radio" name="tabac" value="Non autorisé">Non autorisé</label>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Animal</legend>
+                                        <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
+                                        <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
+                                    </fieldset>
+                                </section>
+                                <input type="hidden" name="formType" value="ajoutVoiture"> <!-- input masqué pour dif les deux form  -->
+                                <button id="btnInfo" class="button" type="submit">Enregistrer</button>
+                            </section>
+                        </form>
+                    </section>
+                <?php else: ?>
+                    <section id="chauffeur-profil">
+                        <section class="user-menu">
+                            <section class="user-id">
+                                <section class="user-name">
+                                    <img src="./assets/images/compte noir.png" alt="image compte noir">
+                                    <span id="first-name"><?= htmlspecialchars ($displayPseudo) ?></span>
+                                </section>
+                                <section class="user-info">
+                                    <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
+                                    <span>Crédits restants : <?= htmlspecialchars ($displayCredits) ?></span>
+                                </section>
+                            </section>
+                                <nav class="chauffeurLink">
+                                    <ul>
+                                        <li><a href="./trajet.php">Saisir un voyage</a>
+                                            <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                        </li>
+                                        <li><a href="./mesCovoiturages.php" target="_blank">Covoiturages en cours</a>
+                                            <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                        </li>
+                                        <li><a href="#">Historique covoiturages</a>
+                                            <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                        </li>
+                                        <li><a href="./vehicule.php" target="_blank">Mes véhicules</a>
+                                            <img src="./assets/images/caret-vers-le-bas.png" id="caret-right" alt="image caret vers la droite">
+                                        </li>
+                                    </ul>
+                                </nav>
+                        </section>
+                    </section>
+            <?php endif; ?>
+    <?php endif; ?>
     </main>
     <!-- Footer -->
     <?php
@@ -125,6 +218,5 @@
     ?>
         <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
-    <script src="./assets/js/pages/espace.js" type="module"></script>
 </body>
 </html>
