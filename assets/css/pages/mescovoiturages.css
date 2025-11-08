@@ -1,6 +1,51 @@
+.userCovoit {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 5rem;
+}
+
+/* Section id utilisateur */
+.user-id {
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 1.87rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    height: 8rem;
+    margin-top: 2.5rem;
+}
+
+.user-name img {
+    width: 3rem;
+}
+
+.user-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 12.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    margin-left: 0.62rem;
+}
+
+.user-info img {
+    width: 1.56rem;
+}
+
+.user-info span {
+    font-size: 0.87rem;
+    font-family: Arial, sans-serif;
+}
+
 /* --- Covoiturage box --- */
 .box-covoit {
-    margin-top: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,6 +140,7 @@
 .perso-covoit {
     display: flex;
     margin-top: 1.25rem;
+    justify-content: center;
 }
 
 .perso {

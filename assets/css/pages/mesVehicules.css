@@ -1,0 +1,120 @@
+
+/* Section id + section differents onglet */
+.user-menu {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 5rem;
+}
+
+/* Section id utilisateur */
+.user-id {
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 1.87rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    height: 8rem;
+}
+
+.user-name img {
+    width: 3rem;
+}
+
+.user-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 12.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    margin-left: 0.62rem;
+}
+
+.user-info img {
+    width: 1.56rem;
+}
+
+.user-info span {
+    font-size: 0.87rem;
+    font-family: Arial, sans-serif;
+}
+
+
+table {
+  border-collapse: collapse;
+  font-family:  Arial, Helvetica, sans-serif;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  border-radius: 10px;
+  overflow: hidden; /* pour arrondir si scroll */
+}
+
+table caption {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #267240;
+}
+
+table thead th {
+  text-align: left;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  background: #ffffff;
+  color: #267240;
+}
+
+table tbody td {
+  padding: 12px 16px;
+  font-size: 0.85rem;
+}
+
+table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+table tbody tr:nth-child(odd) {
+  background: #ccc;
+}
+
+table tbody tr:hover {
+  background: rgba(3,102,214,0.06);
+}
+
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .user-link li {
+        gap: 5rem;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .user-link li {
+        gap: 1.87rem;
+    }
+
+}
+
+@media (max-width: 426px) {
+    .user-id {
+        position: relative;
+        left: 0.62rem;
+        font-size: 0.87rem;
+        display: flex;
+        padding: 0;
+        width: 95%;
+        align-items: center;
+    }
+    h1 {
+        white-space: nowrap;
+    }
+
+}

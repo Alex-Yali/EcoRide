@@ -1,6 +1,10 @@
 <?php
 require_once 'db.php'; // connexion PDO
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // 1️⃣ Récupération de l’ID dans l’URL
 $idCovoit = $_GET['id'] ?? '';
 if (!ctype_digit($idCovoit)) {
@@ -21,7 +25,6 @@ $sqlDetail = "SELECT
                     WHERE d2.utilisateur_utilisateur_id = u.utilisateur_id
                     AND d2.statue = 'recu'
                 ) AS moyenne,
-                pa.role,
                 c.covoiturage_id,
                 c.lieu_depart,
                 c.date_depart,

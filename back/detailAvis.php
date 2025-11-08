@@ -1,6 +1,10 @@
 <?php
 require_once 'db.php'; // connexion PDO
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $idCovoit = $_GET['id'] ?? '';
 
 // Requête SQL pour récupérer les infos du covoiturage

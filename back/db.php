@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Déclaration du DSN
 $mysqlDsn = 'mysql:host=localhost;dbname=ecoride';
 // Connexion à la base avec PDO

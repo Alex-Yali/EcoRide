@@ -1,3 +1,8 @@
+<?php
+require 'back/covoiturageEnCours.php';
+require 'back/infosUtilisateur.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,39 +23,63 @@
     ?>
     <main>
         <h1 class="gros-titre">Covoiturages en cours :</h1>
-            <section class="box-covoit">
-                <p id="date-covoit">Jeudi 26 juin</p>
-                <section class="info-covoit">
-                    <section class="time-covoit">
-                        <section class="start-time">
-                            <p>Paris<br>08:20</p>
-                        </section>
-                        <section>
-                            <p class="duree">5h10</p>
-                            <section class="ligne"></section>
-                        </section>
-                        <section class="end-time">
-                            <p>Lyon<br>13:30</p>
-                        </section>
-                        <section class="nbr-place">
-                            <p>3 places</p>
-                        </section>
-                        <section class="prix-place">
-                            <p>5 crédits</p>
-                        </section>
-                    </section>
-                    <section class="perso-covoit">
-                        <section class="perso">
-                            <img class="icon-perso" src="./assets/images/voiture-noir.png" alt="icon voiture noir">
-                            <img class="icon-perso" src="./assets/images/homme.png" alt="icon homme">
-                            <section class="perso-avis">
-                                <p>Alex<br>★ 4,6</p>
-                            </section>
-                        </section>
-                        <button id="btnDetail" class="button" type="submit">Détails</button>
-                    </section>
+        <section class="userCovoit">
+            <section class="user-id">
+                <section class="user-name">
+                    <img src="./assets/images/compte noir.png" alt="image compte noir">
+                    <span id="first-name"><?= htmlspecialchars ($displayPseudo) ?></span>
+                </section>
+                <section class="user-info">
+                    <img src="./assets/images/pile-de-pieces.png" alt="image pieces noir">
+                    <span>Crédits restants : <?= htmlspecialchars ($displayCredits) ?></span>
                 </section>
             </section>
+            <section class="box-covoit">
+                <?php foreach ($mesCovoit as $c): ?>
+                    <?php
+                        $heureDepart = new DateTime($c['heure_depart']);
+                        $heureArrivee = new DateTime($c['heure_arrivee']);
+                        $duree = $heureDepart->diff($heureArrivee);
+                        $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
+                        // Choix de l’image selon l’énergie
+                        $energie = strtolower(trim($c['energie']));
+                        $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
+                    ?>
+                    <p id="date-covoit"><?= htmlspecialchars($c['date_formatee']) ?></p>
+                    <section class="info-covoit">
+                        <section class="time-covoit">
+                            <section class="start-time">
+                                <p><?= htmlspecialchars($c['lieu_depart']) ?><br><?= date('H:i', strtotime($c['heure_depart'])) ?></p>
+                            </section>
+                            <section>
+                                <p class="duree"><?= htmlspecialchars($dureeCovoit) ?></p>
+                                <section class="ligne"></section>
+                            </section>
+                            <section class="end-time">
+                                <p><?= htmlspecialchars($c['lieu_arrivee']) ?><br><?= date('H:i', strtotime($c['heure_arrivee'])) ?></p>
+                            </section>
+                            <section class="nbr-place">
+                                <p><?= htmlspecialchars($c['nb_place']) ?> places</p>
+                            </section>
+                            <section class="prix-place">
+                                <p><?= htmlspecialchars($c['prix_personne']) ?> crédits</p>
+                            </section>
+                        </section>
+                        <section class="perso-covoit">
+                            <section class="perso">
+                                <img class="icon-perso" src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($energie) ?>">
+                                <img class="icon-perso" src="./assets/images/homme.png" alt="conducteur">
+                                <section class="perso-avis">
+                                    <p><?= htmlspecialchars(ucfirst($c['conducteur_pseudo'] ?? 'N/A')) ?><br>
+                                        <?= $c['conducteur_moyenne'] !== null ? round($c['conducteur_moyenne'], 1) . ' ★' : 'Non noté' ?>
+                                    </p>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                <?php endforeach; ?>
+            </section>
+        </section>
     </main>
     <!-- Footer -->
     <?php

@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main>
         <h1 class="gros-titre">Inscription :</h1>
         <!-- Formulaire -->
-        <form id="formulaire" action="inscription.php" method="POST">
+        <form id="formulaire" action="" method="POST">
             <section>
                 <label for="pseudo"></label><input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
             </section>
