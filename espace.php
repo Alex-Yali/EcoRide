@@ -91,14 +91,15 @@
                             <section class="user-pref">
                                 <fieldset>
                                     <legend>Tabac</legend>
-                                    <label><input type="radio" name="tabac" value="Autorisé" checked>Fumeur</label>
-                                    <label><input type="radio" name="tabac" value="Non autorisé">Non fumeur</label>
+                                    <label><input type="radio" name="tabac" value="Fumeur" checked>Fumeur</label>
+                                    <label><input type="radio" name="tabac" value="Non fumeur">Non fumeur</label>
                                 </fieldset>
                                 <fieldset>
                                     <legend>Animal</legend>
-                                    <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
-                                    <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
+                                    <label><input type="radio" name="animal" value="Animaux acceptés" checked>Autorisé</label>
+                                    <label><input type="radio" name="animal" value="Animaux refusés">Non autorisé</label>
                                 </fieldset>
+                                <label id="ajoutPref">Ajouter :<input type="text" name="ajoutPref"></label>
                             </section>
                             <input type="hidden" name="formType" value="ajoutVoiture"> <!-- input masqué pour dif les deux form  -->
                             <button id="btnInfo" class="button" type="submit">Enregistrer</button>
@@ -162,16 +163,17 @@
                             <section class="pref">
                                 <h2>Préférences :</h2>
                                 <section class="user-pref">
-                                    <fieldset>
-                                        <legend>Tabac</legend>
-                                        <label><input type="radio" name="tabac" value="Autorisé" checked>Fumeur</label>
-                                        <label><input type="radio" name="tabac" value="Non autorisé">Non fumeur</label>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>Animal</legend>
-                                        <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
-                                        <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
-                                    </fieldset>
+                                <fieldset>
+                                    <legend>Tabac</legend>
+                                    <label><input type="radio" name="tabac" value="Fumeur" checked>Fumeur</label>
+                                    <label><input type="radio" name="tabac" value="Non fumeur">Non fumeur</label>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Animal</legend>
+                                    <label><input type="radio" name="animal" value="Animaux acceptés" checked>Autorisé</label>
+                                    <label><input type="radio" name="animal" value="Animaux refusés">Non autorisé</label>
+                                </fieldset>
+                                    <label id="ajoutPref">Ajouter :<input type="text" name="ajoutPref"></label>
                                 </section>
                                 <input type="hidden" name="formType" value="ajoutVoiture"> <!-- input masqué pour dif les deux form  -->
                                 <button id="btnInfo" class="button" type="submit">Enregistrer</button>

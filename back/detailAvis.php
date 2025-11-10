@@ -27,6 +27,7 @@ $sqlDetail = "SELECT
             JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
             WHERE d.statut = 'recu'
             AND c.covoiturage_id = :id
+            AND pa.chauffeur = 1
             ORDER BY a.avis_id ASC"; 
 
 $stmt = $pdo->prepare($sqlDetail);

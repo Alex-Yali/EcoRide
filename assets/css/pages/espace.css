@@ -170,6 +170,7 @@ h2 {
 
 #chauffeur-info label {
     display: flex;
+    align-items: center;
     gap: 0.65rem;
     padding: 0.3rem;
 }
@@ -180,17 +181,12 @@ h2 {
 
 .user-pref {
     display: flex;
-    justify-content: center;
 }
 
 .user-pref legend {
     margin-left: 1.25rem;
 }
 
-.user-pref label {      
-    cursor: pointer;
-    padding-right: 2.5rem;
-}
 
 .user-pref input[type="radio"] {
     width: 1rem;
@@ -213,9 +209,8 @@ h2 {
     align-items: center;
 }
 
-.conducteurPref {
-    display: flex;
-    gap: 0.65rem;
+#ajoutPref {
+    height: 1.3rem;
 }
 
 /* Bouton */

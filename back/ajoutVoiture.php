@@ -18,12 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $place = trim($_POST['place'] ?? '');
     $tabac = trim($_POST['tabac'] ?? '');
     $animal = trim($_POST['animal'] ?? '');
+    $ajoutPref = trim($_POST['ajoutPref'] ?? '');
 
     // Vérifier si un champ est vide
     if (
         $immat === '' || $dateImmat === '' || $modele === '' ||
         $couleur === '' || $marque === '' || $place === '' ||
-        $energie === '' || $tabac === '' || $animal === ''
+        $energie === '' || $tabac === '' || $animal === '' 
     ) {
         $message = "Veuillez renseigner tous les champs.";
     } else {
@@ -50,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             } else {
                 //  1. Insertion de la voiture
                 $sqlAjoutVoiture = "INSERT INTO voiture 
-                    (modele, immatriculation, couleur, date_premiere_immatriculation, energie)
-                    VALUES (:modele, :immat, :couleur, :dateImmat, :energie)";
+                    (modele, immatriculation, couleur, date_premiere_immatriculation, energie, nb_place)
+                    VALUES (:modele, :immat, :couleur, :dateImmat, :energie, :place)";
                 $stmtAjoutVoiture = $pdo->prepare($sqlAjoutVoiture);
                 $stmtAjoutVoiture->execute([
                     ':modele' => $modele,
@@ -59,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     ':couleur' => $couleur,
                     ':dateImmat' => $dateImmat,
                     ':energie' => $energie,
+                    ':place' => $place,
                 ]);
                 $idVoiture = $pdo->lastInsertId();
             }
@@ -81,23 +83,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
             //  3. Ajouter la relation voiture-marque (table detient)
             $stmtDetient = $pdo->prepare("
-                INSERT IGNORE INTO detient (voiture_voiture_id, marque_marque_id)
+                INSERT INTO detient (voiture_voiture_id, marque_marque_id)
                 VALUES (:idVoiture, :idMarque)
             ");
-            $stmtDetient->execute([
-                ':idVoiture' => $idVoiture,
-                ':idMarque' => $idMarque
-            ]);
+            $stmtDetient->execute([':idVoiture' => $idVoiture,':idMarque' => $idMarque]);
 
             //  4. Ajouter la relation utilisateur-voiture (table gere)
             $stmtGere = $pdo->prepare("
-                INSERT IGNORE INTO gere (utilisateur_utilisateur_id, voiture_voiture_id)
+                INSERT INTO gere (utilisateur_utilisateur_id, voiture_voiture_id)
                 VALUES (:idUtilisateur, :idVoiture)
             ");
-            $stmtGere->execute([
-                ':idUtilisateur' => $idUtilisateur,
-                ':idVoiture' => $idVoiture
-            ]);
+            $stmtGere->execute([':idUtilisateur' => $idUtilisateur, ':idVoiture' => $idVoiture]);
+
+            //  5. Vérifier si la preference existe déjà
+            $preferences = [$tabac, $animal, $ajoutPref];
+            foreach ($preferences as $pref) {
+                if ($pref !== '') {
+                    $stmt = $pdo->prepare("SELECT preference_id FROM preference WHERE libelle = :pref");
+                    $stmt->execute([':pref' => $pref]);
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if (!$result) {
+                        $stmtInsert = $pdo->prepare("INSERT INTO preference (libelle) VALUES (:pref)");
+                        $stmtInsert->execute([':pref' => $pref]);
+                        $idPref = $pdo->lastInsertId();
+                    } else {
+                        $idPref = $result['preference_id'];
+                    }
+                    // Relation utilisateur–préférence
+                    $stmtFournir = $pdo->prepare("
+                        INSERT INTO fournir (utilisateur_utilisateur_id, preference_preference_id)
+                        VALUES (:idUtilisateur, :idPref)
+                    ");
+                    $stmtFournir->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
+                }
+            }
+            ;
 
             //  Valider la transaction
             $pdo->commit();
