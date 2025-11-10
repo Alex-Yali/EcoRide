@@ -35,7 +35,7 @@ try {
                             FROM depose d
                             JOIN avis a ON d.avis_avis_id = a.avis_id
                             WHERE d.utilisateur_utilisateur_id = u_conducteur.utilisateur_id
-                            AND d.statue = 'recu'
+                            AND d.statut = 'recu'
                         ) AS conducteur_moyenne
                     FROM covoiturage c
                     JOIN participe pa ON pa.covoiturage_covoiturage_id = c.covoiturage_id

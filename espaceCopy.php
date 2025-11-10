@@ -88,17 +88,15 @@
                         <section class="separateurFiltres"></section>
                         <section class="pref">
                             <h2>Préférences :</h2>
-                            <section class="user-pref">
-                                <fieldset>
-                                    <legend>Tabac</legend>
-                                    <label><input type="radio" name="tabac" value="Autorisé" checked>Fumeur</label>
-                                    <label><input type="radio" name="tabac" value="Non autorisé">Non fumeur</label>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Animal</legend>
-                                    <label><input type="radio" name="animal" value="Autorisé" checked>Autorisé</label>
-                                    <label><input type="radio" name="animal" value="Non autorisé">Non autorisé</label>
-                                </fieldset>
+                            <section class="conducteurPref">
+                                <label for="preference">Préférences conducteur :</label>
+                                    <input list="typePreferences" id="preference" name="preference" placeholder="Choisir préférences">
+                                        <datalist id="typePreferences">
+                                            <option value="Fumeur">
+                                            <option value="Non fumeur">
+                                            <option value="Animaux acceptés">
+                                            <option value="Animaux refusés">
+                                        </datalist>
                             </section>
                             <input type="hidden" name="formType" value="ajoutVoiture"> <!-- input masqué pour dif les deux form  -->
                             <button id="btnInfo" class="button" type="submit">Enregistrer</button>
@@ -164,8 +162,8 @@
                                 <section class="user-pref">
                                     <fieldset>
                                         <legend>Tabac</legend>
-                                        <label><input type="radio" name="tabac" value="Autorisé" checked>Fumeur</label>
-                                        <label><input type="radio" name="tabac" value="Non autorisé">Non fumeur</label>
+                                        <label><input type="radio" name="tabac" value="Autorisé" checked>Autorisé</label>
+                                        <label><input type="radio" name="tabac" value="Non autorisé">Non autorisé</label>
                                     </fieldset>
                                     <fieldset>
                                         <legend>Animal</legend>

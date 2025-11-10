@@ -23,7 +23,7 @@ $sqlDetail = "SELECT
                     FROM depose d2
                     JOIN avis a2 ON d2.avis_avis_id = a2.avis_id
                     WHERE d2.utilisateur_utilisateur_id = u.utilisateur_id
-                    AND d2.statue = 'recu'
+                    AND d2.statut = 'recu'
                 ) AS moyenne,
                 c.covoiturage_id,
                 c.lieu_depart,
@@ -43,8 +43,8 @@ $sqlDetail = "SELECT
             FROM utilisateur u
             JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
             JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
-            JOIN gere ge ON ge.utilisateur_utilisateur_id = u.utilisateur_id
-            JOIN voiture v ON v.voiture_id = ge.voiture_voiture_id
+            JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id -- On relie le covoiturage à la voiture qu’il utilise 
+            JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id -- Puis on récupère les infos de la voiture utilisée
             LEFT JOIN depose d ON u.utilisateur_id = d.utilisateur_utilisateur_id
             LEFT JOIN avis a ON d.avis_avis_id = a.avis_id
             LEFT JOIN detient de ON de.voiture_voiture_id = v.voiture_id
