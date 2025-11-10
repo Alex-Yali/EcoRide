@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php'; // connexion PDO
+require_once 'db.php'; // Connexion PDO
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,7 +8,6 @@ if (session_status() === PHP_SESSION_NONE) {
 // 1️⃣ Récupération de l’ID dans l’URL
 $idCovoit = $_GET['id'] ?? '';
 if (!ctype_digit($idCovoit)) {
-    // Redirection si l'id est invalide
     header('Location: covoiturage.php');
     exit;
 }
@@ -39,30 +38,39 @@ $sqlDetail = "SELECT
                 v.energie,
                 m.marque_id,
                 m.libelle AS marqueVoiture,
-                a.commentaire
+                a.commentaire,
+                p.preference_id,
+                p.libelle AS preferences
             FROM utilisateur u
-            JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
+            LEFT JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
             JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
-            JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id -- On relie le covoiturage à la voiture qu’il utilise 
-            JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id -- Puis on récupère les infos de la voiture utilisée
+            LEFT JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id
+            LEFT JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id
             LEFT JOIN depose d ON u.utilisateur_id = d.utilisateur_utilisateur_id
             LEFT JOIN avis a ON d.avis_avis_id = a.avis_id
             LEFT JOIN detient de ON de.voiture_voiture_id = v.voiture_id
             LEFT JOIN marque m ON m.marque_id = de.marque_marque_id
+            LEFT JOIN fournir f ON f.utilisateur_utilisateur_id = pa.utilisateur_utilisateur_id
+            LEFT JOIN preference p ON p.preference_id = f.preference_preference_id
             WHERE c.covoiturage_id = :id
-            ORDER BY c.heure_depart ASC";
+            AND pa.chauffeur = 1
+            ";
 
 $stmt = $pdo->prepare($sqlDetail);
 $stmt->execute(['id' => $idCovoit]);
-$covoit = $stmt->fetch(PDO::FETCH_ASSOC);
+$covoit = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fonction date covoiturage
-$dateDetail = new DateTime($covoit['date_depart']); // Convertie la variable en DateTime
-$fmt = new IntlDateFormatter(                       // Formater la date en format FR
+// On prend la première ligne pour les infos générales
+$covoitDetail = $covoit[0];
+
+// On regroupe les préférences (car il peut y en avoir plusieurs)
+$preferences = array_unique(array_column($covoit, 'preferences'));
+
+// Fonction date covoiturage (en français)
+$dateDetail = new DateTime($covoitDetail['date_depart']);
+$fmt = new IntlDateFormatter(
     'fr_FR',
     IntlDateFormatter::FULL,
     IntlDateFormatter::NONE
 );
-$dateDetailCovoit = $fmt->format($dateDetail);
-$dateDetailCovoit = mb_convert_case($dateDetailCovoit, MB_CASE_TITLE, "UTF-8");
-?>
+$dateDetailCovoit = mb_convert_case($fmt->format($dateDetail), MB_CASE_TITLE, "UTF-8");
