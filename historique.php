@@ -1,5 +1,5 @@
 <?php
-require 'back/covoiturageEnCours.php';
+require 'back/historiqueCovoiturage.php';
 require 'back/infosUtilisateur.php';
 ?>
 
@@ -8,7 +8,7 @@ require 'back/infosUtilisateur.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoRide - Covoiturages en cours</title>
+    <title>EcoRide - Historique covoiturage</title>
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/pages/mescovoiturages.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@ require 'back/infosUtilisateur.php';
     require 'includes/header.php'
     ?>
     <main>
-        <h1 class="gros-titre">Covoiturages en cours :</h1>
+        <h1 class="gros-titre">Historique covoiturage :</h1>
         <section class="userCovoit">
             <section class="user-id">
                 <section class="user-name">
@@ -47,7 +47,7 @@ require 'back/infosUtilisateur.php';
                             $energie = strtolower(trim($c['energie']));
                             $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
                         ?>
-                        <form class="box-covoit" action="" method="POST">
+                        <section class="box-covoit">
                             <p id="date-covoit"><?= htmlspecialchars($c['date_formatee']) ?></p>
                             <section class="info-covoit">
                                 <section class="time-covoit">
@@ -81,42 +81,62 @@ require 'back/infosUtilisateur.php';
                                     <!-- Champ caché pour identifier le covoiturage -->
                                     <input type="hidden" name="covoiturage_id" value="<?= $c['covoiturage_id'] ?>">
 
-                                    <?php if ($displayPseudo === $c['conducteur_pseudo']): ?>
-                                        <!-- Chauffeur : boutons selon le statut -->
-                                        <?php if ($c['statut'] === 'Demarrer'): ?>
-                                            <button class="button btn-arrivee" type="submit" name="action" value="terminer">Arrivée à destination</button>
-                                        <?php elseif ($c['statut'] === 'Terminer'): ?>
-                                            <span>Trajet terminé</span>
-                                        <?php elseif ($c['statut'] === 'Annuler'): ?>
-                                            <span>Trajet annulé</span>
-                                        <?php else: ?>
-                                            <button class="button btn-demarrer" type="submit" name="action" value="demarrer">Démarrer</button>
-                                        <?php endif; ?>
-
-                                        <!-- Bouton Annuler visible pour le chauffeur -->
-                                        <button class="button" type="submit" id="btnAnnuler" name="action" value="annuler">Annuler le voyage</button>
-
-                                    <?php else: ?>
-                                        <!-- Passager : afficher seulement le statut -->
-                                        <?php if ($c['statut'] === 'Demarrer'): ?>
-                                            <span>Trajet en cours</span>
-                                        <?php elseif ($c['statut'] === 'Terminer'): ?>
-                                            <span>Trajet terminé</span>
-                                        <?php elseif ($c['statut'] === 'Annuler'): ?>
-                                            <span>Trajet annulé</span>
-                                        <?php else: ?>
-                                            <span>Trajet à venir</span>
-                                        <?php endif; ?>
-                                        <!--  Bouton Annuler visible pour les passagers -->
-                                        <button class="button" type="submit" id="btnAnnuler" name="action" value="annuler">Annuler le voyage</button>
+                                        <!-- Chauffeur -->
+                                    <?php if ($c['statut'] === 'Terminer'): ?>
+                                        <span>Trajet terminé</span>
+                                    <?php elseif ($c['statut'] === 'Annuler'): ?>
+                                        <span>Trajet annulé</span>
                                     <?php endif; ?>
-
                                 </section>
                             </section>
-                        </form>
+                            <!-- Verifie si l'utilisateur connecté est le conducteur du covoiturage -->
+                            <?php if ($displayPseudo !== $c['conducteur_pseudo']): ?>
+                            <section class="avis-covoit">
+                                <form action="" class="formAvis" method="POST">
+                                    <!-- Étape 1 -->
+                                    <section class="formAvisCovoit">
+                                        <fieldset>
+                                            <legend>Ce trajet s'est-il bien déroulé ?</legend>
+                                            <label>
+                                                <input type="radio" name="avis" value="Oui" checked> Oui
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="avis" value="Non"> Non
+                                            </label>
+                                        </fieldset>
+                                        <button class="button" type="button" id="btnValider">Valider</button>
+                                    </section>
+                                    <!-- Étape 2 -->
+                                    <section class="avis" style="display: none;">
+                                        <p>Votre avis nous intéresse</p>
+                                        <section class="separateurFiltres"></section>
+                                        <fieldset>
+                                            <legend>Commentaire</legend>
+                                            <label>
+                                                <input type="text" name="commentaire" placeholder="Ajoutez un commentaire...">
+                                            </label>
+                                        </fieldset>
+                                        <section class="separateurFiltres"></section>
+                                        <section id="note">
+                                            <h3>Note</h3>
+                                            <section class="stars">
+                                                <?php for ($i = 5; $i >= 1; $i--): ?>
+                                                    <input id="r<?= $i ?>" name="rating" type="radio" value="<?= $i ?>">
+                                                    <label for="r<?= $i ?>" title="<?= $i ?> étoiles">★</label>
+                                                <?php endfor; ?>
+                                            </section>
+                                        </section>
+                                        <input type="hidden" name="covoiturage_id" value="<?= htmlspecialchars($c['covoiturage_id']) ?>">
+                                        <button class="button" type="submit" id="btnEnvoyer" name="action" value="envoyer">Envoyer</button>
+                                    </section>
+                                </form>
+                            </section>
+                            <?php endif; ?>
+
+                        </section>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p id="texteCovoit">Aucun covoiturage en cours.</p>
+                    <p id="texteCovoit">Aucun historique de covoiturage.</p>
                 <?php endif; ?>
             </section>
         </section>
@@ -127,5 +147,6 @@ require 'back/infosUtilisateur.php';
     ?>
         <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
+    <script src="./assets/js/pages/historique.js" type="module"></script>
 </body>
 </html>

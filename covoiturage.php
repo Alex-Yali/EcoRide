@@ -72,7 +72,6 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                             <label for="r<?= $i ?>" title="<?= $i ?> étoiles">★</label>
                         <?php endfor; ?>
                     </section>
-
                 </section>
                 <section class="separateurFiltres"></section>
 
