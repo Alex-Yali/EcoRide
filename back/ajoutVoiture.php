@@ -8,6 +8,11 @@ global $message;
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
 
+if (!$idUtilisateur) {
+    $message = "Erreur : aucun utilisateur connecté.";
+    return;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
     $immat = trim($_POST['immatriculation'] ?? '');
     $dateImmat = trim($_POST['dateImmat'] ?? '');
@@ -21,25 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $ajoutPref = trim($_POST['ajoutPref'] ?? '');
 
     // Vérifier si un champ est vide
-    if (
-        $immat === '' || $dateImmat === '' || $modele === '' ||
-        $couleur === '' || $marque === '' || $place === '' ||
-        $energie === '' || $tabac === '' || $animal === '' 
-    ) {
+    if ($immat === '' || $dateImmat === '' || $modele === '' || $couleur === '' ||
+        $marque === '' || $place === '' || $energie === '' || $tabac === '' || $animal === '') {
         $message = "Veuillez renseigner tous les champs.";
     } else {
-
-        // Formatage automatique
         $modele = ucfirst(strtolower($modele));
         $marque = ucfirst(strtolower($marque));
         $couleur = strtolower($couleur);
         $energie = strtolower($energie);
 
         try {
-            //  Démarre une transaction pour garantir la cohérence
             $pdo->beginTransaction();
 
-            // Vérifier si le véhicule existe déjà (par immatriculation)
+            // 1. Vérifier si la voiture existe déjà (par immatriculation)
             $sqlVoiture = "SELECT voiture_id FROM voiture WHERE immatriculation = :immat";
             $stmtVoiture = $pdo->prepare($sqlVoiture);
             $stmtVoiture->execute([':immat' => $immat]);
@@ -48,11 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             if ($voiture) {
                 $idVoiture = $voiture['voiture_id'];
                 $message = "Un véhicule avec cette immatriculation existe déjà.";
+                    // Autoriser l'accès au profil chauffeur
+                $voitureValide = true;
             } else {
-                //  1. Insertion de la voiture
-                $sqlAjoutVoiture = "INSERT INTO voiture 
-                    (modele, immatriculation, couleur, date_premiere_immatriculation, energie, nb_place)
-                    VALUES (:modele, :immat, :couleur, :dateImmat, :energie, :place)";
+                // 2. Ajouter la voiture
+                $sqlAjoutVoiture = "INSERT INTO voiture (modele, immatriculation, couleur, date_premiere_immatriculation, energie, nb_place)
+                                    VALUES (:modele, :immat, :couleur, :dateImmat, :energie, :place)";
                 $stmtAjoutVoiture = $pdo->prepare($sqlAjoutVoiture);
                 $stmtAjoutVoiture->execute([
                     ':modele' => $modele,
@@ -60,73 +60,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     ':couleur' => $couleur,
                     ':dateImmat' => $dateImmat,
                     ':energie' => $energie,
-                    ':place' => $place,
+                    ':place' => $place
                 ]);
                 $idVoiture = $pdo->lastInsertId();
-            }
 
-            //  2. Vérifier si la marque existe déjà
-            $sqlMarque = "SELECT marque_id FROM marque WHERE libelle = :marque";
-            $stmtMarque = $pdo->prepare($sqlMarque);
-            $stmtMarque->execute([':marque' => $marque]);
-            $resultMarque = $stmtMarque->fetch(PDO::FETCH_ASSOC);
+                // 3. Vérifier ou ajouter la marque
+                $sqlMarque = "SELECT marque_id FROM marque WHERE libelle = :marque";
+                $stmtMarque = $pdo->prepare($sqlMarque);
+                $stmtMarque->execute([':marque' => $marque]);
+                $resultMarque = $stmtMarque->fetch(PDO::FETCH_ASSOC);
 
-            if ($resultMarque) {
-                $idMarque = $resultMarque['marque_id'];
-            } else {
-                // Si la marque n’existe pas, on l’ajoute
-                $sqlAjoutMarque = "INSERT INTO marque (libelle) VALUES (:marque)";
-                $stmtAjoutMarque = $pdo->prepare($sqlAjoutMarque);
-                $stmtAjoutMarque->execute([':marque' => $marque]);
-                $idMarque = $pdo->lastInsertId();
-            }
-
-            //  3. Ajouter la relation voiture-marque (table detient)
-            $stmtDetient = $pdo->prepare("
-                INSERT INTO detient (voiture_voiture_id, marque_marque_id)
-                VALUES (:idVoiture, :idMarque)
-            ");
-            $stmtDetient->execute([':idVoiture' => $idVoiture,':idMarque' => $idMarque]);
-
-            //  4. Ajouter la relation utilisateur-voiture (table gere)
-            $stmtGere = $pdo->prepare("
-                INSERT INTO gere (utilisateur_utilisateur_id, voiture_voiture_id)
-                VALUES (:idUtilisateur, :idVoiture)
-            ");
-            $stmtGere->execute([':idUtilisateur' => $idUtilisateur, ':idVoiture' => $idVoiture]);
-
-            //  5. Vérifier si la preference existe déjà
-            $preferences = [$tabac, $animal, $ajoutPref];
-            foreach ($preferences as $pref) {
-                if ($pref !== '') {
-                    $stmt = $pdo->prepare("SELECT preference_id FROM preference WHERE libelle = :pref");
-                    $stmt->execute([':pref' => $pref]);
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!$result) {
-                        $stmtInsert = $pdo->prepare("INSERT INTO preference (libelle) VALUES (:pref)");
-                        $stmtInsert->execute([':pref' => $pref]);
-                        $idPref = $pdo->lastInsertId();
-                    } else {
-                        $idPref = $result['preference_id'];
-                    }
-                    // Relation utilisateur–préférence
-                    $stmtFournir = $pdo->prepare("
-                        INSERT INTO fournir (utilisateur_utilisateur_id, preference_preference_id)
-                        VALUES (:idUtilisateur, :idPref)
-                    ");
-                    $stmtFournir->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
+                if ($resultMarque) {
+                    $idMarque = $resultMarque['marque_id'];
+                } else {
+                    $sqlAjoutMarque = "INSERT INTO marque (libelle) VALUES (:marque)";
+                    $stmtAjoutMarque = $pdo->prepare($sqlAjoutMarque);
+                    $stmtAjoutMarque->execute([':marque' => $marque]);
+                    $idMarque = $pdo->lastInsertId();
                 }
-            }
-            ;
 
-            //  Valider la transaction
+                // 4. Ajouter relation voiture–marque dans detient
+                $sqlDetient = "INSERT INTO detient (voiture_voiture_id, marque_marque_id)
+                                VALUES (:idVoiture, :idMarque)";
+                $stmtDetient = $pdo->prepare($sqlDetient);
+                $stmtDetient->execute([':idVoiture' => $idVoiture, ':idMarque' => $idMarque]);
+
+                // 5. Ajouter relation utilisateur–voiture dans gere
+                $sqlGere = "INSERT INTO gere (utilisateur_utilisateur_id, voiture_voiture_id)
+                            VALUES (:idUtilisateur, :idVoiture)";
+                $stmtGere = $pdo->prepare($sqlGere);
+                $stmtGere->execute([':idUtilisateur' => $idUtilisateur, ':idVoiture' => $idVoiture]);
+
+                // 6. Ajouter préférences (dédupliquer pour éviter doublons)
+                $preferences = array_unique([$tabac, $animal, $ajoutPref]);
+
+                foreach ($preferences as $pref) {
+                    if ($pref !== '') {
+                        // Vérifier si la préférence existe
+                        $sqlPref = "SELECT preference_id FROM preference WHERE libelle = :pref";
+                        $stmtPref = $pdo->prepare($sqlPref);
+                        $stmtPref->execute([':pref' => $pref]);
+                        $resultPref = $stmtPref->fetch(PDO::FETCH_ASSOC);
+                        if (!$resultPref) {
+                            $sqlInsertPref = "INSERT INTO preference (libelle) VALUES (:pref)";
+                            $stmtInsertPref = $pdo->prepare($sqlInsertPref);
+                            $stmtInsertPref->execute([':pref' => $pref]);
+                            $idPref = $pdo->lastInsertId();
+                        } else {
+                            $idPref = $resultPref['preference_id'];
+                        }
+
+                        // Vérifier si la relation utilisateur–préférence existe déjà
+                        $sqlCheckPref = "SELECT 1 FROM fournir 
+                                        WHERE utilisateur_utilisateur_id = :idUtilisateur 
+                                        AND preference_preference_id = :idPref";
+                        $stmtCheckPref = $pdo->prepare($sqlCheckPref);
+                        $stmtCheckPref->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
+                        $existPref = $stmtCheckPref->fetchColumn();
+
+                        if (!$existPref) {
+                            $sqlFournir = "INSERT INTO fournir (utilisateur_utilisateur_id, preference_preference_id)
+                                            VALUES (:idUtilisateur, :idPref)";
+                            $stmtFournir = $pdo->prepare($sqlFournir);
+                            $stmtFournir->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
+                        }
+                    }
+                }
+
+                $voitureValide = true;
+                $message = "Véhicule ajouté avec succès.";
+            }
+
             $pdo->commit();
 
-            $message = "Véhicule ajouté avec succès.";
-            $voitureValide = true;
-
         } catch (PDOException $e) {
-            // En cas d’erreur, on annule la transaction
             $pdo->rollBack();
             $message = "Erreur lors de l’ajout : " . $e->getMessage();
         }

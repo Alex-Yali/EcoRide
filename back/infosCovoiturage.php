@@ -34,6 +34,7 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                             c.heure_arrivee,
                             c.nb_place,
                             c.prix_personne,
+                            c.statut,
                             v.voiture_id,
                             v.modele,
                             v.energie
@@ -47,6 +48,7 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                         AND c.date_depart = :date
                         AND c.nb_place > 0 -- Trajets où il reste des places
                         AND pa.chauffeur = 1 -- Récupérer les covoiturages côté conducteur
+                        AND (c.statut IS NULL OR c.statut NOT IN ('Demarrer','Terminer')) -- Récupérer les covoiturages non demarrer ni terminer ni annuler
                         AND c.covoiturage_id NOT IN ( -- Empêche l’affichage des covoiturages où l’utilisateur est déjà chauffeur ou passager
                             SELECT covoiturage_covoiturage_id
                             FROM participe
@@ -85,6 +87,7 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                             c.heure_arrivee,
                             c.nb_place,
                             c.prix_personne,
+                            c.statut,
                             v.voiture_id,
                             v.modele,
                             v.energie
@@ -98,6 +101,7 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                         AND c.date_depart > :date -- Covoits futurs
                         AND c.nb_place > 0 -- Trajets où il reste des places
                         AND pa.chauffeur = 1 -- Récupérer les covoiturages côté conducteur
+                        AND (c.statut IS NULL OR c.statut NOT IN ('Demarrer','Terminer')) -- Récupérer les covoiturages non demarrer ni terminer ni annuler
                         AND c.covoiturage_id NOT IN ( -- Empêche l’affichage des covoiturages où l’utilisateur est déjà chauffeur ou passager
                             SELECT covoiturage_covoiturage_id
                             FROM participe

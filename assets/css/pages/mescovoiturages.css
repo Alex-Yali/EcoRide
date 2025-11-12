@@ -1,8 +1,8 @@
 .userCovoit {
     display: flex;
     justify-content: center;
-    width: 100%;
     gap: 5rem;
+    margin: 1rem auto;
 }
 
 /* Section id utilisateur */
@@ -140,7 +140,7 @@
 .perso-covoit {
     display: flex;
     margin-top: 1.25rem;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .perso {
@@ -160,8 +160,118 @@
     justify-content: center;
 }
 
-#btnDetail {
-    margin-left: 28rem;
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#btnAnnuler {
+    background-color: rgb(216, 2, 2);
+    width: auto;
+    padding: 0 1rem;
+}
+
+#btnAnnuler:hover {
+    background-color :rgb(168, 0, 0);
+}
+
+.btn-arrivee {
+    width: auto;
+    padding: 0 1rem;
+}
+
+.perso-covoit span {
+    color: #267240;
+}
+
+/* --- Historique covoit --- */
+#texteCovoit {
+    margin-top: 7rem;
+}
+
+input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #267240;
+}
+
+#btnValider, #btnEnvoyer {
+    height: 1.5rem;
+    width: 6rem;
+    font-size: 0.9rem;
+}
+
+.formAvis {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 0.7rem;
+}
+
+.formAvisCovoit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+fieldset {
+    display: flex;
+    justify-content: center;
+    border: none;
+}
+
+.stars {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin-bottom: 0.6rem;
+}
+
+.stars input {
+    display: none;
+}
+
+.stars label {
+    font-size: 2rem;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.stars label:hover,
+.stars label:hover ~ label {
+    color: gold;
+}
+
+.stars input:checked ~ label {
+    color: gold;
+}
+
+h3, legend {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #267240;
+}
+
+.avis {
+    flex-direction: column;
+    align-items: center; 
+    background-color: white;
+    border-radius: 1rem;
+    padding: 0.7rem;
+}
+
+.avis p, .avis legend {
+    text-align: center;
+    margin: 0; 
+}
+
+#note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.separateurFiltres {
+    margin: 0.7rem auto 0.7rem;
 }
 
 /* --- Responsive --- */
