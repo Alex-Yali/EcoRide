@@ -22,7 +22,5 @@ if (form) {
     // Message de confirmation
     alert("Merci pour votre avis !");
 
-    // Optionnel : envoyer les données via fetch si tu veux les stocker sans recharger
-    // fetch(form.action || '', { method: 'POST', body: new FormData(form) });
   });
 }
