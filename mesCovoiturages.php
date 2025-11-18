@@ -81,7 +81,7 @@ require 'back/infosUtilisateur.php';
                                     <!-- Champ caché pour identifier le covoiturage -->
                                     <input type="hidden" name="covoiturage_id" value="<?= $c['covoiturage_id'] ?>">
 
-                                    <?php if ($displayPseudo === $c['conducteur_pseudo']): ?>
+                                    <?php if ($idUtilisateur === $c['conducteur_id']): ?>
                                         <!-- Chauffeur : boutons selon le statut -->
                                         <?php if ($c['statut'] === 'Demarrer'): ?>
                                             <button class="button btn-arrivee" type="submit" name="action" value="terminer">Arrivée à destination</button>

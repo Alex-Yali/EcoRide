@@ -19,10 +19,9 @@ $sqlDetail = "SELECT
                 a.note,
                 (
                     SELECT AVG(a2.note)
-                    FROM depose d2
-                    JOIN avis a2 ON d2.avis_avis_id = a2.avis_id
-                    WHERE d2.utilisateur_utilisateur_id = u.utilisateur_id
-                    AND d2.statut = 'recu'
+                    FROM avis a2
+                    WHERE a2.chauffeur_id = u.utilisateur_id
+                    AND a2.statut = 'valider'
                 ) AS moyenne,
                 c.covoiturage_id,
                 c.lieu_depart,

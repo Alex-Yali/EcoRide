@@ -20,10 +20,9 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                             u.pseudo,
                             (
                                 SELECT AVG(a.note)
-                                FROM depose d
-                                JOIN avis a ON d.avis_avis_id = a.avis_id
-                                WHERE d.utilisateur_utilisateur_id = u.utilisateur_id
-                                AND d.statut = 'recu'
+                                FROM avis a                               
+                                WHERE a.chauffeur_id = u.utilisateur_id
+                                AND a.statut = 'valider'
                             ) AS moyenne,
                             c.covoiturage_id,
                             c.lieu_depart,
@@ -73,10 +72,9 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
                             u.pseudo,
                             (
                                 SELECT AVG(a.note)
-                                FROM depose d
-                                JOIN avis a ON d.avis_avis_id = a.avis_id
-                                WHERE d.utilisateur_utilisateur_id = u.utilisateur_id
-                                AND d.statut = 'recu'
+                                FROM avis a                               
+                                WHERE a.chauffeur_id = u.utilisateur_id
+                                AND a.statut = 'valider'
                             ) AS moyenne,
                             c.covoiturage_id,
                             c.lieu_depart,
