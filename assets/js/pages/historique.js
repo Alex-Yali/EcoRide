@@ -1,26 +1,33 @@
-const formAvis = document.querySelector(".formAvisCovoit");
-const avis = document.querySelector(".avis");
-const btnValider = document.getElementById("btnValider");
-const form = document.querySelector(".formAvis");
+const avisCovoit = document.querySelectorAll(".avis-covoit");
 
-if (btnValider) {
-  btnValider.addEventListener("click", () => {
-    formAvis.style.display = "none";  // cache étape 1
-    avis.style.display = "flex";     // affiche étape 2
-  });
-}
+// On récupère tous les formulaires
+document.querySelectorAll(".formAvis").forEach(form => {
+  const formAvisCovoit = form.querySelector(".formAvisCovoit");
+  const avisSection = form.querySelector(".avis");
+  const btnValider = form.querySelector("#btnValider");
+  const hiddenAvis = form.querySelector(".hidden-avis");
 
-if (form) {
+  // Étape 1 
+  if (btnValider) {
+    btnValider.addEventListener("click", () => {
+      const checkedRadio = form.querySelector('input[name="avis"]:checked');
+
+      if (!checkedRadio) {
+        alert("Veuillez sélectionner un avis avant de continuer.");
+        return;
+      }
+
+      if (hiddenAvis) hiddenAvis.value = checkedRadio.value;
+
+      formAvisCovoit.style.display = "none";
+      avisSection.style.display = "flex";
+    });
+  }
+
+  // Étape 2
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // empêche le rechargement
 
-    // Masquer les sections
-    formAvis.style.display = "none";
-    avis.style.display = "none";
-    form.style.display = "none";
-
-    // Message de confirmation
     alert("Merci pour votre avis !");
 
   });
-}
+});

@@ -33,12 +33,12 @@ try {
                         v.energie,
                         c.statut,
                         u_conducteur.pseudo AS conducteur_pseudo,
+                        u_conducteur.utilisateur_id AS conducteur_id,
                         (
-                            SELECT AVG(a.note)
-                            FROM depose d
-                            JOIN avis a ON d.avis_avis_id = a.avis_id
-                            WHERE d.utilisateur_utilisateur_id = u_conducteur.utilisateur_id
-                            AND d.statut = 'recu'
+                            SELECT AVG(a2.note)
+                            FROM avis a2
+                            WHERE a2.chauffeur_id = u_conducteur.utilisateur_id
+                            AND a2.statut = 'valider'
                         ) AS conducteur_moyenne
                     FROM covoiturage c
                     JOIN participe pa ON pa.covoiturage_covoiturage_id = c.covoiturage_id
@@ -120,19 +120,11 @@ try {
                     Votre covoiturage de <b>{$covoitInfos['lieu_depart']}</b> à <b>{$covoitInfos['lieu_arrivee']}</b><br>
                     du <b>{$covoitInfos['date_depart']}</b à <b>{$covoitInfos['heure_depart']}</b> est arrivé à destination.<br><br>
                     Merci d’avoir voyagé avec EcoRide !<br>
-                    Vous pouvez maintenant laisser un avis sur votre conducteur.<br><br>
+                    Vous pouvez maintenant laisser un avis sur votre conducteur dans l'historique de vos covoiturages dans votre espace .<br><br>
                     <hr>
                     <i>L’équipe EcoRide</i>";
                     @mail($to, $subject, $messageMail);
                 }
-
-                // Calculer et ajouter les crédits au conducteur
-                $prixParPersonne = $covoitInfos['prix_personne'] ?? 0;
-                $totalCredits = $prixParPersonne * count($passagers);
-
-                $sqlAddCredits = "UPDATE utilisateur SET credits = credits + ? WHERE utilisateur_id = ?";
-                $stmtAddCredits = $pdo->prepare($sqlAddCredits);
-                $stmtAddCredits->execute([$totalCredits, $idUtilisateur]);
             }
 
             // Si Annulation

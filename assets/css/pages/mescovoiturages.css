@@ -274,6 +274,10 @@ h3, legend {
     margin: 0.7rem auto 0.7rem;
 }
 
+.avis-covoit {
+    display: flex;
+}
+
 /* --- Responsive --- */
 @media (max-width: 768px) {
     .info-covoit {

@@ -78,8 +78,6 @@ require 'back/infosUtilisateur.php';
                                             </p>
                                         </section>
                                     </section>
-                                    <!-- Champ caché pour identifier le covoiturage -->
-                                    <input type="hidden" name="covoiturage_id" value="<?= $c['covoiturage_id'] ?>">
 
                                         <!-- Chauffeur -->
                                     <?php if ($c['statut'] === 'Terminer'): ?>
@@ -87,10 +85,14 @@ require 'back/infosUtilisateur.php';
                                     <?php elseif ($c['statut'] === 'Annuler'): ?>
                                         <span>Trajet annulé</span>
                                     <?php endif; ?>
+                                    
                                 </section>
                             </section>
-                            <!-- Verifie si l'utilisateur connecté est le conducteur du covoiturage -->
-                            <?php if ($displayPseudo !== $c['conducteur_pseudo']): ?>
+                            <!-- Verifie si l'utilisateur connecté est le conducteur du covoiturage et si à déjà donné un avis -->
+                            <?php 
+                            $conducteur_id = $c['conducteur_id'];
+                            $dejaAvis = avisDejaDonne ($pdo, $idUtilisateur, $c['covoiturage_id'], $conducteur_id); ?>
+                            <?php if (($idUtilisateur !== $conducteur_id) && !$dejaAvis): ?>
                             <section class="avis-covoit">
                                 <form action="" class="formAvis" method="POST">
                                     <!-- Étape 1 -->
@@ -104,10 +106,11 @@ require 'back/infosUtilisateur.php';
                                                 <input type="radio" name="avis" value="Non"> Non
                                             </label>
                                         </fieldset>
-                                        <button class="button" type="button" id="btnValider">Valider</button>
+                                        <button class="button" type="button" id="btnValider" name="action" value="valider">Valider</button>
                                     </section>
                                     <!-- Étape 2 -->
                                     <section class="avis" style="display: none;">
+                                        <input type="hidden" name="avis" class="hidden-avis">
                                         <p>Votre avis nous intéresse</p>
                                         <section class="separateurFiltres"></section>
                                         <fieldset>
@@ -126,13 +129,13 @@ require 'back/infosUtilisateur.php';
                                                 <?php endfor; ?>
                                             </section>
                                         </section>
+                                        <!-- Champ caché pour identifier le covoiturage -->
                                         <input type="hidden" name="covoiturage_id" value="<?= htmlspecialchars($c['covoiturage_id']) ?>">
                                         <button class="button" type="submit" id="btnEnvoyer" name="action" value="envoyer">Envoyer</button>
                                     </section>
                                 </form>
                             </section>
                             <?php endif; ?>
-
                         </section>
                     <?php endforeach; ?>
                 <?php else: ?>
