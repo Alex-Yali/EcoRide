@@ -1,6 +1,7 @@
 <?php 
 require_once 'back/detailCovoiturage.php';
 require_once 'back/fonctionCalculTrajetDetail.php';
+require_once 'back/infosUtilisateur.php';
 ?>
 
 <!DOCTYPE html>
@@ -94,23 +95,39 @@ require_once 'back/fonctionCalculTrajetDetail.php';
                     </section>
                 </section>
 
-                <section class="participe">
-                    <section class="prix-place">
-                        <p>1 passager</p>
-                        <p><?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits</p>
-                    </section>
-                    <button id="btnReserve" class="button" type="button">Participer</button>
-                </section>
+                <?php
+                $participeDeja = participeDeja($pdo, $idUtilisateur, $idCovoit);
+                if ($participeDeja): ?>
+                        <section>
+                            <p id="Participe">Votre participation au covoiturage a été enregistrée !</p>
+                        </section>
+                <?php else: ?>
+                    <section class="participe">
+                        <section class="prix-place">
+                            <p>1 passager</p>
+                            <p><?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits</p>
+                        </section>
 
-                <section class="valid">
-                    <p id="valid-size">
-                        Souhaitez-vous utiliser <?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits pour réserver votre place sur ce voyage ?
-                    </p>
-                    <section id="notif-valid">
-                        <a href="detail.php?id=<?= urlencode($covoitDetail['covoiturage_id'] ?? '') ?>">Retour</a>
-                        <button id="btnValid" class="button" type="submit">Oui</button>
+                        <?php
+                        $prixCovoit = $covoitDetail['prix_personne'];
+                        $placeDispo = $covoitDetail['nb_place'];
+                        if ($creditsUtilisateur > $prixCovoit && $placeDispo > 0): ?>
+                        <button id="btnParticipe" class="button" type="button">Participer</button>
+                        <?php else: ?>
+                        <button id="btnParticipeDesactive" class="button" type="button" title="Crédits insuffisants ou aucune place disponible pour ce voyage.">Participer</button>
+                        <?php endif; ?>
                     </section>
-                </section>
+
+                    <form class="valid" action="" method="POST">
+                        <p id="valid-size">
+                            Souhaitez-vous utiliser <?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits pour réserver votre place sur ce voyage ?
+                        </p>
+                        <section id="notif-valid">
+                            <a href="detail.php?id=<?= urlencode($covoitDetail['covoiturage_id'] ?? '') ?>">Retour</a>
+                            <button id="btnValid" class="button" type="submit" name="action" value="oui">Oui</button>
+                        </section>
+                    </form>
+                <?php endif; ?>
             </section>
         </section>
     </main>
