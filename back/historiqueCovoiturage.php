@@ -133,6 +133,7 @@ if (!empty($mesCovoit)) {
         ]);
     }
 
+        // Fonction check si avis déjà donné
         function avisDejaDonne($pdo, $idUtilisateur, $covoiturage_id, $conducteur_id) {
             $sqlCheck = "SELECT COUNT(*) FROM depose d
                         JOIN avis a ON a.avis_id = d.avis_avis_id 

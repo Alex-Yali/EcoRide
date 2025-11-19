@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     <section class="user-id">
                         <section class="user-name">
                             <img src="./assets/images/compte noir.png" alt="image compte noir">
-                            <span id="first-name"><?= htmlspecialchars($displayPseudo) ?></span>
+                            <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
                         </section>
                         <section class="user-info">
                             <img src="./assets/images/pile-de-pieces.png" alt="image pièces">
-                            <span>Crédits restants : <?= htmlspecialchars($displayCredits) ?></span>
+                            <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
                         </section>
                     </section>
                     <nav class="passagerLink">
@@ -134,11 +134,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                         <section class="user-id">
                             <section class="user-name">
                                 <img src="./assets/images/compte noir.png" alt="image compte noir">
-                                <span id="first-name"><?= htmlspecialchars($displayPseudo) ?></span>
+                                <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
                             </section>
                             <section class="user-info">
                                 <img src="./assets/images/pile-de-pieces.png" alt="image pièces">
-                                <span>Crédits restants : <?= htmlspecialchars($displayCredits) ?></span>
+                                <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
                             </section>
                         </section>
                         <nav class="chauffeurLink">
@@ -217,11 +217,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                         <section class="user-id">
                             <section class="user-name">
                                 <img src="./assets/images/compte noir.png" alt="image compte noir">
-                                <span id="first-name"><?= htmlspecialchars($displayPseudo) ?></span>
+                                <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
                             </section>
                             <section class="user-info">
                                 <img src="./assets/images/pile-de-pieces.png" alt="image pièces">
-                                <span>Crédits restants : <?= htmlspecialchars($displayCredits) ?></span>
+                                <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
                             </section>
                         </section>
                         <nav class="chauffeurLink">

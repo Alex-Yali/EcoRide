@@ -1,12 +1,12 @@
 
-/* Affichage notiv validation covoiturage */
+/* Affichage section validation covoiturage */
 
   const participe = document.querySelector(".participe");
   const valid = document.querySelector(".valid");
-  const btnReserve = document.getElementById("btnReserve");
+  const btnParticipe = document.getElementById("btnParticipe");
 
-  if (btnReserve) {
-    btnReserve.addEventListener("click",() =>{
+  if (btnParticipe) {
+    btnParticipe.addEventListener("click",() =>{
       if(!isConect) {
         window.location.href = "./connexion.php"
       } else {

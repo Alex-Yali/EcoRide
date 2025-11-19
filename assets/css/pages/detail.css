@@ -200,6 +200,11 @@ h2 {
     margin-right: 0.6rem;
 }
 
+#btnParticipeDesactive {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .box-detail {
