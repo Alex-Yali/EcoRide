@@ -15,7 +15,7 @@ $arrivee = trim($_POST['arrivee'] ?? '');
 $date    = trim($_POST['date'] ?? '');
 
 if (!empty($depart) && !empty($arrivee) && !empty($date)) {
-    $sqlDateExacte = " SELECT DISTINCT
+    $sqlDateExacte = " SELECT
                             u.utilisateur_id,
                             u.pseudo,
                             (
