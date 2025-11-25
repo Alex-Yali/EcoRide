@@ -7,7 +7,7 @@
 
   if (btnParticipe) {
     btnParticipe.addEventListener("click",() =>{
-      if(!isConect) {
+      if(roleUtilisateur != "utilisateur" && roleUtilisateur != "admin" && roleUtilisateur != "employe") {
         window.location.href = "./connexion.php"
       } else {
           participe.style.display = "none";  // Cache section 1

@@ -21,13 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $marque = trim($_POST['marque'] ?? '');
     $energie = trim($_POST['energie'] ?? '');
     $place = trim($_POST['place'] ?? '');
-    $tabac = trim($_POST['tabac'] ?? '');
-    $animal = trim($_POST['animal'] ?? '');
-    $ajoutPref = trim($_POST['ajoutPref'] ?? '');
 
     // Vérifier si un champ est vide
     if ($immat === '' || $dateImmat === '' || $modele === '' || $couleur === '' ||
-        $marque === '' || $place === '' || $energie === '' || $tabac === '' || $animal === '') {
+        $marque === '' || $place === '' || $energie === '' ) {
         $message = "Veuillez renseigner tous les champs.";
     } else {
         $modele = ucfirst(strtolower($modele));
@@ -48,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                 $idVoiture = $voiture['voiture_id'];
                 $message = "Un véhicule avec cette immatriculation existe déjà.";
                     // Autoriser l'accès au profil chauffeur
-                $voitureValide = false;
+                $voitureValide = true;
             } else {
                 // 2. Ajouter la voiture
                 $sqlAjoutVoiture = "INSERT INTO voiture (modele, immatriculation, couleur, date_premiere_immatriculation, energie, nb_place)
@@ -91,60 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                 $stmtGere = $pdo->prepare($sqlGere);
                 $stmtGere->execute([':idUtilisateur' => $idUtilisateur, ':idVoiture' => $idVoiture]);
 
-                // 6. Ajouter préférences (dédupliquer pour éviter doublons)
-                $preferences = array_unique([$tabac, $animal, $ajoutPref]);
-
-                foreach ($preferences as $pref) {
-                    if ($pref !== '') {
-                        // Vérifier si la préférence existe
-                        $sqlPref = "SELECT preference_id FROM preference WHERE libelle = :pref";
-                        $stmtPref = $pdo->prepare($sqlPref);
-                        $stmtPref->execute([':pref' => $pref]);
-                        $resultPref = $stmtPref->fetch(PDO::FETCH_ASSOC);
-                        if (!$resultPref) {
-                            $sqlInsertPref = "INSERT INTO preference (libelle) VALUES (:pref)";
-                            $stmtInsertPref = $pdo->prepare($sqlInsertPref);
-                            $stmtInsertPref->execute([':pref' => $pref]);
-                            $idPref = $pdo->lastInsertId();
-                        } else {
-                            $idPref = $resultPref['preference_id'];
-                        }
-
-                        // Vérifier si la relation utilisateur–préférence existe déjà
-                        $sqlCheckPref = "SELECT 1 FROM fournir 
-                                        WHERE utilisateur_utilisateur_id = :idUtilisateur 
-                                        AND preference_preference_id = :idPref";
-                        $stmtCheckPref = $pdo->prepare($sqlCheckPref);
-                        $stmtCheckPref->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
-                        $existPref = $stmtCheckPref->fetchColumn();
-
-                        if (!$existPref) {
-                            $sqlFournir = "INSERT INTO fournir (utilisateur_utilisateur_id, preference_preference_id)
-                                            VALUES (:idUtilisateur, :idPref)";
-                            $stmtFournir = $pdo->prepare($sqlFournir);
-                            $stmtFournir->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
-                        }
-                    }
-                }
-
                 $voitureValide = true;
                 $message = "Véhicule ajouté avec succès.";
             }
 
             $pdo->commit();
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['form_data'] = [
-        'immat' => $_POST['immatriculation'] ?? '',
-        'dateImmat' => $_POST['dateImmat'] ?? '',
-        'modele' => $_POST['modele'] ?? '',
-        'couleur' => $_POST['couleur'] ?? '',
-        'marque' => $_POST['marque'] ?? '',
-        'energie' => $_POST['energie'] ?? '',
-        'place' => $_POST['place'] ?? ''
-    ];
-    $_SESSION['form_submitted'] = true; // Formulaire envoyé
-}
 
         } catch (PDOException $e) {
             $pdo->rollBack();

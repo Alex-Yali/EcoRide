@@ -10,8 +10,12 @@ require_once 'back/infosUtilisateur.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoRide - Détails du voyage</title>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/pages/detail.css">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
@@ -111,10 +115,14 @@ require_once 'back/infosUtilisateur.php';
                         <?php
                         $prixCovoit = $covoitDetail['prix_personne'];
                         $placeDispo = $covoitDetail['nb_place'];
-                        if ($creditsUtilisateur > $prixCovoit && $placeDispo > 0): ?>
-                        <button id="btnParticipe" class="button" type="button">Participer</button>
+                        $creditsUtilisateur = $creditsUtilisateur ?? 0;
+                        if ($idUtilisateur && $creditsUtilisateur >= $prixCovoit && $placeDispo > 0): ?>
+                            <button id="btnParticipe" class="button" type="button">Participer</button>
+                        <?php elseif (!$idUtilisateur): ?>
+                            <a href="connexion.php" class="button" id="btnConnexion">Se connecter</a>
                         <?php else: ?>
-                        <button id="btnParticipeDesactive" class="button" type="button" title="Crédits insuffisants ou aucune place disponible pour ce voyage.">Participer</button>
+                            <button id="btnParticipeDesactive" class="button" type="button" 
+                                    title="Crédits insuffisants ou aucune place disponible pour ce voyage.">Participer</button>
                         <?php endif; ?>
                     </section>
 
@@ -136,12 +144,9 @@ require_once 'back/infosUtilisateur.php';
     <?php require 'includes/footer.php'; ?>
 
     <!-- JS -->
+    <script> const roleUtilisateur = <?= json_encode($roleUtilisateur) ?>; </script>
     <script src="./assets/js/main.js" type="module"></script>
     <script src="./assets/js/pages/detail.js" type="module"></script>
 
-    <!-- Vérification si l'utilisateur est connecté -->
-    <script>
-        const isConect = <?php echo isset($_SESSION['user_pseudo']) ? 'true' : 'false'; ?>;
-    </script>
 </body>
 </html>

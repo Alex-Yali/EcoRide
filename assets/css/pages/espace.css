@@ -213,6 +213,11 @@ h2 {
     height: 1.3rem;
 }
 
+input {
+    border: 0.125rem solid;
+    border-radius: 0.4rem;
+}
+
 /* Bouton */
 #btnInfo {
     margin-top: 1.25rem;

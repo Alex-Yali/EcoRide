@@ -7,28 +7,29 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Vérifier que l'utilisateur est connecté
-if (empty($_SESSION['user_id'])) {
-    header('Location: connexion.php');
-    exit;
-}
+if (!empty($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
 
-// Récupérer l'id de l'utilisateur depuis la session
-$user_id = $_SESSION['user_id'];
+    // Récupérer pseudo, crédits et rôle
+    $stmt = $pdo->prepare('SELECT u.pseudo, u.credits, u.utilisateur_id, r.libelle FROM utilisateur u
+                            JOIN possede p ON p.utilisateur_utilisateur_id = u.utilisateur_id
+                            JOIN role r ON p.role_role_id = r.role_id
+                            WHERE u.utilisateur_id = :user_id');
+    $stmt->execute(['user_id' => $user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Requête pour récupérer le pseudo et les crédits à jour
-$stmt = $pdo->prepare('SELECT pseudo, credits, utilisateur_id FROM utilisateur WHERE utilisateur_id = :user_id');
-$stmt->execute(['user_id' => $user_id]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($user) {
-    $pseudoUtilisateur = htmlspecialchars(ucfirst($user['pseudo']), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $creditsUtilisateur = htmlspecialchars($user['credits'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $idUtilisateur = htmlspecialchars($user['utilisateur_id'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    if ($user) {
+        $pseudoUtilisateur = ucfirst($user['pseudo']);
+        $creditsUtilisateur = $user['credits'];
+        $idUtilisateur = $user['utilisateur_id'];
+        $roleUtilisateur = $user['libelle'];
+    } else {
+        session_destroy();
+    }
 } else {
-    // utilisateur non trouvé → déconnexion
-    session_destroy();
-    header('Location: connexion.php');
-    exit;
+    // Utilisateur non connecté
+    $idUtilisateur = null;
 }
+
 
 ?>
