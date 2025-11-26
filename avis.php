@@ -26,40 +26,40 @@
     <main>
         <!-- Box filtres -->
         <h1 class="gros-titre">Avis du conducteur :</h1>
-        <section class="detail">
+
+        <!-- Messages d'erreur -->
+            <?php require 'back/messagesErreur.php'; ?> 
+
+        <section class="detail"> 
             <!-- Infos utilisateur -->
             <?php if (!empty($avis)): ?>
-                <?php $conducteur = $avis[0]; ?>
-            <aside class="box-user">
-                <section class="user-photo">
-                    <img id="photo" src="./assets/images/homme.png" alt="photo de l'utilisateur">
-                    <p>
-                        <?= htmlspecialchars(ucfirst($conducteur['pseudo'] ?? 'N/A')) ?><br>
-                        <?= round($conducteur['moyenne'], 1) ?> ★
-                    </p>
-                </section>
-            </aside>
-            <!-- Messages d'erreur -->
-            <?php require 'back/messagesErreur.php'; ?> 
 
             <!-- Commentaire -->
             <section class="commentaire">
-                <?php foreach ($avis as $a): ?>
+                <?php foreach ($avis as $index => $a): ?>
+                    <section id="utilisateur">
+                        <img id="photo" src="./assets/images/homme.png" alt="photo de l'utilisateur">
+                        <?= htmlspecialchars(ucfirst($a['auteur_pseudo'] ?? 'N/A')) ?>
+                    </section>
                     <section class="box-avis">
-                        <section>
-                            <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?> 
-                        </section>
                         <section>
                             Note : <?= htmlspecialchars(ucfirst($a['note'] ?? 'N/A')) ?>
                         </section>
+                        <section class="com">
+                            <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?> 
+                        </section>
                     </section>
-                    <section class="separateurFiltres"></section>
+                    <?php if ($index < count($avis) - 1): ?>
+                        <section class="separateurFiltres"></section>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </section>
+
             <?php else: ?>
                 <p class="message-vide">Ce conducteur n'a pas encore d'avis</p>
             <?php endif; ?>
         </section>
+
 
     </main>
     <!-- Footer -->

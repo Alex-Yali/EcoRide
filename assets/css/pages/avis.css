@@ -2,15 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
 }
 
 /* --- Detail utilisateur box --- */
 .box-user {
     background-color: white;
     border-radius: 1rem;
-    width: 12%;
+    width: auto;
     height: 20%;
+    padding: 0 0.5rem;
     border: 1px solid #ccc;
 }
 
@@ -20,32 +20,48 @@
 
 .user-photo {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
 }
-/* --- Detail utilisateur box --- */
-
-.box-avis {
-    width: 90%;
-    height: 20%;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-}
+/* --- Detail box avis --- */
 
 .commentaire {
-    width: 50%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
     border-radius: 1rem;
     border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+.box-avis {
+    width: 90%;
+    height: 20%;
+    padding: 1rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.com {
+    color: #7E7E7E;
+    text-align: justify;
+}
+
+#utilisateur {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .separateurFiltres {
     width: 95%;
+    margin: 1rem 0;
+    position: relative;
+    bottom: 0;
 }
 
 /* --- Responsive --- */
