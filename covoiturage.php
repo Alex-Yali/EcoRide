@@ -35,8 +35,12 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
         <!-- Barre de recherche -->
         <?php require 'includes/barreRecherche.php'; ?>
 
-        <!-- Messages d'erreur -->
-        <?php require 'back/messagesErreur.php'; ?> 
+        <!-- Messages d'erreur covoiturage -->
+        <?php if (!empty($messageCovoit)): ?>
+            <p style="color: <?= ($covoitValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
+                <?= htmlspecialchars($messageCovoit) ?>
+            </p>
+        <?php endif; ?>
 
         <section class="covoit">
             <!-- Filtres latéraux -->

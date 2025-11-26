@@ -4,12 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once 'db.php'; // connexion PDO
 
-global $message;
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
 
 if (!$idUtilisateur) {
-    $message = "Erreur : aucun utilisateur connecté.";
+    $messageVoiture  = "Erreur : aucun utilisateur connecté.";
     return;
 }
 
@@ -28,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     // Vérifier si un champ est vide
     if ($immat === '' || $dateImmat === '' || $modele === '' || $couleur === '' ||
         $marque === '' || $place === '' || $energie === '' || $tabac === '' || $animal === '') {
-        $message = "Veuillez renseigner tous les champs.";
+        $messageVoiture  = "Veuillez renseigner tous les champs.";
     } else {
         $modele = ucfirst(strtolower($modele));
         $marque = ucfirst(strtolower($marque));
@@ -46,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
             if ($voiture) {
                 $idVoiture = $voiture['voiture_id'];
-                $message = "Un véhicule avec cette immatriculation existe déjà.";
+                $messageVoiture  = "Un véhicule avec cette immatriculation existe déjà.";
                     // Autoriser l'accès au profil chauffeur
                 $voitureValide = false;
             } else {
@@ -128,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                 }
 
                 $voitureValide = true;
-                $message = "Véhicule ajouté avec succès.";
+                $messageVoiture  = "Véhicule ajouté avec succès.";
             }
 
             $pdo->commit();
@@ -148,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
         } catch (PDOException $e) {
             $pdo->rollBack();
-            $message = "Erreur lors de l’ajout : " . $e->getMessage();
+            $messageVoiture  = "Erreur lors de l’ajout : " . $e->getMessage();
         }
     }
 }

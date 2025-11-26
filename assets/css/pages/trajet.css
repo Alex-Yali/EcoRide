@@ -111,7 +111,6 @@ label {
     background: rgba(0,0,0,0.6);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
 }
 
 .modal:target {
