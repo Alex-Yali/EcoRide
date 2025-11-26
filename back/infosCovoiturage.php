@@ -8,6 +8,7 @@ if (session_status() === PHP_SESSION_NONE) { // Démarre la session PHP si elle 
 $covoits = [];
 $message = "";
 $idUtilisateur = $_SESSION['user_id'] ?? 0; // Récupère l’ID de l’utilisateur connecté
+$covoitValide = false;
 
 // Recherche principale
 $depart  = trim($_POST['depart'] ?? '');
@@ -120,16 +121,20 @@ if (!empty($depart) && !empty($arrivee) && !empty($date)) {
         // On remplace la liste principale par le covoiturage futur s'il existe
         if (!empty($covoitsDateProche)) {
             $covoitsDateExacte = $covoitsDateProche;
-            $message = "Pas de covoiturages à la date demandée. Voici le covoiturage le plus proche après cette date :";
+            $covoitValide = false;
+            $messageCovoit = "Pas de covoiturages à la date demandée. Voici le covoiturage le plus proche après cette date :";
         } else {
-            $message = "Aucun covoiturage trouvé à cette date ni après.";
+            $covoitValide = false;
+            $messageCovoit = "Aucun covoiturage trouvé à cette date ni après.";
         }
     } else {
-        $message = count($covoitsDateExacte) . " covoiturage(s) trouvé(s) à la date sélectionnée.";
+        $covoitValide = true;
+        $messageCovoit = count($covoitsDateExacte) . " covoiturage(s) trouvé(s) à la date sélectionnée.";
     }
 
 } else {
-    $message = "Merci de remplir les champs de départ, arrivée et date.";
+    $covoitValide = false;
+    $messageCovoit = "Merci de remplir les champs de départ, arrivée et date.";
 }
 
     // Mise en place des filtres

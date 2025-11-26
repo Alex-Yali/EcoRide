@@ -23,11 +23,15 @@
     <main> 
         <h1>Un trajet partagé, un monde allégé</h1>
     <!-- Barre de recherche -->
-    <?php
-    require 'includes/barreRecherche.php'
-    ?>
-    <!-- Affichage du message d'erreur -->
-    <?php require 'back/messagesErreur.php'; ?> 
+    <?php require 'includes/barreRecherche.php'?>
+
+    <!-- Messages d'erreur covoiturage -->
+    <?php if (!empty($messageCovoit)): ?>
+        <p style="color: <?= ($covoitValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
+            <?= htmlspecialchars($messageCovoit) ?>
+        </p>
+    <?php endif; ?>
+
         <!-- Image et texte description site -->
         <section class="descri">
             <section class="image-descri">

@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once 'db.php'; // connexion PDO
 
-global $message;
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $trajetValide = false;
 
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $voiture = $_POST['voiture'] ?? '';
 
 if ($voiture === '') {
-    $message = "Veuillez sélectionner une voiture.";
+    $messageTrajet  = "Veuillez sélectionner une voiture.";
 } else {
     $voiture = (int) $voiture; // conversion en INT pour la base
 }
@@ -28,7 +27,7 @@ if ($voiture === '') {
     // Vérifier si un champ est vide
     if ($depart === '' || $dateDepart === '' || $heureDepart === '' || $destination === '' ||
         $dateArrivee === '' || $heureArrivee === '' || $places <= 0 || $prix <= 0  ||  $voiture <= 0  ) {
-        $message = "Veuillez renseigner tous les champs.";
+        $messageTrajet  = "Veuillez renseigner tous les champs.";
     } else {
         $depart = ucfirst(strtolower($depart));
         $destination = ucfirst(strtolower($destination));
@@ -49,7 +48,7 @@ if ($voiture === '') {
             ]);
 
             if (!$stmtVoiture->fetch()) {
-                $message = "Cette voiture ne vous appartient pas.";
+                $messageTrajet  = "Cette voiture ne vous appartient pas.";
                 $trajetValide = false;
                 return; 
             }
@@ -82,7 +81,7 @@ if ($voiture === '') {
 
             if ($trajet) {
                 // L'utilisateur a déjà ajouté ce trajet
-                $message = "Vous avez déjà proposé ce covoiturage.";
+                $messageTrajet  = "Vous avez déjà proposé ce covoiturage.";
                 $trajetValide = false;
                 return;
 
@@ -133,14 +132,14 @@ if ($voiture === '') {
                 $stmtRemoveCredits->execute([$prixTrajet, $idUtilisateur]);
 
                 $trajetValide = true;
-                $message = "covoiturage ajouté avec succès.";
+                $messageTrajet  = "covoiturage ajouté avec succès.";
             }
 
             $pdo->commit();
 
         } catch (PDOException $e) {
             $pdo->rollBack();
-            $message = "Erreur lors de l’ajout : " . $e->getMessage();
+            $messageTrajet  = "Erreur lors de l’ajout : " . $e->getMessage();
         }
     }
 }

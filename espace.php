@@ -33,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
         <h1 class="gros-titre">Mon espace :</h1>
 
         <!-- Message de succès / erreur -->
-        <?php if (!empty($message)): ?>
+        <?php if (!empty($messageVoiture)): ?>
             <p style="color: <?= ($voitureValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
-                <?= htmlspecialchars($message) ?>
+                <?= htmlspecialchars($messageVoiture) ?>
             </p>
         <?php endif; ?>
 

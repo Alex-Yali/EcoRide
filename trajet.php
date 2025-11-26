@@ -28,10 +28,10 @@
     <main>
         <h1 class="gros-titre">Saisir un voyage :</h1>
 
-                <!-- Message de succès / erreur -->
-        <?php if (!empty($message)): ?>
+        <!-- Messages d'erreur ajout covoit -->
+        <?php if (!empty($messageTrajet)): ?>
             <p style="color: <?= ($trajetValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                <?= htmlspecialchars($message) ?>
+                <?= htmlspecialchars($messageTrajet) ?>
             </p>
         <?php endif; ?>
 
@@ -123,12 +123,13 @@
                     <a href="#" class="close">x</a>
                     <h2>Ajouter un véhicule</h2>
 
-                <!-- Message de succès / erreur -->
-                <?php if (!empty($message)): ?>
-                    <p style="color: <?= ($voitureValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
-                        <?= htmlspecialchars($message) ?>
+                <!-- Messages d'erreur ajout voiture -->
+                <?php if (!empty($messageVoiture)): ?>
+                    <p style="color: <?= ($voitureValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                        <?= htmlspecialchars($messageVoiture) ?>
                     </p>
                 <?php endif; ?>
+
 
                     <form method="POST" class="modal-content">
 
