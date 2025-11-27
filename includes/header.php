@@ -21,35 +21,40 @@ require 'back/infosUtilisateur.php';
                     <!-- Menu deroulant  -->  
                     <section id="menu-box" class="hidden">
 
-                        <?php if (!empty($idUtilisateur)): ?>
-                            <a title="Profil" href="./espace.php" class="menu-link">
-                                <span>Profil</span>
-                                <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <?php if ($roleUtilisateur === 'utilisateur'): ?>
-                                <a title="Contact" href="./contact.php" class="menu-link">
-                                    <span>Contact</span>
-                                    <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                                </a>
-                            <?php endif; ?>
-                            <a title="Deconnexion" href="./back/deconnexion.php" class="menu-link">
-                                <span>Se déconnecter</span>
-                                <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                        <?php else: ?>
-                            <a title="Inscription" href="./inscription.php" class="menu-link">
-                                <span>Inscription</span>
-                                <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <a title="Connexion" href="./connexion.php" class="menu-link">
-                                <span>Connexion</span>
-                                <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                            <a title="Contact" href="./contact.php" class="menu-link">
-                                <span>Contact</span>
-                                <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
-                            </a>
-                        <?php endif; ?>
+                <?php if (!empty($idUtilisateur)): ?>
+                    <?php if ($roleUtilisateur === 'utilisateur'): ?>
+                        <a title="Profil" href="./espace.php" class="menu-link">
+                            <span>Profil</span>
+                            <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                        </a>
+                        <a title="Contact" href="./contact.php" class="menu-link">
+                            <span>Contact</span>
+                            <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                        </a>
+                    <?php elseif ($roleUtilisateur === 'employe'): ?>
+                        <a title="Profil" href="./espace.php" class="menu-link">
+                            <span>Profil</span>
+                            <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                        </a>
+                    <?php endif; ?>
+                    <a title="Deconnexion" href="./back/deconnexion.php" class="menu-link">
+                        <span>Se déconnecter</span>
+                        <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                    </a>
+                <?php else: ?>
+                    <a title="Inscription" href="./inscription.php" class="menu-link">
+                        <span>Inscription</span>
+                        <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                    </a>
+                    <a title="Connexion" href="./connexion.php" class="menu-link">
+                        <span>Connexion</span>
+                        <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                    </a>
+                    <a title="Contact" href="./contact.php" class="menu-link">
+                        <span>Contact</span>
+                        <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
+                    </a>
+                <?php endif; ?>
 
                     </section>
                 </section>

@@ -1,6 +1,6 @@
 <?php 
 
-require_once 'back/db.php'; // connexion PDO
+require_once 'db.php'; // connexion PDO
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
