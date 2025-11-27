@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'infosUtilisateur.php';
 
 $message = '';
 
@@ -11,7 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Veuillez renseigner l'email et le mot de passe.";
         //Vérifier si les infos sont bonnes
     } else {
-        $pdoStatement = $pdo->prepare('SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur WHERE email = :email');
+        $pdoStatement = $pdo->prepare("SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur 
+                                        WHERE email = :email");
         $pdoStatement->execute(['email' => $email]);
         $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
         if (!$user) {

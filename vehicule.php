@@ -28,7 +28,7 @@
     ?>
     <main>
         <h1 class="gros-titre">Mes véhicules :</h1>
-            <assectionide class="user-menu">
+            <section class="user-menu">
                 <!-- Info utilisateur -->
                 <section class="user-id">
                     <section class="user-name">
@@ -69,6 +69,7 @@
                             </tbody>
                         </table>
                     <?php endif; ?>
+            </section>
     </main>
     <!-- Footer -->
     <?php
