@@ -1,6 +1,9 @@
 <?php
 require 'back/infosUtilisateur.php';
 require 'back/switchPassagerChauffeur.php';
+require 'back/ajoutCompte.php';
+require 'back/graphique.php';
+require 'back/supCompte.php';
 
 // Exécuter le traitement d'ajout du véhicule uniquement si le formulaire est envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
@@ -24,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -178,6 +182,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     </ul>
                 </nav>
             </section>
+
+        <!-- Section Admin -->
+        <?php elseif ($roleUtilisateur === 'admin'): ?>
+            <section class="user-menu">
+                <section class="user-id">
+                    <section class="user-name">
+                        <img src="./assets/images/compte noir.png" alt="image compte noir">
+                        <span class="pseudo"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                    </section>
+                </section>
+                <nav class="passagerLink">
+                    <ul>
+                        <li><a href="#modal">Créer compte employé</a></li>
+                        <li><a href="#supCompte">Supprimer compte</a></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <p id="credit">Total des crédits gagné par la plateforme : <?= htmlspecialchars($totalCredits['totalCredits']) ?></p>
+
+            <!-- Graphiques -->
+             <section class="graphique">
+                <canvas id="graphique1"></canvas>
+                <canvas id="graphique2"></canvas>
+             </section>
+
+            <!-- Modal création compte employé -->
+            <section id="modal" class="modal">
+                <section class="compte">
+                    <a href="#" class="close">x</a>
+                    <h2>Création compte employé</h2>
+
+                <!-- Messages d'erreur ajout compte -->
+                <?php if (!empty($messageCompte)): ?>
+                    <p style="color: <?= ($compteValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                        <?= htmlspecialchars($messageCompte) ?>
+                    </p>
+                <?php endif; ?>
+
+
+                    <form method="POST" class="modal-content">
+
+                        <label>Email :
+                            <input type="email" name="email" required>
+                        </label>
+
+                        <label>Mot de passe :
+                            <input type="password" name="password" required>
+                        </label>
+
+                        <label>Pseudo :
+                            <input type="text" name="pseudo" required>
+                        </label>
+
+                        <label>Crédits :
+                            <input type="number" name="credits" min="1" required>
+                        </label>
+
+                        <input type="hidden" name="formType" value="ajoutCompte">
+
+                        <button class="button" id="btnCompte" type="submit">Créer</button>
+
+                    </form>
+                </section>
+            </section>
+
+            <!-- Modal suppression compte -->
+            <section id="supCompte" class="modal">
+                <section class="compte">
+                    <a href="#" class="close">x</a>
+                    <h2>Suppression compte</h2>
+
+                <!-- Messages compte -->
+                <?php if (!empty($messageSup)): ?>
+                    <p style="color: <?= ($compteSup ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                        <?= htmlspecialchars($messageSup) ?>
+                    </p>
+                <?php endif; ?>
+                    <form class="compteListe" action="" method="POST">
+                        <select id="liste" name="compte" required>
+                            <option value="" disabled selected hidden>Compte à supprimer</option>
+
+                            <?php if (!empty($compte)) : ?>
+                                <?php foreach ($compte as $c): ?>
+                                    <option value="<?= htmlspecialchars($c['utilisateur_id']) ?>">
+                                        <?= htmlspecialchars(ucfirst($c['pseudo'] ?? 'N/A')) ?>
+                                        - <?= htmlspecialchars(ucfirst($c['email'] ?? '')) ?>
+                                        - <?= htmlspecialchars(ucfirst($c['libelle'] ?? '')) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                        <button class="button" id="btnSupCompte" type="submit">Supprimer</button>
+                    </form>
+                </section>
+            </section>
         <?php endif; ?>
     </main>
 
@@ -186,5 +286,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
+        <!-- Script graphique -->
+        <script>
+
+            // Graphique 1
+            const date = <?php echo json_encode($date); ?>;
+            const total = <?php echo json_encode($total); ?>;
+
+            // Convertir les dates en format JJ/MM/AAAA
+            const dateFormatees = date.map(d => {
+                const obj = new Date(d);
+                return obj.toLocaleDateString('fr-FR');
+            });
+
+            new Chart(document.getElementById("graphique1"), {
+                type: 'bar',
+                data: {
+                    labels: dateFormatees,
+                    datasets: [{
+                        label: "Nombre de covoiturages par date",
+                        data: total,
+                        borderWidth: 2,
+                        barThickness: 30
+                    }]
+                },
+                options: {
+                    responsive: false, 
+                    scales: {
+                    y: {
+                        beginAtZero: true,   // <--- commence l'axe Y à zéro
+                        ticks: {
+                            stepSize: 1,    // <-- Valeurs tous les 1
+                            precision: 0    // <-- Pas de décimales
+                        },
+                    }
+                }
+                }
+            });
+            
+            // Graphique 2
+            const date2 = <?php echo json_encode($date2); ?>;
+            const totalCredit = <?php echo json_encode($totalCredit); ?>;
+
+            // Convertir les dates en format JJ/MM/AAAA
+            const dateFormatees2 = date2.map(d => {
+                const obj = new Date(d);
+                return obj.toLocaleDateString('fr-FR');
+            });
+
+            new Chart(document.getElementById("graphique2"), {
+                type: 'bar',
+                data: {
+                    labels: dateFormatees2,
+                    datasets: [{
+                        label: "Nombre de crédit par jours",
+                        data: totalCredit,
+                        borderWidth: 2,
+                        barThickness: 30
+                    }]
+                },
+                options: {
+                    responsive: false, 
+                    scales: {
+                    y: {
+                        beginAtZero: true,   // <--- commence l'axe Y à zéro
+                        ticks: {
+                            stepSize: 2,    // <-- Valeurs tous les 1
+                            precision: 0    // <-- Pas de décimales
+                        },
+                    }
+                }
+                }
+            });
+        </script>
 </body>
 </html>

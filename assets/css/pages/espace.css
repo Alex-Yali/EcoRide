@@ -68,6 +68,11 @@
     gap: 5rem;
 }
 
+#credit {
+    text-align: center;
+    margin: 3rem 0 0;
+}
+
 /* Section id utilisateur */
 .user-id {
     background-color: white;
@@ -221,6 +226,116 @@ input {
 /* Bouton */
 #btnInfo {
     margin-top: 1.25rem;
+}
+
+/* Section ajout compte employé */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    width: 90%;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.close {
+    position: absolute;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #267240;
+    top: 0.2rem;
+    right: 0.6rem;
+}
+
+h2 {
+    text-align: center;
+    text-decoration: underline;
+    margin: 0 0 0.5rem 0;
+    color: #267240;
+}
+
+.compte {
+    position: relative;
+    width: 25%;
+    margin: 15rem auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    gap: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+}
+
+.compte input {
+    width: 70%;
+    height: 1.3rem;
+    text-align: center;
+}
+
+.compte label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+#btnCompte {
+    margin: 1.25rem auto;
+    height: 1.7rem;
+    width: 7rem;
+}
+
+#btnSupCompte {
+    margin: 1rem auto 0.7rem;
+    height: 1.7rem;
+}
+
+/* --- Graphique --- */
+
+.graphique {
+    margin: 3rem auto 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+
+#graphique1, #graphique2 {
+    width: 40%;
+}
+
+/* --- Liste compte --- */
+.compteListe {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+
+}
+
+#liste {
+    text-align: center;
+    height: 1.5rem;
+    border: 0.125rem solid;
+    border-radius: 0.4rem;
 }
 
 /* --- Responsive --- */
