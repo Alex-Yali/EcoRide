@@ -31,7 +31,7 @@ require 'back/infosUtilisateur.php';
                             <span>Contact</span>
                             <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    
                         </a>
-                    <?php elseif ($roleUtilisateur === 'employe'): ?>
+                    <?php elseif ($roleUtilisateur === 'employe' || 'admin' ): ?>
                         <a title="Profil" href="./espace.php" class="menu-link">
                             <span>Profil</span>
                             <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">    

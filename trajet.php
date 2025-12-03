@@ -117,7 +117,7 @@
             <img src="./assets/images/voiture 1.jpg" id="voiture" alt="Illustration voiture">
         </section>
 
-            <!-- MODAL AJOUT VOITURE -->
+            <!-- Modal ajout voiture -->
             <section id="modal" class="modal">
                 <section class="voiture">
                     <a href="#" class="close">x</a>
