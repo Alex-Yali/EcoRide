@@ -1,8 +1,9 @@
 .detail {
+    width: 100%;
     display: flex;
     justify-content: center;
     gap: 6rem;
-    margin-top: 6rem;
+    margin: 6rem auto 1rem;
 }
 
 /* --- Detail utilisateur box --- */
@@ -224,11 +225,12 @@ h2 {
 }
 
 @media (max-width: 768px) {
-    .box-detail {
-        width: 30%;
+    .detail {
+        flex-direction: column;
+        align-items: center;
     }
-    .info-covoit {
-        width: 28rem;
+    .box-detail {
+        width: 50%;
     }
     .detail {
         gap: 1rem;
@@ -246,40 +248,25 @@ h2 {
         white-space: nowrap;
         font-size: 1.75rem !important;
     }
-    .detail {
-        flex-direction: column;
-        align-items: center;
-    }
+    /* --- Box chauffeur --- */
     .box-detail {
-        flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
-        height: 8rem;
-        width: 90%;
-        gap: 0.7rem;
+        width: 80%;
         padding-top: 1.5rem;
     }
     .user-detail {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-        width: 5rem;
+        margin-top: 0.3rem;
     }
     .detail-size {
         font-size: 0.75rem;
     }
-    .user-photo {
-        flex-direction: column;
-        align-items: center;
-        gap: 0;
-        margin-right: 1.25rem;
-    }
     .user-photo p {
         font-size: 0.8rem;
     }
+
+    /* --- Box covoiturage --- */
     .info-covoit {
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
         height: 9rem;
     }
     #date-covoit {
