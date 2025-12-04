@@ -86,33 +86,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                 <?php if (!isset($_SESSION['form_submitted'])): ?>
                     <section id="chauffeur-info">
                         <h2>Informations chauffeur</h2>
-                        <form action="espace.php" method="POST">
-                            <label>Plaque d’immatriculation :
-                                <input type="text" id="immat" name="immatriculation" required>
-                            </label>
-                            <label>Date de 1ère immatriculation :
-                                <input type="text" id="dateImmat" name="dateImmat" required>
-                            </label>
-                            <label>Marque :
-                                <input type="text" id="marque" name="marque" required>
-                            </label>
-                            <label>Modèle :
-                                <input type="text" id="modele" name="modele" required>
-                            </label>
-                            <label>Couleur :
-                                <input type="text" id="couleur" name="couleur" required>
-                            </label>
-                            <label>Places dispo :
-                                <input type="number" id="place" name="place" min="1" required>
-                            </label>
-                            <section class="energie">
-                                <label for="energie">Énergie utilisée :</label>
-                                <input list="typeEnergie" id="energie" name="energie" placeholder="Choisir énergie" required>
-                                <datalist id="typeEnergie">
-                                    <option value="Essence">
-                                    <option value="Diesel">
-                                    <option value="Électrique">
-                                </datalist>
+                        <form action="espace.php" method="POST" id="form">
+                            <section class="voitureInfo">
+                                <label>Plaque d’immatriculation :
+                                    <input type="text" id="immat" name="immatriculation" required>
+                                </label>
+                                <label>Date de 1ère immatriculation :
+                                    <input type="text" id="dateImmat" name="dateImmat" required>
+                                </label>
+                                <label>Marque :
+                                    <input type="text" id="marque" name="marque" required>
+                                </label>
+                                <label>Modèle :
+                                    <input type="text" id="modele" name="modele" required>
+                                </label>
+                                <label>Couleur :
+                                    <input type="text" id="couleur" name="couleur" required>
+                                </label>
+                                <label>Places dispo :
+                                    <input type="number" id="place" name="place" min="1" required>
+                                </label>
+                                <section class="energie">
+                                    <label for="energie">Énergie utilisée :</label>
+                                    <input list="typeEnergie" id="energie" name="energie" placeholder="Choisir énergie" required>
+                                    <datalist id="typeEnergie">
+                                        <option value="Essence">
+                                        <option value="Diesel">
+                                        <option value="Électrique">
+                                    </datalist>
+                                </section>
                             </section>
 
                             <section class="separateurFiltres"></section>
@@ -307,7 +309,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                         label: "Nombre de covoiturages par date",
                         data: total,
                         borderWidth: 2,
-                        barThickness: 30
+                        categoryPercentage: 0.7,   // espace pris par les barres dans la catégorie
+                        barPercentage: 0.9          // largeur interne des barres
                     }]
                 },
                 options: {
@@ -342,7 +345,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                         label: "Nombre de crédit par jours",
                         data: totalCredit,
                         borderWidth: 2,
-                        barThickness: 30
+                        categoryPercentage: 0.7,   // espace pris par les barres dans la catégorie
+                        barPercentage: 0.9          // largeur interne des barres
                     }]
                 },
                 options: {

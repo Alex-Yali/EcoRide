@@ -1,7 +1,6 @@
 /* --- Titre --- */
 h1 {
-    margin-top: 4rem; 
-    margin-bottom: 3.75rem;
+    margin: 4rem 0 3.75rem;
     text-align: center;
     font-size: clamp(2rem, 5vw, 2.75rem);
     color: #267240;
@@ -12,44 +11,48 @@ h1 {
 .descri {
     display: flex;
     justify-content: center;
-    gap: 2.5rem; 
-    padding-top: 5rem; 
+    gap: 2.5rem;
+    padding-top: 5rem;
 }
 
+/* Boîtes communes */
 .image-voiture,
 .text-box {
-    max-width: 22rem; 
-    height: 13rem; 
+    max-width: 22rem;
+    height: 13rem;
     border-radius: 1rem;
-    box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.15);
     background-color: white;
+    box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.15);
+    border: 1px solid #ccc;
     text-align: center;
     position: relative;
-    border: 1px solid #ccc;
 }
 
+/* Organisation des blocs */
 .image-descri {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem; 
+    gap: 1.25rem;
 }
 
+/* Titres internes */
 h2 {
-    color: #267240;
-    font-size: 1.25rem;
     margin: 0;
-    padding-top: 1rem; 
+    padding-top: 1rem;
+    font-size: 1.25rem;
+    color: #267240;
 }
 
+/* Description texte */
 .text {
+    padding: 0.6rem;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 0.6rem; 
 }
 
 /* --- Image forêt --- */
 .image-foret {
     width: 100%;
-    margin-top: -13.5rem; 
+    margin-top: -13.5rem;
     display: block;
 }
 
@@ -59,25 +62,24 @@ h2 {
     .descri {
         flex-direction: column;
         align-items: center;
-        padding-bottom: 2rem; 
-        gap: 2rem; 
+        padding-bottom: 2rem;
+        gap: 2rem;
     }
 
     .image-descri {
         flex-direction: row;
-        gap: 2rem; 
+        gap: 2rem;
     }
 
-    .image-foret{
+    .image-foret {
         margin-top: 0;
     }
 }
 
 @media (max-width: 426px) {
- 
+
     .image-descri {
         flex-direction: column;
         width: 80%;
     }
-
 }

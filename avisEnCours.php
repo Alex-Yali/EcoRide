@@ -89,15 +89,15 @@
                             <tbody>
                                 <?php if (!empty($infos)): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars(ucfirst($infos['covoiturage_id'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['passager_pseudo'] ?? 'N/A')) ?> </td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['passager_email'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['chauffeur_pseudo'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['chauffeur_email'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['lieu_depart'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['date_depart'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['lieu_arrivee'] ?? 'N/A')) ?></td>
-                                        <td><?= htmlspecialchars(ucfirst($infos['date_arrivee'] ?? 'N/A')) ?></td>
+                                        <td data-label="Numéro covoiturage"><?= htmlspecialchars(ucfirst($infos['covoiturage_id'] ?? 'N/A')) ?></td>
+                                        <td data-label="Pseudo passager"><?= htmlspecialchars(ucfirst($infos['passager_pseudo'] ?? 'N/A')) ?></td>
+                                        <td data-label="Email passager"><?= htmlspecialchars(ucfirst($infos['passager_email'] ?? 'N/A')) ?></td>
+                                        <td data-label="Pseudo chauffeur"><?= htmlspecialchars(ucfirst($infos['chauffeur_pseudo'] ?? 'N/A')) ?></td>
+                                        <td data-label="Email chauffeur"><?= htmlspecialchars(ucfirst($infos['chauffeur_email'] ?? 'N/A')) ?></td>
+                                        <td data-label="Lieu Départ"><?= htmlspecialchars(ucfirst($infos['lieu_depart'] ?? 'N/A')) ?></td>
+                                        <td data-label="Date Départ"><?= htmlspecialchars(ucfirst($infos['date_depart'] ?? 'N/A')) ?></td>
+                                        <td data-label="Lieu Arrivée"><?= htmlspecialchars(ucfirst($infos['lieu_arrivee'] ?? 'N/A')) ?></td>
+                                        <td data-label="Date Arrivée"><?= htmlspecialchars(ucfirst($infos['date_arrivee'] ?? 'N/A')) ?></td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>

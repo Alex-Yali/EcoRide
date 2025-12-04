@@ -35,7 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
         $energie = strtolower($energie);
 
         try {
-            $pdo->beginTransaction();
+            if (!$pdo->inTransaction()) {
+                $pdo->beginTransaction();
+            }
 
             // 1. Vérifier si la voiture existe déjà (par immatriculation)
             $sqlVoiture = "SELECT voiture_id FROM voiture WHERE immatriculation = :immat";
@@ -145,10 +147,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $_SESSION['form_submitted'] = true; // Formulaire envoyé
 }
 
-        } catch (PDOException $e) {
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
             $pdo->rollBack();
-            $messageVoiture  = "Erreur lors de l’ajout : " . $e->getMessage();
         }
+        $messageVoiture = "Erreur lors de l’ajout : " . $e->getMessage();
+    }
     }
 }
 ?>

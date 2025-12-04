@@ -90,7 +90,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 12.5rem;
     gap: 0.3rem;
 }
 
@@ -141,8 +140,6 @@ ul {
 .passagerLink li, .chauffeurLink li {
     margin-top: 1rem;
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
 }
 
 .passagerLink li :hover, .chauffeurLink li :hover {
@@ -166,10 +163,10 @@ h2 {
     border: 1px solid #ccc;
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.87rem;
+    padding: 1rem;
     flex-direction: column;
     width: 40%;
-    margin: 1.25rem auto 0;
+    margin: 1.25rem auto 1rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
 }
 
@@ -180,6 +177,11 @@ h2 {
     padding: 0.3rem;
 }
 
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .user-pref fieldset {
     border: none;      
 }
@@ -264,7 +266,7 @@ input {
     right: 0.6rem;
 }
 
-h2 {
+.modal h2 {
     text-align: center;
     text-decoration: underline;
     margin: 0 0 0.5rem 0;
@@ -339,65 +341,118 @@ h2 {
 }
 
 /* --- Responsive --- */
+@media (max-width: 1440px) {
+    /* --- Box infos chauffeur --- */
+    #chauffeur-info {
+        width: 60%;
+    }
+}
+
 @media (max-width: 1024px) {
+    /* --- Box lien passager / employé / admin --- */
     .passagerLink li {
         gap: 5rem;
     }
-    #chauffeur-info {
+
+    /* --- Graphique --- */
+    .graphique {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+    #graphique1, #graphique2 {
+            width: 60%;
+        }
+
+    /* --- Modal création / suppression compte --- */
+    .compte {
         width: 50%;
-        margin-left: 1rem;
     }
 }
 
 @media (max-width: 768px) {
+    /* --- Box lien passager / employé / admin --- */
     .passagerLink li {
         gap: 1.87rem;
     }
+
+    /* --- Box infos chauffeur --- */
     #chauffeur-info {
-        width: 60%;
-        margin-left: 1rem;
+        width: 80%;
     }
 }
 
 @media (max-width: 426px) {
+
+    #user-type label {
+        padding: 0;
+    }
+
+    /* --- Section card utilisateur / section liens --- */
     .user-id {
-        position: relative;
-        left: 0.62rem;
+        margin: 0 auto;
         font-size: 0.87rem;
         display: flex;
-        padding: 0;
-        width: 95%;
-        align-items: center;
+        justify-content: space-evenly;
+        padding: 0.5rem;
+        width: 80%;
     }
     .user-menu {
         flex-direction: column;
     }
-    .user-link {
-        margin-left: 0.62rem;
-        margin-right: 0.62rem;
+
+    .user-name {
+        flex-direction: row;
+    }
+    .user-name img {
+        width: 2rem;
     }
     .user-info {
-        margin-top: 0.62rem;
-        flex-direction: column;
-        align-items: flex-start;
+        margin: 0;
+        gap: 0.5rem;
     }
     .user-info span {
         font-size: 0.75rem;
     }
-    h1 {
-        white-space: nowrap;
+    .passagerLink, .chauffeurLink {
+        padding: 1rem;
+        width: 80%;
+        margin: 0 auto;
     }
+    .passagerLink li, .chauffeurLink li {
+        justify-content: center;
+    }
+
+    /* --- Radio --- */
     #user-type label {
         font-size: 0.87rem;
     }
-    #chauffeur-info {
-        margin-left: 0.62rem;
-        margin-right: 0.62rem;
-        width: 80%;
-    }
-    #chauffeur-info label {
+
+    /* --- Section card voiture / pref --- */
+    .voitureInfo label {
         font-size: 0.87rem;
         white-space: nowrap;
         flex-direction: column;
+    }
+    .user-pref {
+        flex-direction: column;
+        align-items: center;
+    }
+    .user-pref label {
+        display: flex;
+        flex-direction: row;
+    }
+    .energie {
+        flex-direction: column;
+    }
+
+    /* --- Graphique --- */
+    #graphique1, #graphique2 {
+        width: 98%;
+    }
+
+    /* --- Modal création / suppression compte --- */
+    .compte {
+        width: 80%;
     }
 }

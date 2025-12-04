@@ -49,6 +49,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 #date-covoit {
@@ -59,12 +60,11 @@
     color: #267240;
 }
 .info-covoit {
-    margin: 0 auto 0;
+    margin: 0 auto 1.25rem;
     background-color: white;
     border-radius: 1rem;
     width: 50rem;
     height: 9rem;
-    margin-bottom: 1.25rem;
 }
 
 .time-covoit {
@@ -279,22 +279,116 @@ h3, legend {
 }
 
 /* --- Responsive --- */
+@media (max-width: 1024px) {
+    .userCovoit {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
 @media (max-width: 768px) {
+    .user-id {
+        width: 20%;
+    }
     .info-covoit {
         width: 95%;
+        height: auto;
     }
-
+    .user-name {
+        width: auto;
+    }
     .nbr-place {
         padding-left: 3rem;
     }
-
+    .perso-avis p {
+        width: 5rem;
+    }
     #btnDetail {
         height: 2.5rem;
         margin: 0.6rem 1rem 0 23rem;
     }
-
     .perso-avis {
         font-size: 0.87rem;
         width: 3rem;
     }
+    .perso-covoit {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 426px) {
+    .user-id {
+        width: auto;
+        margin: 0;
+    }
+    .icon-ecolo {
+        width: 1.4rem;
+    }
+    .icon-elec {
+        width: 2rem;
+    }
+    .time span {
+        font-size: 0.75rem;
+    }
+    #note h1 {
+        margin-bottom: 0;
+    }
+    #date-covoit {
+        font-size: 0.87rem;
+        padding-left: 1.25rem;
+    }
+    .box-covoit {
+        margin: 0 0 1rem 0;
+        height: auto;
+    }
+    .time-covoit {
+        width: 95%;
+        padding-left: 1rem;
+    }
+    .start-time p,.end-time p,.nbr-place p, .perso-avis p, .perso-covoit span, label, #btnValider {
+        font-size: 0.75rem;
+    }
+    .ligne {
+        width: 6.25rem;
+        margin-left: 2rem;
+    }
+    .ligne:after {
+        margin-left: 6rem;
+    }
+    .duree {
+        font-size: 0.6rem;
+        margin: 0 auto 0 5rem;
+    }
+    .nbr-place {
+        padding-left: 2rem;
+    }
+    .prix-place {
+        padding-left: 1.25rem;
+        font-size: 0.8rem;
+    }
+    .icon-perso {
+        width: 1.25rem;
+    }
+    .perso-covoit {
+        margin: 0;
+    }
+    .perso {
+        padding: 0;
+        gap: 0.5rem;
+    }
+    .button {
+        margin: 0 1rem 0;
+        width: auto;
+        height: auto;
+        padding: 0.5rem;
+        font-size: 0.7rem;
+    }
+    #btnAnnuler {
+        margin: 0;
+        width: 6rem;
+    }
+    #btnValider {
+        height: auto;
+    }
+
 }

@@ -52,8 +52,9 @@ textarea {
     }
 }
 
-@media (max-width : 1024px) {
+@media (max-width : 426px) {
     #contact-form {
-        width: 70%;
+        width: 80%;
     }
 }
+
