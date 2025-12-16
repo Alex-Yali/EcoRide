@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -87,6 +88,11 @@ if (!empty($mesCovoit)) {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'envoyer') {
+
+        // Vérification CSRF
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            throw new Exception("Erreur CSRF : requête invalide.");
+        }
 
         // Récupération des données du formulaire
         $avis = $_POST['avis'] ?? '';

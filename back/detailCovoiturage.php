@@ -1,6 +1,8 @@
 <?php
 require_once 'db.php'; // Connexion PDO
 require_once 'back/infosUtilisateur.php';
+require_once 'back/mongo.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -39,9 +41,7 @@ try {
                     v.energie,
                     m.marque_id,
                     m.libelle AS marqueVoiture,
-                    a.commentaire,
-                    p.preference_id,
-                    p.libelle AS preferences
+                    a.commentaire
                 FROM utilisateur u
                 LEFT JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
                 JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
@@ -51,8 +51,6 @@ try {
                 LEFT JOIN avis a ON d.avis_avis_id = a.avis_id
                 LEFT JOIN detient de ON de.voiture_voiture_id = v.voiture_id
                 LEFT JOIN marque m ON m.marque_id = de.marque_marque_id
-                LEFT JOIN fournir f ON f.utilisateur_utilisateur_id = pa.utilisateur_utilisateur_id
-                LEFT JOIN preference p ON p.preference_id = f.preference_preference_id
                 WHERE c.covoiturage_id = :id
                 AND pa.chauffeur = 1
                 ";
@@ -64,8 +62,24 @@ try {
     // On prend la première ligne pour les infos générales
     $covoitDetail = $covoit[0];
 
-    // On regroupe les préférences (car il peut y en avoir plusieurs)
-    $preferences = array_unique(array_column($covoit, 'preferences'));
+    // Gerer les preferences
+    $preferences = []; 
+
+    $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
+
+    if ($idChauffeur) {
+        $doc = $collectionPreferences->findOne([
+            'utilisateur_id' => (int)$idChauffeur
+        ]);
+
+        if ($doc && !empty($doc['preferences'])) {
+            foreach ($doc['preferences'] as $key => $value) {
+                if (!empty($value)) {
+                    $preferences[] = "$key : $value";
+                }
+            }
+        }
+    }
 
     // Fonction date covoiturage (en français)
     $dateDetail = new DateTime($covoitDetail['date_depart']);
@@ -77,6 +91,10 @@ try {
     $dateDetailCovoit = mb_convert_case($fmt->format($dateDetail), MB_CASE_TITLE, "UTF-8");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'oui') {
+
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            throw new Exception("Erreur CSRF : requête invalide.");
+        }
 
         // Enlever crédits a l'utilisateur
         $prixCovoit = $covoitDetail['prix_personne'];
@@ -120,7 +138,6 @@ try {
                 ]);
         return $stmtCheck->fetchColumn() > 0 ;
         }
-
 
 }catch (PDOException $e) {
     echo "<p>Erreur : " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "</p>";

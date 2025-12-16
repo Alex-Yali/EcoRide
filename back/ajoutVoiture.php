@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php'; // connexion PDO
+require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
@@ -13,6 +14,13 @@ if (!$idUtilisateur) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
+
+            // Vérification CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $messageVoiture = "Erreur CSRF : Requête invalide.";
+        return; 
+    }
+
     $immat = trim($_POST['immatriculation'] ?? '');
     $dateImmat = trim($_POST['dateImmat'] ?? '');
     $modele = trim($_POST['modele'] ?? '');
@@ -20,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $marque = trim($_POST['marque'] ?? '');
     $energie = trim($_POST['energie'] ?? '');
     $place = trim($_POST['place'] ?? '');
-    $tabac = trim($_POST['tabac'] ?? '');
-    $animal = trim($_POST['animal'] ?? '');
-    $ajoutPref = trim($_POST['ajoutPref'] ?? '');
+    $tabac = ucfirst(trim($_POST['tabac'] ?? ''));
+    $animal = ucfirst(trim($_POST['animal'] ?? ''));
+    $autre = ucfirst(trim($_POST['ajoutPref'] ?? ''));
 
     // Vérifier si un champ est vide
     if ($immat === '' || $dateImmat === '' || $modele === '' || $couleur === '' ||
@@ -92,45 +100,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                 $stmtGere = $pdo->prepare($sqlGere);
                 $stmtGere->execute([':idUtilisateur' => $idUtilisateur, ':idVoiture' => $idVoiture]);
 
-                // 6. Ajouter préférences (dédupliquer pour éviter doublons)
-                $preferences = array_unique([$tabac, $animal, $ajoutPref]);
-
-                foreach ($preferences as $pref) {
-                    if ($pref !== '') {
-                        // Vérifier si la préférence existe
-                        $sqlPref = "SELECT preference_id FROM preference WHERE libelle = :pref";
-                        $stmtPref = $pdo->prepare($sqlPref);
-                        $stmtPref->execute([':pref' => $pref]);
-                        $resultPref = $stmtPref->fetch(PDO::FETCH_ASSOC);
-                        if (!$resultPref) {
-                            $sqlInsertPref = "INSERT INTO preference (libelle) VALUES (:pref)";
-                            $stmtInsertPref = $pdo->prepare($sqlInsertPref);
-                            $stmtInsertPref->execute([':pref' => $pref]);
-                            $idPref = $pdo->lastInsertId();
-                        } else {
-                            $idPref = $resultPref['preference_id'];
-                        }
-
-                        // Vérifier si la relation utilisateur–préférence existe déjà
-                        $sqlCheckPref = "SELECT 1 FROM fournir 
-                                        WHERE utilisateur_utilisateur_id = :idUtilisateur 
-                                        AND preference_preference_id = :idPref";
-                        $stmtCheckPref = $pdo->prepare($sqlCheckPref);
-                        $stmtCheckPref->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
-                        $existPref = $stmtCheckPref->fetchColumn();
-
-                        if (!$existPref) {
-                            $sqlFournir = "INSERT INTO fournir (utilisateur_utilisateur_id, preference_preference_id)
-                                            VALUES (:idUtilisateur, :idPref)";
-                            $stmtFournir = $pdo->prepare($sqlFournir);
-                            $stmtFournir->execute([':idUtilisateur' => $idUtilisateur, ':idPref' => $idPref]);
-                        }
-                    }
-                }
-
                 $voitureValide = true;
                 $messageVoiture  = "Véhicule ajouté avec succès.";
             }
+
+            // Connexion MongoDB
+            require_once 'mongo.php'; 
+
+            $preferencesMongo = [
+                "tabac" => $tabac,
+                "animal" => $animal,
+                "autre" => $autre
+            ];
+
+            // Sauvegarde ou mise à jour dans MongoDB
+            $collectionPreferences->updateOne(
+                ["utilisateur_id" => (int)$idUtilisateur],
+                ['$set' => ["preferences" => $preferencesMongo]],
+                ['upsert' => true]
+            );
 
             $pdo->commit();
 

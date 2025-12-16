@@ -1,6 +1,9 @@
 <?php require 'back/mesVoitures.php';
  require 'back/ajoutVoitureTrajet.php';
- require 'back/ajoutTrajet.php'; ?>
+ require 'back/ajoutTrajet.php';
+ require_once 'back/csrf.php';
+ $csrf = generate_csrf_token();
+ ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -40,6 +43,8 @@
         <form id="trajet" method="POST">
 
             <section class="ajouter-trajet">
+
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
 
                 <!-- Départ -->
                 <section class="nav-cat">
@@ -132,6 +137,8 @@
 
 
                     <form method="POST" class="modal-content">
+
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
 
                         <label>Plaque d’immatriculation :
                             <input type="text" name="immatriculation" required>
