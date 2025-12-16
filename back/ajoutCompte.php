@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php'; // connexion PDO
+require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $compteValide = false;
@@ -13,6 +14,13 @@ if (!$idUtilisateur) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutCompte') {
+
+        // Vérification CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $messageCompte = "Erreur CSRF : requête invalide.";
+        return;
+    }
+
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $pseudo = trim($_POST['pseudo'] ?? '');
@@ -40,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);
 
             if ($compte) {
-                $idCompte = $compte['utilisateur_id'];
                 $messageCompte  = "Un utilisateur avec cette adresse email existe déjà.";
                 $compteValide = false;
             } else {
@@ -82,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             $stmtPossede = $pdo->prepare($sqlPossede);
             $stmtPossede->execute([
                 ':idUtilisateur' => $idUtilisateur,
-                    ':idRole' => $idRole
+                ':idRole' => $idRole
                 ]);
 
             $messageCompte  = "Compte ajouté avec succès.";
@@ -94,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
         } catch (PDOException $e) {
             $pdo->rollBack();
             $messageCompte  = "Erreur lors de l’ajout : " . $e->getMessage();
+            error_log("Erreur ajout compte : " . $e->getMessage());
         }
     }
 }

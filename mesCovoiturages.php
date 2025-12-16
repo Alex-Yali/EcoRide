@@ -1,6 +1,8 @@
 <?php
 require 'back/covoiturageEnCours.php';
 require 'back/infosUtilisateur.php';
+require 'back/csrf.php'; 
+$csrf = generate_csrf_token();
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +54,7 @@ require 'back/infosUtilisateur.php';
                             $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
                         ?>
                         <form class="box-covoit" action="" method="POST">
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                             <p id="date-covoit"><?= htmlspecialchars($c['date_formatee']) ?></p>
                             <section class="info-covoit">
                                 <section class="time-covoit">

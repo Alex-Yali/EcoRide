@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php'; // connexion PDO
+require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
@@ -13,6 +14,12 @@ if (!$idUtilisateur) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
+
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $messageVoiture = "Erreur CSRF : requête invalide.";
+        return;
+        }
+
     $immat = trim($_POST['immatriculation'] ?? '');
     $dateImmat = trim($_POST['dateImmat'] ?? '');
     $modele = trim($_POST['modele'] ?? '');

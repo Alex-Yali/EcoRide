@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -71,6 +72,12 @@ try {
 
     // Gestion des actions POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $covoiturage_id > 0) {
+
+        // Vérification CSRF
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            throw new Exception("Erreur CSRF : requête invalide.");
+        }
+
         $action = $_POST['action'] ?? '';
         $statut = match ($action) {
             'demarrer' => 'Demarrer',

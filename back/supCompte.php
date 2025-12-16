@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php'; // connexion PDO
+require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $compteSup = false;
@@ -28,6 +29,11 @@ try {
     $compte = $stmtCompte->fetchAll(PDO::FETCH_ASSOC);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['compte'])) {
+
+    // Vérification CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        throw new Exception("Erreur CSRF : requête invalide.");
+    }
 
     // 2. Supprimer le role dans possede
 

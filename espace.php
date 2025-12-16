@@ -4,6 +4,9 @@ require 'back/switchPassagerChauffeur.php';
 require 'back/ajoutCompte.php';
 require 'back/graphique.php';
 require 'back/supCompte.php';
+require 'back/csrf.php'; 
+$csrf = generate_csrf_token();
+
 
 // Exécuter le traitement d'ajout du véhicule uniquement si le formulaire est envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
@@ -48,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
             <section class="user-box">
                 <form id="user-type" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                     <fieldset>
                         <legend>Je suis :</legend>
                         <label><input type="radio" name="user-role" value="passager" <?php if ($radio === 'passager') echo 'checked'; ?>> Passager</label>
@@ -87,6 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     <section id="chauffeur-info">
                         <h2>Informations chauffeur</h2>
                         <form action="espace.php" method="POST" id="form">
+
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                             <section class="voitureInfo">
                                 <label>Plaque d’immatriculation :
                                     <input type="text" id="immat" name="immatriculation" required>
@@ -226,6 +232,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
                     <form method="POST" class="modal-content">
 
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
+
                         <label>Email :
                             <input type="email" name="email" required>
                         </label>
@@ -263,6 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     </p>
                 <?php endif; ?>
                     <form class="compteListe" action="" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                         <select id="liste" name="compte" required>
                             <option value="" disabled selected hidden>Compte à supprimer</option>
 

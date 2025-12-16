@@ -1,6 +1,8 @@
 <?php
 require 'back/historiqueCovoiturage.php';
 require 'back/infosUtilisateur.php';
+require 'back/csrf.php'; 
+$csrf = generate_csrf_token();
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +101,7 @@ require 'back/infosUtilisateur.php';
                             <?php if (($idUtilisateur !== $conducteur_id) && !$dejaAvis): ?>
                             <section class="avis-covoit">
                                 <form action="" class="formAvis" method="POST">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                                     <!-- Étape 1 -->
                                     <section class="formAvisCovoit">
                                         <fieldset>

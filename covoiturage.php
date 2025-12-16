@@ -1,5 +1,7 @@
 <?php
 require_once 'back/infosCovoiturage.php';
+require_once 'back/csrf.php';
+$csrf = generate_csrf_token();
 
 // Récupération des filtres optionnels pour conserver les valeurs dans le formulaire
 $maxPrix = trim($_POST['maxPrix'] ?? '');
@@ -46,6 +48,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
             <!-- Filtres latéraux -->
             <form class="filtres" action="" method="POST">
                 <!-- Inputs cachés pour conserver la recherche -->
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                 <input type="hidden" name="depart" value="<?= htmlspecialchars($_POST['depart'] ?? '') ?>">
                 <input type="hidden" name="arrivee" value="<?= htmlspecialchars($_POST['arrivee'] ?? '') ?>">
                 <input type="hidden" name="date" value="<?= htmlspecialchars($_POST['date'] ?? '') ?>">
