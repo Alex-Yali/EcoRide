@@ -100,8 +100,6 @@ if (!empty($mesCovoit)) {
         $commentaire = trim($_POST['commentaire'] ?? '');
         $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
 
-
-
         // Chercher le covoiturage correspondant
         $prixParPersonne = 0;
         $conducteur_id = 0;

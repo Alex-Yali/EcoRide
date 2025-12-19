@@ -97,11 +97,6 @@ try {
                 die("Action non autorisée.");
             }
 
-            // Mise à jour du statut du covoiturage
-            $sqlStatut = "UPDATE covoiturage SET statut = :statut WHERE covoiturage_id = :id";
-            $stmtStatut = $pdo->prepare($sqlStatut);
-            $stmtStatut->execute([':statut' => $statut, ':id' => $covoiturage_id]);
-
             // Trajet terminé par le chauffeur"
             if ($statut === 'Terminer' && $participant['chauffeur'] == 1) {
                 // Récupérer infos du covoiturage
@@ -148,6 +143,11 @@ try {
                 if ($participant['chauffeur'] == 1) {
                     //  --- Le chauffeur annule le trajet ---
 
+                    //  Statut annuler
+                    $sqlStatut = "UPDATE covoiturage SET statut = 'Annuler' WHERE covoiturage_id = ?";
+                    $stmtStatut = $pdo->prepare($sqlStatut);
+                    $stmtStatut->execute([$covoiturage_id]);
+
                     // Récupérer tous les passagers
                     $sqlPassagers = "SELECT u.utilisateur_id, u.email, u.pseudo 
                                     FROM participe p
@@ -190,7 +190,9 @@ try {
                     $stmtPlacesTotales = $pdo->prepare($sqlPlacesTotales);
                     $stmtPlacesTotales->execute([$nbPlacesTotales, $covoiturage_id]);
 
-                } else {
+                }
+            }
+            if ($participant['chauffeur'] == 0) {
                     //  --- Un passager annule ---
                     if ($prix > 0) {
                         // 1️ Remboursement du passager
@@ -209,7 +211,6 @@ try {
                         $stmtDeleteParticipe->execute([$covoiturage_id, $idUtilisateur]);
                     }
                 }
-            }
             // Rafraîchissement
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
