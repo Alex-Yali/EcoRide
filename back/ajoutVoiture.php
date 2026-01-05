@@ -7,13 +7,30 @@ require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
+$voitureExiste = false;
 
 if (!$idUtilisateur) {
     $messageVoiture  = "Erreur : aucun utilisateur connecté.";
     return;
 }
 
+if (!empty($_SESSION['user_id'])) {
+    $sqlCheckVoiture = " SELECT 1
+                        FROM gere
+                        WHERE utilisateur_utilisateur_id = :id
+                        LIMIT 1 ";
+    $stmtCheckVoiture = $pdo->prepare($sqlCheckVoiture);
+    $stmtCheckVoiture->execute([':id' => $_SESSION['user_id']]);
+    $voitureExiste = $stmtCheckVoiture->fetchColumn() !== false;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
+
+        if ($voitureExiste) {
+        $messageVoiture = "Vous avez déjà enregistré un véhicule.";
+        $voitureValide = false;
+        return;
+    }
 
             // Vérification CSRF
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
@@ -121,19 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             );
 
             $pdo->commit();
+            header('Location: espace.php?voiture=ok');
+            exit;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $_SESSION['form_data'] = [
-        'immat' => $_POST['immatriculation'] ?? '',
-        'dateImmat' => $_POST['dateImmat'] ?? '',
-        'modele' => $_POST['modele'] ?? '',
-        'couleur' => $_POST['couleur'] ?? '',
-        'marque' => $_POST['marque'] ?? '',
-        'energie' => $_POST['energie'] ?? '',
-        'place' => $_POST['place'] ?? ''
-    ];
-    $_SESSION['form_submitted'] = true; // Formulaire envoyé
-}
 
     } catch (PDOException $e) {
         if ($pdo->inTransaction()) {

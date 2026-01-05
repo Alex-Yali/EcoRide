@@ -97,6 +97,12 @@ try {
                 die("Action non autorisée.");
             }
 
+            if ($statut === 'Demarrer' || $statut === 'Terminer') {
+            // Mise à jour du statut du covoiturage
+            $sqlStatut = "UPDATE covoiturage SET statut = :statut WHERE covoiturage_id = :id";
+            $stmtStatut = $pdo->prepare($sqlStatut);
+            $stmtStatut->execute([':statut' => $statut, ':id' => $covoiturage_id]);
+
             // Trajet terminé par le chauffeur"
             if ($statut === 'Terminer' && $participant['chauffeur'] == 1) {
                 // Récupérer infos du covoiturage
@@ -128,6 +134,7 @@ try {
                     @mail($to, $subject, $messageMail);
                 }
             }
+        }
 
             // Si Annulation
             if ($statut === 'Annuler') {
@@ -179,11 +186,6 @@ try {
                         @mail($to, $subject, $messageMail);
                     }
 
-                    // 3️ Supprimer toutes les participations
-                    $sqlDelete = "DELETE FROM participe WHERE covoiturage_covoiturage_id = ?";
-                    $stmtDelete = $pdo->prepare($sqlDelete);
-                    $stmtDelete->execute([$covoiturage_id]);
-
                     // 4️ Remettre toutes les places disponibles
                     $nbPlacesTotales = count($passagers) + $covoitInfos['nb_place'];
                     $sqlPlacesTotales = "UPDATE covoiturage SET nb_place = ? WHERE covoiturage_id = ?";
@@ -204,11 +206,6 @@ try {
                         $sqlPlacePassager = "UPDATE covoiturage SET nb_place = nb_place + 1 WHERE covoiturage_id = ?";
                         $stmtPlacePassager = $pdo->prepare($sqlPlacePassager);
                         $stmtPlacePassager->execute([$covoiturage_id]);
-
-                        // 3️ Supprimer la participation du passager
-                        $sqlDeleteParticipe = "DELETE FROM participe WHERE covoiturage_covoiturage_id = ? AND utilisateur_utilisateur_id = ?";
-                        $stmtDeleteParticipe = $pdo->prepare($sqlDeleteParticipe);
-                        $stmtDeleteParticipe->execute([$covoiturage_id, $idUtilisateur]);
                     }
                 }
             // Rafraîchissement
