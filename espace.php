@@ -5,13 +5,9 @@ require 'back/ajoutCompte.php';
 require 'back/graphique.php';
 require 'back/supCompte.php';
 require 'back/csrf.php'; 
+require 'back/ajoutVoiture.php';
 $csrf = generate_csrf_token();
 
-
-// Exécuter le traitement d'ajout du véhicule uniquement si le formulaire est envoyé
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutVoiture') {
-    require 'back/ajoutVoiture.php';
-}
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
 
             <!-- Section Chauffeur -->
             <?php elseif ($radio === 'chauffeur' || $radio === 'lesDeux'): ?>
-                <?php if (!isset($_SESSION['form_submitted'])): ?>
+                <?php if (!$voitureExiste): ?>
                     <section id="chauffeur-info">
                         <h2>Informations chauffeur</h2>
                         <form action="espace.php" method="POST" id="form">
@@ -326,10 +322,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     responsive: false, 
                     scales: {
                     y: {
-                        beginAtZero: true,   // <--- commence l'axe Y à zéro
+                        beginAtZero: true,   // commence l'axe Y à zéro
                         ticks: {
-                            stepSize: 1,    // <-- Valeurs tous les 1
-                            precision: 0    // <-- Pas de décimales
+                            stepSize: 1,    // Valeurs tous les 1
+                            precision: 0    //  Pas de décimales
                         },
                     }
                 }
@@ -362,10 +358,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
                     responsive: false, 
                     scales: {
                     y: {
-                        beginAtZero: true,   // <--- commence l'axe Y à zéro
+                        beginAtZero: true,   
                         ticks: {
-                            stepSize: 2,    // <-- Valeurs tous les 1
-                            precision: 0    // <-- Pas de décimales
+                            stepSize: 2,    
+                            precision: 0    
                         },
                     }
                 }

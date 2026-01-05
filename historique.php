@@ -98,7 +98,7 @@ $csrf = generate_csrf_token();
                             <?php 
                             $conducteur_id = $c['conducteur_id'];
                             $dejaAvis = avisDejaDonne ($pdo, $idUtilisateur, $c['covoiturage_id'], $conducteur_id); ?>
-                            <?php if (($idUtilisateur !== $conducteur_id) && !$dejaAvis): ?>
+                            <?php if (($idUtilisateur !== $conducteur_id) && !$dejaAvis && $c['statut'] !== 'Annuler'): ?>
                             <section class="avis-covoit">
                                 <form action="" class="formAvis" method="POST">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">

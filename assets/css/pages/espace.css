@@ -75,6 +75,7 @@
 
 /* Section id utilisateur */
 .user-id {
+    align-content: center;
     background-color: white;
     border-radius: 1.25rem;
     padding: 1.87rem;
