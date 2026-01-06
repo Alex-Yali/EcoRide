@@ -142,6 +142,12 @@ $csrf = generate_csrf_token();
                         </section>
                     </form>
                 <?php endif; ?>
+                <!-- Message de succès / erreur -->
+            <?php if (!empty($messageCovoit)): ?>
+                <p style="color: <?= ($covoitValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
+                    <?= htmlspecialchars($messageCovoit) ?>
+                </p>
+            <?php endif; ?>
             </section>
         </section>
     </main>
