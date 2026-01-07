@@ -44,7 +44,17 @@ Mon projet de formation
 
 - Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql --> Importer
 
-// 5- Accéder à l'application en local //
+// 5- Activer extention //
+
+- Aller dans le dossier C:\xampp\php\php.ini
+
+- Ouvrir le fichier avec VS Code
+
+- Cliquer sur la loupe puis coller extension=intl
+
+- Cliquer sur le fichier trouvé puis enlever le ; dans la ligne de ;extension=intl puis faire Ctrl + S pour sauvegarder
+
+// 6- Accéder à l'application en local //
 
 - Lancer son navigateur web
 
