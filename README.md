@@ -36,13 +36,13 @@ Mon projet de formation
 
 - Faire un copier --> coller de se fichier puis le renommer en .env
 
-- Démarrer le module MySQL en cliquant sur Start puis sur Admin
+- Démarrer le module MySQL dans XAMPP en cliquant sur Start puis sur Admin
 
-- Cliquer sur Nouvelle base de données --> nomm : ecoride et Interclassement : utf8mb4_general_ci
+- Cliquer sur Nouvelle base de données --> nom : ecoride et Interclassement : utf8mb4_general_ci
 
 - Cliquer sur Créer
 
-- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql --> Exécuter
+- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql --> Importer
 
 // 5- Accéder à l'application en local //
 

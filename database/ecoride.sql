@@ -94,7 +94,7 @@ CREATE TABLE `depose` (
   KEY `fk_depose_utilisateur1` (`utilisateur_utilisateur_id`),
   CONSTRAINT `fk_depose_avis1` FOREIGN KEY (`avis_avis_id`) REFERENCES `avis` (`avis_id`),
   CONSTRAINT `fk_depose_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
