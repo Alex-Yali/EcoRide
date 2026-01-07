@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-$envPath = __DIR__ . '/db.env';
+$envPath = __DIR__ . '/../database/.env';
 
 if (!file_exists($envPath)) {
     exit("Erreur : fichier .env introuvable");

@@ -30,7 +30,21 @@ Mon projet de formation
 
 - L'ensemble du code apparait dans VS Code
 
-// 4- Accéder à l'application en local //
+// 4- Accéder à la base de données //
+
+- Rechercher le fichier .env.example dans le dossier C:\xampp\htdocs\EcoRide\database
+
+- Faire un copier --> coller de se fichier puis le renommer en .env
+
+- Démarrer le module MySQL en cliquant sur Start puis sur Admin
+
+- Cliquer sur Nouvelle base de données --> nomm : ecoride et Interclassement : utf8mb4_general_ci
+
+- Cliquer sur Créer
+
+- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql --> Exécuter
+
+// 5- Accéder à l'application en local //
 
 - Lancer son navigateur web
 
