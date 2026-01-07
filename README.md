@@ -54,6 +54,10 @@ Mon projet de formation
 
 - Cliquer sur le fichier trouvé puis enlever le ; dans la ligne de ;extension=intl puis faire Ctrl + S pour sauvegarder
 
+- Télécharger Composer-Setup.exe : https://getcomposer.org/download/
+
+- Lancer l’installateur et cocher l’option “Add composer to PATH” pendant l’installation
+
 // 6- Accéder à l'application en local //
 
 - Lancer son navigateur web
