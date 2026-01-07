@@ -198,7 +198,7 @@ CREATE TABLE `participe` (
   PRIMARY KEY (`utilisateur_utilisateur_id`,`covoiturage_covoiturage_id`),
   KEY `fk_participe_covoiturage1_idx` (`covoiturage_covoiturage_id`),
   CONSTRAINT `fk_participe_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +224,7 @@ CREATE TABLE `possede` (
   PRIMARY KEY (`utilisateur_utilisateur_id`,`role_role_id`),
   KEY `fk_possede_role1_idx` (`role_role_id`),
   CONSTRAINT `fk_possede_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +313,7 @@ CREATE TABLE `utilise` (
   KEY `fk_utilise_covoiturage1_idx` (`covoiturage_covoiturage_id`),
   KEY `fk_utilise_voiture1` (`voiture_voiture_id`),
   CONSTRAINT `fk_utilise_voiture1` FOREIGN KEY (`voiture_voiture_id`) REFERENCES `voiture` (`voiture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
