@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -71,6 +72,12 @@ try {
 
     // Gestion des actions POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $covoiturage_id > 0) {
+
+        // Vérification CSRF
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            throw new Exception("Erreur CSRF : requête invalide.");
+        }
+
         $action = $_POST['action'] ?? '';
         $statut = match ($action) {
             'demarrer' => 'Demarrer',
@@ -90,6 +97,7 @@ try {
                 die("Action non autorisée.");
             }
 
+            if ($statut === 'Demarrer' || $statut === 'Terminer') {
             // Mise à jour du statut du covoiturage
             $sqlStatut = "UPDATE covoiturage SET statut = :statut WHERE covoiturage_id = :id";
             $stmtStatut = $pdo->prepare($sqlStatut);
@@ -126,6 +134,7 @@ try {
                     @mail($to, $subject, $messageMail);
                 }
             }
+        }
 
             // Si Annulation
             if ($statut === 'Annuler') {
@@ -140,6 +149,11 @@ try {
                 // Vérifie si l'utilisateur est conducteur ou passager
                 if ($participant['chauffeur'] == 1) {
                     //  --- Le chauffeur annule le trajet ---
+
+                    //  Statut annuler
+                    $sqlStatut = "UPDATE covoiturage SET statut = 'Annuler' WHERE covoiturage_id = ?";
+                    $stmtStatut = $pdo->prepare($sqlStatut);
+                    $stmtStatut->execute([$covoiturage_id]);
 
                     // Récupérer tous les passagers
                     $sqlPassagers = "SELECT u.utilisateur_id, u.email, u.pseudo 
@@ -172,18 +186,15 @@ try {
                         @mail($to, $subject, $messageMail);
                     }
 
-                    // 3️ Supprimer toutes les participations
-                    $sqlDelete = "DELETE FROM participe WHERE covoiturage_covoiturage_id = ?";
-                    $stmtDelete = $pdo->prepare($sqlDelete);
-                    $stmtDelete->execute([$covoiturage_id]);
-
                     // 4️ Remettre toutes les places disponibles
                     $nbPlacesTotales = count($passagers) + $covoitInfos['nb_place'];
                     $sqlPlacesTotales = "UPDATE covoiturage SET nb_place = ? WHERE covoiturage_id = ?";
                     $stmtPlacesTotales = $pdo->prepare($sqlPlacesTotales);
                     $stmtPlacesTotales->execute([$nbPlacesTotales, $covoiturage_id]);
 
-                } else {
+                }
+            }
+            if ($participant['chauffeur'] == 0) {
                     //  --- Un passager annule ---
                     if ($prix > 0) {
                         // 1️ Remboursement du passager
@@ -195,14 +206,8 @@ try {
                         $sqlPlacePassager = "UPDATE covoiturage SET nb_place = nb_place + 1 WHERE covoiturage_id = ?";
                         $stmtPlacePassager = $pdo->prepare($sqlPlacePassager);
                         $stmtPlacePassager->execute([$covoiturage_id]);
-
-                        // 3️ Supprimer la participation du passager
-                        $sqlDeleteParticipe = "DELETE FROM participe WHERE covoiturage_covoiturage_id = ? AND utilisateur_utilisateur_id = ?";
-                        $stmtDeleteParticipe = $pdo->prepare($sqlDeleteParticipe);
-                        $stmtDeleteParticipe->execute([$covoiturage_id, $idUtilisateur]);
                     }
                 }
-            }
             // Rafraîchissement
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();

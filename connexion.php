@@ -1,4 +1,7 @@
-<?php require 'back/backConnexion.php'; ?>
+<?php require 'back/backConnexion.php';
+require_once 'back/csrf.php';
+$csrf = generate_csrf_token();
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -27,6 +30,9 @@
 
         <!-- Formulaire -->
         <form id="formulaire" action="" method="POST">
+
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf); ?>">
+
             <section>
                 <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
             </section>

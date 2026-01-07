@@ -1,0 +1,266 @@
+/* --- Layout général --- */
+.user-menu {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    width: 100%;
+}
+
+/* --- Section ID utilisateur --- */
+.user-id {
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+}
+
+.user-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 10rem;
+    gap: 0.3rem;
+}
+
+.user-name img,
+#photo {
+    width: 3rem;
+}
+
+#icon-plus {
+    width: 1.25rem;
+}
+
+/* --- Avis --- */
+.boxAvis,
+.avis {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.boxAvis {
+    width: 40%;
+    height: 20%;
+}
+
+.commentaire {
+    background-color: white;
+    border-radius: 1rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    width: auto;
+}
+
+.utilisateur {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.note {
+    display: flex;
+    justify-content: space-between;
+}
+
+.com {
+    color: #7E7E7E;
+    text-align: justify;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.separateurFiltres {
+    width: 95%;
+    margin: 1rem 0;
+    position: relative;
+    bottom: 0;
+}
+
+.check {
+    font-size: 1rem;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+.check-green { color: #267240; }
+.check-red { color: red; }
+
+.valideAvis {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 1rem;
+}
+
+span {
+    text-align: center;
+}
+
+/* --- Modal infos voyage --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.close {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.6rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #267240;
+}
+
+/* Titres */
+h2 {
+    text-align: center;
+    text-decoration: underline;
+    color: #267240;
+    margin: 0 0 0.5rem;
+}
+
+/* --- Tableau infos voyage --- */
+table {
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table caption {
+    text-align: left;
+    font-weight: 600;
+    padding: 8px 12px;
+    color: #267240;
+}
+
+table thead th {
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    background: #fff;
+    color: #267240;
+}
+
+table tbody td {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+table tbody tr:nth-child(even) { background: #f8fafc; }
+table tbody tr:nth-child(odd) { background: #ccc; }
+
+table tbody tr:hover {
+    background: rgba(3,102,214,0.06);
+}
+
+/* Card infos voyage */
+.infos {
+    position: relative;
+    width: 80%;
+    margin: 10rem auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .infos { width: 95%; }
+}
+
+@media (max-width: 768px) {
+
+    /* Section carte + avis */
+    .user-menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .boxAvis {
+        width: 60%;
+    }
+
+    .infos {
+        width: 80%;
+    }
+
+    /* Table responsive type mobile */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead { display: none; }
+
+    tr {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    td {
+        position: relative;
+        text-align: right;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+        color: #267240;
+    }
+}
+
+@media (max-width: 426px) {
+    h1 {
+        white-space: nowrap;
+        font-size: 1.75rem;
+    }
+
+    .boxAvis {
+        width: 80%;
+    }
+
+    .infos {
+        width: 95%;
+    }
+}

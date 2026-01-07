@@ -1,6 +1,6 @@
 .image-foret {
     width: 100%;
-    margin-top: 10rem;
+    margin-top: 8rem;
     display: block;
 }
 
@@ -26,8 +26,9 @@
         width: 75%;
         padding-left: 0.625rem;
     }
-    .nav-choix {
-        padding: 0;
+
+    .image-foret {
+        height:26rem;
     }
 }
 
@@ -54,7 +55,7 @@
         width: 80%;
     }
 
-    .texte-sur-image {
-        top: 70%;
+    .image-foret {
+        height:12rem;
     }
 }

@@ -1,9 +1,29 @@
 <?php
 require_once 'db.php'; // Connexion PDO
 require_once 'back/infosUtilisateur.php';
+require_once 'back/mongo.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+$covoitValide = false;
+
+// Fonction check si participe deja au covoiturage
+function participeDeja($pdo, $idUtilisateur, $idCovoit) {
+    $sqlCheck = "SELECT COUNT(*) FROM participe p
+                JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id 
+                WHERE c.covoiturage_id = :covoiturage
+                AND p.utilisateur_utilisateur_id = :utilisateur
+                AND p.passager = :passager";
+    $stmtCheck = $pdo->prepare($sqlCheck);
+    $stmtCheck->execute([
+        ':utilisateur' =>$idUtilisateur,
+        ':covoiturage' => $idCovoit,
+        ':passager' => 1
+        ]);
+return $stmtCheck->fetchColumn() > 0 ;
 }
 
 // 1️ Récupération de l’ID dans l’URL
@@ -39,9 +59,7 @@ try {
                     v.energie,
                     m.marque_id,
                     m.libelle AS marqueVoiture,
-                    a.commentaire,
-                    p.preference_id,
-                    p.libelle AS preferences
+                    a.commentaire
                 FROM utilisateur u
                 LEFT JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
                 JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
@@ -51,8 +69,6 @@ try {
                 LEFT JOIN avis a ON d.avis_avis_id = a.avis_id
                 LEFT JOIN detient de ON de.voiture_voiture_id = v.voiture_id
                 LEFT JOIN marque m ON m.marque_id = de.marque_marque_id
-                LEFT JOIN fournir f ON f.utilisateur_utilisateur_id = pa.utilisateur_utilisateur_id
-                LEFT JOIN preference p ON p.preference_id = f.preference_preference_id
                 WHERE c.covoiturage_id = :id
                 AND pa.chauffeur = 1
                 ";
@@ -64,10 +80,26 @@ try {
     // On prend la première ligne pour les infos générales
     $covoitDetail = $covoit[0];
 
-    // On regroupe les préférences (car il peut y en avoir plusieurs)
-    $preferences = array_unique(array_column($covoit, 'preferences'));
+    // 3 Gerer les preferences
+    $preferences = []; 
 
-    // Fonction date covoiturage (en français)
+    $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
+
+    if ($idChauffeur) {
+        $doc = $collectionPreferences->findOne([
+            'utilisateur_id' => (int)$idChauffeur
+        ]);
+
+        if ($doc && !empty($doc['preferences'])) {
+            foreach ($doc['preferences'] as $key => $value) {
+                if (!empty($value)) {
+                    $preferences[] = "$key : $value";
+                }
+            }
+        }
+    }
+
+    // 4 Fonction date covoiturage (en français)
     $dateDetail = new DateTime($covoitDetail['date_depart']);
     $fmt = new IntlDateFormatter(
         'fr_FR',
@@ -76,7 +108,22 @@ try {
     );
     $dateDetailCovoit = mb_convert_case($fmt->format($dateDetail), MB_CASE_TITLE, "UTF-8");
 
+    // 5 Rejoindre covoiturage
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'oui') {
+
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            $messageCovoit = "Erreur CSRF : requête invalide.";
+            return;
+        }
+
+        // Vérifier si participe déjà
+        if (participeDeja($pdo, $idUtilisateur, $idCovoit)) {
+            $messageCovoit = "Vous participez déjà à ce covoiturage.";
+            $covoitValide = false;
+            return;
+        }
+
+        $pdo->beginTransaction();
 
         // Enlever crédits a l'utilisateur
         $prixCovoit = $covoitDetail['prix_personne'];
@@ -103,24 +150,9 @@ try {
                             WHERE covoiturage_id = ?";
         $stmtRemovePlace = $pdo->prepare($sqlRemovePlace);
         $stmtRemovePlace->execute([$idCovoit]);
+
+        $pdo->commit();
     }
-
-        // Fonction check si participe deja au covoiturage
-        function participeDeja($pdo, $idUtilisateur, $idCovoit) {
-            $sqlCheck = "SELECT COUNT(*) FROM participe p
-                        JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id 
-                        WHERE c.covoiturage_id = :covoiturage
-                        AND p.utilisateur_utilisateur_id = :utilisateur
-                        AND p.passager = :passager";
-            $stmtCheck = $pdo->prepare($sqlCheck);
-            $stmtCheck->execute([
-                ':utilisateur' =>$idUtilisateur,
-                ':covoiturage' => $idCovoit,
-                ':passager' => 1
-                ]);
-        return $stmtCheck->fetchColumn() > 0 ;
-        }
-
 
 }catch (PDOException $e) {
     echo "<p>Erreur : " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "</p>";

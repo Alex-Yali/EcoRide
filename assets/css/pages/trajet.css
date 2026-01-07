@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     gap: 5rem;
-    margin-top: 7rem;
+    margin: 5rem auto 1rem;
 }
 
 /* --- Proposer trajet --- */
@@ -146,7 +146,7 @@ h2 {
 
 .voiture {
     position: relative;
-    width: 25%;
+    width: 50%;
     margin: 6rem auto;
     background-color: white;
     display: flex;
@@ -180,10 +180,6 @@ h2 {
 
 
 @media (max-width: 1024px) {
-    .ajouter-trajet {
-        width: 80%;
-        height: auto;
-    }
     #voiture {
         width: 31rem;
         height: 25rem;
@@ -191,27 +187,19 @@ h2 {
 }
 
 @media (max-width: 768px) {
-    .ajouter-trajet {
-        max-width: 60%;
-        margin-top: 0;
-    }
-    #trajet {
+    .ajoutTrajet {
         flex-direction: column;
-        align-items: center;
     }
     #voiture {
         height: auto;
         width: 80%;
     }
+    .voiture {
+        width: 80%;
+    }
 }
 
 @media (max-width: 426px) {
-
-    .ajouter-trajet {
-        max-width: 80%;
-        margin-top: 0;
-    }
-
     #voiture {
         height: 100%;
     }

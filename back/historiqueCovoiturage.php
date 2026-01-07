@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -70,69 +71,6 @@ if (!empty($mesCovoit)) {
         $message = "<p>Aucun covoiturage trouvé.</p>";
     } 
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'envoyer'&& ($_POST['avis'] ?? '') === 'Oui') {
-
-        // Récupération des données du formulaire
-        $avis = $_POST['avis'] ?? '';
-        $rating = $_POST['rating'] ?? '';
-        $commentaire = trim($_POST['commentaire'] ?? '');
-        $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
-
-
-
-        // Chercher le covoiturage correspondant
-        $prixParPersonne = 0;
-        $conducteur_id = 0;
-        foreach ($mesCovoit as $co) {
-            if ($co['covoiturage_id'] == $covoiturage_id) {
-                $prixParPersonne = $co['prix_personne'];
-                $conducteur_id = $co['conducteur_id'];
-                break;
-            }
-        }
-
-        // Récupérer les passagers du covoit
-        $sqlPassagers = "SELECT u.pseudo
-                        FROM participe p
-                        JOIN utilisateur u ON u.utilisateur_id = p.utilisateur_utilisateur_id
-                        WHERE p.covoiturage_covoiturage_id = ?
-                        AND p.chauffeur = 0";
-        $stmtPassagers = $pdo->prepare($sqlPassagers);
-        $stmtPassagers->execute([$covoiturage_id]);
-        $passagers = $stmtPassagers->fetchAll(PDO::FETCH_ASSOC);
-
-        // Calcul crédits
-        $totalCredits = $prixParPersonne * count($passagers);
-
-        // Ajouter crédits au conducteur
-        $sqlAddCredits = "UPDATE utilisateur 
-                        SET credits = credits + ? 
-                        WHERE utilisateur_id = ?";
-        $stmtAddCredits = $pdo->prepare($sqlAddCredits);
-        $stmtAddCredits->execute([$totalCredits, $conducteur_id]);
-
-        // Ajouter avis conducteur
-        $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id)
-                        VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage)";
-        $stmtAddAvis = $pdo->prepare($sqlAddAvis);
-        $stmtAddAvis->execute([
-            ':commentaire' => $commentaire,
-            ':note' => $rating,
-            ':statut' => 'en attente',
-            ':chauffeur' => $conducteur_id,
-            ':covoiturage' => $covoiturage_id
-        ]);
-        $idAvis = $pdo->lastInsertId();
-
-        $sqlAddDepose = "INSERT INTO depose (utilisateur_utilisateur_id, avis_avis_id)
-                        VALUES (:utilisateur, :avis)";
-        $stmtAddDepose = $pdo->prepare($sqlAddDepose);
-        $stmtAddDepose->execute([
-            ':utilisateur' => $idUtilisateur,
-            ':avis' => $idAvis
-        ]);
-    }
-
         // Fonction check si avis déjà donné
         function avisDejaDonne($pdo, $idUtilisateur, $covoiturage_id, $conducteur_id) {
             $sqlCheck = "SELECT COUNT(*) FROM depose d
@@ -148,6 +86,89 @@ if (!empty($mesCovoit)) {
                 ]);
         return $stmtCheck->fetchColumn() > 0 ;
         }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'envoyer') {
+
+        // Vérification CSRF
+        if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+            throw new Exception("Erreur CSRF : requête invalide.");
+        }
+
+        // Récupération des données du formulaire
+        $avis = $_POST['avis'] ?? '';
+        $rating = $_POST['rating'] ?? '';
+        $commentaire = trim($_POST['commentaire'] ?? '');
+        $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
+
+        // Chercher le covoiturage correspondant
+        $prixParPersonne = 0;
+        $conducteur_id = 0;
+        foreach ($mesCovoit as $co) {
+            if ($co['covoiturage_id'] == $covoiturage_id) {
+                $prixParPersonne = $co['prix_personne'];
+                $conducteur_id = $co['conducteur_id'];
+                break;
+            }
+        }
+
+        // Avis = oui
+        if ($avis === 'Oui' && $prixParPersonne > 0) {
+        // Ajouter avis conducteur
+            $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id,etat)
+                            VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage, :etat)";
+            $stmtAddAvis = $pdo->prepare($sqlAddAvis);
+            $stmtAddAvis->execute([
+                ':commentaire' => $commentaire,
+                ':note' => $rating,
+                ':statut' => 'en attente',
+                ':chauffeur' => $conducteur_id,
+                ':covoiturage' => $covoiturage_id,
+                ':etat'=> 'ok'
+        ]);
+        $idAvis = $pdo->lastInsertId();
+
+        $sqlAddDepose = "INSERT INTO depose (utilisateur_utilisateur_id, avis_avis_id)
+                        VALUES (:utilisateur, :avis)";
+        $stmtAddDepose = $pdo->prepare($sqlAddDepose);
+        $stmtAddDepose->execute([
+            ':utilisateur' => $idUtilisateur,
+            ':avis' => $idAvis
+        ]);
+
+        // Ajouter crédits au conducteur
+        $sqlAddCredits = "UPDATE utilisateur 
+                        SET credits = credits + ? 
+                        WHERE utilisateur_id = ?";
+        $stmtAddCredits = $pdo->prepare($sqlAddCredits);
+        $stmtAddCredits->execute([$prixParPersonne, $conducteur_id]);
+        }
+
+        // Avis = non
+        if ($avis === 'Non' && $prixParPersonne > 0) {
+            // Ajouter avis conducteur
+            $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id,etat)
+                            VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage, :etat)";
+            $stmtAddAvis = $pdo->prepare($sqlAddAvis);
+            $stmtAddAvis->execute([
+                ':commentaire' => $commentaire,
+                ':note' => $rating,
+                ':statut' => 'en attente',
+                ':chauffeur' => $conducteur_id,
+                ':covoiturage' => $covoiturage_id,
+                ':etat'=> 'nok'
+            ]);
+            $idAvis = $pdo->lastInsertId();
+
+            $sqlAddDepose = "INSERT INTO depose (utilisateur_utilisateur_id, avis_avis_id)
+                            VALUES (:utilisateur, :avis)";
+            $stmtAddDepose = $pdo->prepare($sqlAddDepose);
+            $stmtAddDepose->execute([
+                ':utilisateur' => $idUtilisateur,
+                ':avis' => $idAvis
+            ]);
+        }
+
+    }
 
 }catch (PDOException $e) {
     echo "<p>Erreur : " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "</p>";

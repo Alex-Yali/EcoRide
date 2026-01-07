@@ -1,0 +1,17 @@
+{
+    "name": "alxdu/eco-ride",
+    "autoload": {
+        "psr-4": {
+            "Alxdu\\EcoRide\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex.Y",
+            "email": "alexandre.yalicheff@gmail.com"
+        }
+    ],
+    "require": {
+        "mongodb/mongodb": "^2.1"
+    }
+}

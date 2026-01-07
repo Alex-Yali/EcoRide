@@ -63,7 +63,7 @@ table caption {
 }
 
 table thead th {
-  text-align: left;
+  text-align: center;
   font-size: 0.95rem;
   padding: 12px 16px;
   background: #ffffff;
@@ -73,6 +73,7 @@ table thead th {
 table tbody td {
   padding: 12px 16px;
   font-size: 0.85rem;
+  text-align: center;
 }
 
 table tbody tr:nth-child(even) {
@@ -90,31 +91,29 @@ table tbody tr:hover {
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {
-    .user-link li {
-        gap: 5rem;
-    }
-
+  .user-menu {
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
-    .user-link li {
-        gap: 1.87rem;
-    }
-
+  .user-menu {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 @media (max-width: 426px) {
-    .user-id {
-        position: relative;
-        left: 0.62rem;
-        font-size: 0.87rem;
-        display: flex;
-        padding: 0;
-        width: 95%;
-        align-items: center;
+  .user-id {
+    margin: 0 auto;
+      font-size: 0.87rem;
+      display: flex;
+      padding: 0;
+      width: 95%;
+      align-items: center;
     }
-    h1 {
-        white-space: nowrap;
-    }
-
+  table thead th, table tbody td {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+  }
 }

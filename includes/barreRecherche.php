@@ -1,5 +1,11 @@
+<?php
+require_once 'back/csrf.php';
+$csrf = generate_csrf_token();
+?>
+
 
 <form class="nav-bar" action="covoiturage.php" method="POST">
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
             <!-- Départ -->
     <section class="nav-choix">
         <img src="./assets/images/Cars 1.png" class="icon" alt="image voiture">

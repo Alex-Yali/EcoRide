@@ -2,6 +2,8 @@
 require_once 'back/detailCovoiturage.php';
 require_once 'back/fonctionCalculTrajetDetail.php';
 require_once 'back/infosUtilisateur.php';
+require_once 'back/csrf.php';
+$csrf = generate_csrf_token();
 ?>
 
 <!DOCTYPE html>
@@ -57,15 +59,18 @@ require_once 'back/infosUtilisateur.php';
 
                 <h2>Préférences conducteur</h2>
                 <?php if (!empty($preferences)): ?>
-                    <?php foreach ($preferences as $pref): ?>
+                    <?php foreach ($preferences as $index => $pref): ?>
                         <section class="user-detail">
-                            <p class="detail-size"><?= htmlspecialchars($pref) ?></p>
+                            <p class="detail-size"><?= htmlspecialchars(ucfirst($pref)) ?></p>
                         </section>
-                        <section class="separateurFiltres"></section>
+                        <?php if ($index < count($preferences) - 1): ?>
+                            <section class="separateurFiltres"></section>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p>Aucune préférence renseignée.</p>
                 <?php endif; ?>
+
             </section>
 
             <!-- Box informations covoiturage -->
@@ -127,6 +132,7 @@ require_once 'back/infosUtilisateur.php';
                     </section>
 
                     <form class="valid" action="" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                         <p id="valid-size">
                             Souhaitez-vous utiliser <?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits pour réserver votre place sur ce voyage ?
                         </p>
@@ -136,6 +142,12 @@ require_once 'back/infosUtilisateur.php';
                         </section>
                     </form>
                 <?php endif; ?>
+                <!-- Message de succès / erreur -->
+            <?php if (!empty($messageCovoit)): ?>
+                <p style="color: <?= ($covoitValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
+                    <?= htmlspecialchars($messageCovoit) ?>
+                </p>
+            <?php endif; ?>
             </section>
         </section>
     </main>

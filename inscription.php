@@ -1,6 +1,8 @@
-    <?php
-    require 'back/backInscris.php';
-    ?>
+<?php
+require 'back/backInscris.php';
+require_once 'back/csrf.php';
+$csrf = generate_csrf_token();
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,6 +30,8 @@
         <h1 class="gros-titre">Inscription :</h1>
         <!-- Formulaire -->
         <form id="formulaire" action="" method="POST">
+
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
             <section>
                 <label for="pseudo"></label><input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
             </section>

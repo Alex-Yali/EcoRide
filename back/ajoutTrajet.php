@@ -3,11 +3,19 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'db.php'; // connexion PDO
+require_once 'csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $trajetValide = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajoutTrajet') {
+
+        // Vérification CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $messageTrajet = "Erreur CSRF : Requête invalide.";
+        return; 
+    }
+
     $depart = trim($_POST['depart'] ?? '');
     $dateDepart = trim($_POST['dateDepart'] ?? '');
     $heureDepart = trim($_POST['heureDepart'] ?? '');
