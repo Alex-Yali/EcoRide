@@ -13,7 +13,10 @@ Mon projet de formation
 
 // 2- Récuperer le projet //
 
+- Télécharger et instaler Visual Studio Code via Microsoft Store
+
 - Démarrer VS Code
+
 - Faire le raccourcie Ctrl + ù pour accéder au terminal 
 
 - Tapper les commandes : cd C:\xampp\htdocs
