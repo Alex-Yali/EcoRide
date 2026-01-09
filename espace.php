@@ -4,7 +4,7 @@ require 'back/switchPassagerChauffeur.php';
 require 'back/ajoutCompte.php';
 require 'back/graphique.php';
 require 'back/supCompte.php';
-require 'back/csrf.php'; 
+require 'back/csrf.php';
 require 'back/ajoutVoiture.php';
 $csrf = generate_csrf_token();
 
@@ -12,6 +12,7 @@ $csrf = generate_csrf_token();
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +29,7 @@ $csrf = generate_csrf_token();
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <!-- Header -->
     <?php require 'includes/header.php'; ?>
@@ -81,7 +83,7 @@ $csrf = generate_csrf_token();
                     </section>
                 </section>
 
-            <!-- Section Chauffeur -->
+                <!-- Section Chauffeur -->
             <?php elseif ($radio === 'chauffeur' || $radio === 'lesDeux'): ?>
                 <?php if (!$voitureExiste): ?>
                     <section id="chauffeur-info">
@@ -170,7 +172,7 @@ $csrf = generate_csrf_token();
                 <?php endif; ?>
             <?php endif; ?>
 
-        <!-- Section Employe -->
+            <!-- Section Employe -->
         <?php elseif ($roleUtilisateur === 'employe'): ?>
             <section class="user-menu">
                 <section class="user-id">
@@ -187,7 +189,7 @@ $csrf = generate_csrf_token();
                 </nav>
             </section>
 
-        <!-- Section Admin -->
+            <!-- Section Admin -->
         <?php elseif ($roleUtilisateur === 'admin'): ?>
             <section class="user-menu">
                 <section class="user-id">
@@ -207,10 +209,10 @@ $csrf = generate_csrf_token();
             <p id="credit">Total des crédits gagné par la plateforme : <?= htmlspecialchars($totalCredits['totalCredits']) ?></p>
 
             <!-- Graphiques -->
-             <section class="graphique">
+            <section class="graphique">
                 <canvas id="graphique1"></canvas>
                 <canvas id="graphique2"></canvas>
-             </section>
+            </section>
 
             <!-- Modal création compte employé -->
             <section id="modal" class="modal">
@@ -218,12 +220,12 @@ $csrf = generate_csrf_token();
                     <a href="#" class="close">x</a>
                     <h2>Création compte employé</h2>
 
-                <!-- Messages d'erreur ajout compte -->
-                <?php if (!empty($messageCompte)): ?>
-                    <p style="color: <?= ($compteValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                        <?= htmlspecialchars($messageCompte) ?>
-                    </p>
-                <?php endif; ?>
+                    <!-- Messages d'erreur ajout compte -->
+                    <?php if (!empty($messageCompte)): ?>
+                        <p style="color: <?= ($compteValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                            <?= htmlspecialchars($messageCompte) ?>
+                        </p>
+                    <?php endif; ?>
 
 
                     <form method="POST" class="modal-content">
@@ -260,12 +262,12 @@ $csrf = generate_csrf_token();
                     <a href="#" class="close">x</a>
                     <h2>Suppression compte</h2>
 
-                <!-- Messages compte -->
-                <?php if (!empty($messageSup)): ?>
-                    <p style="color: <?= ($compteSup ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                        <?= htmlspecialchars($messageSup) ?>
-                    </p>
-                <?php endif; ?>
+                    <!-- Messages compte -->
+                    <?php if (!empty($messageSup)): ?>
+                        <p style="color: <?= ($compteSup ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                            <?= htmlspecialchars($messageSup) ?>
+                        </p>
+                    <?php endif; ?>
                     <form class="compteListe" action="" method="POST">
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                         <select id="liste" name="compte" required>
@@ -293,80 +295,80 @@ $csrf = generate_csrf_token();
 
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
-        <!-- Script graphique -->
-        <script>
+    <!-- Script graphique -->
+    <script>
+        // Graphique 1
+        const date = <?php echo json_encode($date); ?>;
+        const total = <?php echo json_encode($total); ?>;
 
-            // Graphique 1
-            const date = <?php echo json_encode($date); ?>;
-            const total = <?php echo json_encode($total); ?>;
+        // Convertir les dates en format JJ/MM/AAAA
+        const dateFormatees = date.map(d => {
+            const obj = new Date(d);
+            return obj.toLocaleDateString('fr-FR');
+        });
 
-            // Convertir les dates en format JJ/MM/AAAA
-            const dateFormatees = date.map(d => {
-                const obj = new Date(d);
-                return obj.toLocaleDateString('fr-FR');
-            });
-
-            new Chart(document.getElementById("graphique1"), {
-                type: 'bar',
-                data: {
-                    labels: dateFormatees,
-                    datasets: [{
-                        label: "Nombre de covoiturages par date",
-                        data: total,
-                        borderWidth: 2,
-                        categoryPercentage: 0.7,   // espace pris par les barres dans la catégorie
-                        barPercentage: 0.9          // largeur interne des barres
-                    }]
-                },
-                options: {
-                    responsive: false, 
-                    scales: {
+        new Chart(document.getElementById("graphique1"), {
+            type: 'bar',
+            data: {
+                labels: dateFormatees,
+                datasets: [{
+                    label: "Nombre de covoiturages par date",
+                    data: total,
+                    borderWidth: 2,
+                    categoryPercentage: 0.7, // espace pris par les barres dans la catégorie
+                    barPercentage: 0.9 // largeur interne des barres
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
                     y: {
-                        beginAtZero: true,   // commence l'axe Y à zéro
+                        beginAtZero: true, // commence l'axe Y à zéro
                         ticks: {
-                            stepSize: 1,    // Valeurs tous les 1
-                            precision: 0    //  Pas de décimales
+                            stepSize: 1, // Valeurs tous les 1
+                            precision: 0 //  Pas de décimales
                         },
                     }
                 }
-                }
-            });
-            
-            // Graphique 2
-            const date2 = <?php echo json_encode($date2); ?>;
-            const totalCredit = <?php echo json_encode($totalCredit); ?>;
+            }
+        });
 
-            // Convertir les dates en format JJ/MM/AAAA
-            const dateFormatees2 = date2.map(d => {
-                const obj = new Date(d);
-                return obj.toLocaleDateString('fr-FR');
-            });
+        // Graphique 2
+        const date2 = <?php echo json_encode($date2); ?>;
+        const totalCredit = <?php echo json_encode($totalCredit); ?>;
 
-            new Chart(document.getElementById("graphique2"), {
-                type: 'bar',
-                data: {
-                    labels: dateFormatees2,
-                    datasets: [{
-                        label: "Nombre de crédit par jours",
-                        data: totalCredit,
-                        borderWidth: 2,
-                        categoryPercentage: 0.7,   // espace pris par les barres dans la catégorie
-                        barPercentage: 0.9          // largeur interne des barres
-                    }]
-                },
-                options: {
-                    responsive: false, 
-                    scales: {
+        // Convertir les dates en format JJ/MM/AAAA
+        const dateFormatees2 = date2.map(d => {
+            const obj = new Date(d);
+            return obj.toLocaleDateString('fr-FR');
+        });
+
+        new Chart(document.getElementById("graphique2"), {
+            type: 'bar',
+            data: {
+                labels: dateFormatees2,
+                datasets: [{
+                    label: "Nombre de crédit par jours",
+                    data: totalCredit,
+                    borderWidth: 2,
+                    categoryPercentage: 0.7, // espace pris par les barres dans la catégorie
+                    barPercentage: 0.9 // largeur interne des barres
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
                     y: {
-                        beginAtZero: true,   
+                        beginAtZero: true,
                         ticks: {
-                            stepSize: 2,    
-                            precision: 0    
+                            stepSize: 2,
+                            precision: 0
                         },
                     }
                 }
-                }
-            });
-        </script>
+            }
+        });
+    </script>
 </body>
+
 </html>
