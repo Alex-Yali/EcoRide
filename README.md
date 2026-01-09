@@ -54,7 +54,19 @@ Mon projet de formation
 
 - Cliquer sur le fichier trouvé puis enlever le ; dans la ligne de ;extension=intl puis faire Ctrl + S pour sauvegarder
 
-- Télécharger Composer-Setup.exe : https://getcomposer.org/download/
+- Faire de meme pour la ligne extension=php_mongodb.dll (si elle n'existe pas --> l'ajouter à la suite de "extension=intl")
+
+- Télécharger 8.2 Thread Safe (TS) x64 à l'adresse https://pecl.php.net/package/mongodb/2.1.4/windows
+
+- Ouvrir le dossier puis copier le fichier php_mongodb.dll puis le coller dans le dossier C:\xampp\php\ext\
+
+- Télécharger MongoDB à l'adresse https://www.mongodb.com/try/download/community
+
+- Lancer l'installateur --> cocher Install MongoDB Compass et Install MongoDB as a Service
+
+- Une fois installé --> ouvrir MongoDB Compass --> New Connection --> Hostname : localhost, Port : 27017
+
+- Télécharger Composer-Setup.exe : https://getcomposer.org/download/ 
 
 - Lancer l’installateur et cocher l’option “Add composer to PATH” pendant l’installation
 
