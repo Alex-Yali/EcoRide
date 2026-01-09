@@ -64,7 +64,11 @@ Mon projet de formation
 
 - Lancer l'installateur --> cocher Install MongoDB Compass et Install MongoDB as a Service
 
-- Une fois installé --> ouvrir MongoDB Compass --> New Connection --> Hostname : localhost, Port : 27017
+- Une fois installé --> ouvrir MongoDB Compass --> New Connection --> Save & Connect
+
+- Cliquer sur localhost:27017 --> Create database --> Database Name : ecoride, Collection Name : preferences --> create Database
+
+- Cliquer sur Import data --> séléctionner le fichier ecoride.preferences.json dans le dossier C:\xampp\htdocs\EcoRide\database
 
 - Télécharger Composer-Setup.exe : https://getcomposer.org/download/ 
 
