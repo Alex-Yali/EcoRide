@@ -1,4 +1,5 @@
 # EcoRide
+
 Mon projet de formation
 
 # Déployer l'application en local
@@ -21,7 +22,6 @@ Mon projet de formation
 
 // 3- Ouvrir le projet dans VS Code //
 
-
 - Télécharger et instaler Visual Studio Code via Microsoft Store
 
 - Démarrer VS Code
@@ -42,7 +42,7 @@ Mon projet de formation
 
 - Cliquer sur Créer
 
-- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql --> Importer
+- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql dans C:\xampp\htdocs\EcoRide\database --> Importer
 
 // 5- Activer extention //
 
@@ -70,14 +70,23 @@ Mon projet de formation
 
 - Cliquer sur Import data --> séléctionner le fichier ecoride.preferences.json dans le dossier C:\xampp\htdocs\EcoRide\database
 
-- Télécharger Composer-Setup.exe : https://getcomposer.org/download/ 
+- Télécharger Composer-Setup.exe : https://getcomposer.org/download/
 
 - Lancer l’installateur et cocher l’option “Add composer to PATH” pendant l’installation
+
+- Retourner dans le dossier C:\xampp\php\php.ini puis faire comme précedement (enlever le ;) sur les lignes
+  extension=openssl
+  extension=mbstring
+  extension=zip
+  extension=curl
+  extension=fileinfo
+
+- Ensuite retourner dans la terminal (ctrl + ù) de l'application sur VS Code puis coller : composer install
 
 // 6- Accéder à l'application en local //
 
 - Lancer son navigateur web
 
-- Coller l'adresse : http://localhost/ecoride/index.php
+- Coller l'adresse : http://localhost/ecoride/public/index.php
 
 - Vous avez accès à l'application
