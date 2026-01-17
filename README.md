@@ -81,7 +81,7 @@ Mon projet de formation
   extension=curl
   extension=fileinfo
 
-- Ensuite retourner dans la terminal (ctrl + ù) de l'application sur VS Code puis coller : composer install
+- Ensuite retourner dans la terminal (ctrl + ù) de l'application sur VS Code puis coller : composer install --> puis entrer
 
 // 6- Accéder à l'application en local //
 

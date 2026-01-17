@@ -1,0 +1,7 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    container_name: ecoride_db
+    environment:
+      MYSQL_ROOT_PASSWORD: example
