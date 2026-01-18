@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../src/service/init.php';
-require '../src/controller/detailAvis.php';
+require_once __DIR__ . '/../src/controller/detailAvis.php';
 ?>
 
 <!DOCTYPE html>
