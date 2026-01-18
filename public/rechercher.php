@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../src/service/init.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 

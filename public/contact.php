@@ -1,5 +1,10 @@
+<?php
+require_once __DIR__ . '/../src/service/db.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <?php
@@ -22,7 +28,7 @@
     ?>
     <main>
         <!-- Formulaire -->
-         <form action="" method="post" id="contact-form">
+        <form action="" method="post" id="contact-form">
             <h1>Contactez-nous :</h1>
             <section class="contact-section">
                 <label for="name">Nom :</label><input type="text" name="nom" id="nom" required>
@@ -37,14 +43,15 @@
                 <label for="name">Message :</label><textarea name="message" id="message"></textarea>
             </section>
             <button id="btnContact" class="button" type="submit">Envoyer</button>
-         </form>
+        </form>
     </main>
     <!-- Footer -->
     <?php
     require 'includes/footer.php'
     ?>
-        <!-- JS  -->
+    <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
     <script src="./assets/js/pages/contact.js" type="module"></script>
 </body>
+
 </html>

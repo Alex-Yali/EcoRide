@@ -1,6 +1,6 @@
 <?php
-require_once '../src/service/db.php';
-require_once '../src/service/csrf.php';
+require_once __DIR__ . '/../service/db.php';
+require_once __DIR__ . '/../service/csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) { // Démarre la session PHP si elle n’est pas déjà active
     session_start();

@@ -21,15 +21,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 //Vérifier si les infos sont bonnes
             } else {
-                $pdoStatement = $pdo->prepare("SELECT utilisateur_id, pseudo, email, password, credits FROM utilisateur 
+                $pdoStatement = $pdo->prepare("SELECT utilisateur_id, pseudo, email, password, credits, statut FROM utilisateur 
                                                 WHERE email = :email");
                 $pdoStatement->execute(['email' => $email]);
                 $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
+                $statut = $user['statut'];
                 if (!$user) {
                     $message = "Email ou mot de passe incorrect.";
 
                     //Si infos bonnes on vérifie si le mot de passe est hashé (bcrypt)
+                } elseif ($statut == "suspendu") {
+                    $message = "Compte suspendu";
                 } else {
+
                     $dbPass = $user['password'];
                     $is_hashed = (strpos($dbPass, '$2y$') === 0);
 

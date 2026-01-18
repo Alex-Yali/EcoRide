@@ -1,6 +1,6 @@
 <?php
-require_once '../src/service/db.php'; // connexion PDO
-require_once '../src/service/csrf.php';
+require_once __DIR__ . '/db.php'; // connexion PDO
+require_once __DIR__ . '/csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

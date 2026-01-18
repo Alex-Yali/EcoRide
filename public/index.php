@@ -1,3 +1,16 @@
+<?php
+require_once __DIR__ . '/../src/service/init.php';
+require_once __DIR__ . '/../src/service/db.php';
+
+/* =========================
+   GESTION DES ACTIONS
+   ========================= */
+if (isset($_GET['action']) && $_GET['action'] === 'deconnexion') {
+    require __DIR__ . '/../src/controller/deconnexion.php';
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 

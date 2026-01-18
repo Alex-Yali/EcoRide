@@ -1,4 +1,6 @@
-<?php require '../src/controller/backConnexion.php';
+<?php
+require_once __DIR__ . '/../src/service/init.php';
+require '../src/controller/backConnexion.php';
 require_once '../src/service/csrf.php';
 $csrf = generate_csrf_token();
 ?>

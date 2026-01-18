@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ .   '/../../src/service/csrf.php';
+require_once __DIR__ .  '/../../src/service/csrf.php';
 $csrf = generate_csrf_token();
 ?>
 

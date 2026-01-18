@@ -1,12 +1,15 @@
 <?php
 require_once '../vendor/autoload.php';
 
-try {
-    $mongoClient = new MongoDB\Client("mongodb://localhost:27017");
+$host = $_ENV['MONGO_HOST'];
+$port = $_ENV['MONGO_PORT'];
+$dbName = $_ENV['MONGO_DB'];
 
-    // Sélection DB + collection
-    $db = $mongoClient->ecoride;
+try {
+    $mongoClient = new MongoDB\Client("mongodb://$host:$port");
+
+    $db = $mongoClient->$dbName;
     $collectionPreferences = $db->preferences;
-} catch (Exception $e) {
+} catch (Throwable $e) {
     die("Erreur MongoDB : " . $e->getMessage());
 }

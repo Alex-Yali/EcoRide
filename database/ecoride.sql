@@ -43,7 +43,7 @@ CREATE TABLE `avis` (
 
 LOCK TABLES `avis` WRITE;
 /*!40000 ALTER TABLE `avis` DISABLE KEYS */;
-INSERT INTO `avis` VALUES (1,'Le voyage s\'est  bien passée.','4','valider',17,2,9,'ok'),(2,'Le voyage s\'est pas très bien passée','3','refuser',2,3,9,'ok'),(8,'Le voyage avec Tom s\'est très bien passée. Un long voyage passé dans une ambiance cool et conviviale. Je le recommande.','5','valider',17,2,10,'ok'),(16,'trop long','1','refuser',1,2,10,'nok'),(18,'Impec','5','refuser',20,8,9,'ok');
+INSERT INTO `avis` VALUES (1,'Le voyage s\'est  bien passée.','4','en attente',17,2,NULL,'ok'),(2,'Le voyage s\'est pas très bien passée','3','refuser',2,3,9,'ok'),(8,'Le voyage avec Tom s\'est très bien passée. Un long voyage passé dans une ambiance cool et conviviale. Je le recommande.','5','valider',17,2,10,'ok'),(16,'trop long','1','refuser',1,2,10,'nok'),(18,'Impec','5','refuser',20,8,9,'ok');
 /*!40000 ALTER TABLE `avis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,7 +94,7 @@ CREATE TABLE `depose` (
   KEY `fk_depose_utilisateur1` (`utilisateur_utilisateur_id`),
   CONSTRAINT `fk_depose_avis1` FOREIGN KEY (`avis_avis_id`) REFERENCES `avis` (`avis_id`),
   CONSTRAINT `fk_depose_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,7 +198,7 @@ CREATE TABLE `participe` (
   PRIMARY KEY (`utilisateur_utilisateur_id`,`covoiturage_covoiturage_id`),
   KEY `fk_participe_covoiturage1_idx` (`covoiturage_covoiturage_id`),
   CONSTRAINT `fk_participe_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,7 +224,7 @@ CREATE TABLE `possede` (
   PRIMARY KEY (`utilisateur_utilisateur_id`,`role_role_id`),
   KEY `fk_possede_role1_idx` (`role_role_id`),
   CONSTRAINT `fk_possede_utilisateur1` FOREIGN KEY (`utilisateur_utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,11 +282,12 @@ CREATE TABLE `utilisateur` (
   `credits` int NOT NULL,
   `passager` tinyint NOT NULL DEFAULT '1',
   `chauffeur` tinyint NOT NULL DEFAULT '0',
+  `statut` varchar(50) DEFAULT (_utf8mb4'actif'),
   PRIMARY KEY (`utilisateur_id`),
   UNIQUE KEY `utilisateur_id_UNIQUE` (`utilisateur_id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `pseudo_UNIQUE` (`pseudo`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +296,7 @@ CREATE TABLE `utilisateur` (
 
 LOCK TABLES `utilisateur` WRITE;
 /*!40000 ALTER TABLE `utilisateur` DISABLE KEYS */;
-INSERT INTO `utilisateur` VALUES (1,'Pierre','Martin','martin.pierre@gmail.com','$2y$10$nd48SFTnj11CBvLtTePu9.dQzPKZ1eJHDIlSrWdXMiAXDUrn3xHD.','0733556677','2 rue des coquelicot','26/11/1985',NULL,'Pierre',20,1,0),(2,'Jones','Tom','tom.jones@gmail.com','$2y$10$OR94xiHV/1U47nG5X2gwF.iqFjqH1xMI7Vk3yD1s9WI.otmWU.h1.',NULL,NULL,NULL,NULL,'Tom',20,0,1),(3,'Eric','Antoine','antoine.eric@gmail.com','$2y$10$WnTG8VkGm7.5uLTkDZPIdOFXvsQXTMYMZXRwMjR7bLE6vycpwGiNW',NULL,NULL,NULL,NULL,'Antoine',20,1,1),(4,'Petitjean','Jean','jean.petitjean@gmail.com','$2y$10$pJaLZQCciZODVEUkQdhcsehR3NGvOYMwtk4yyCcymKdoLxldUr4Ua',NULL,NULL,NULL,NULL,'Jean',20,1,0),(5,'Marchand','Marie','marie.marchand@mail.com','$2y$10$flHM16avn5iSW/UzlfXNguvmFdf5/ClFEHpV3Q.OsebFg2O6KOo4K',NULL,NULL,NULL,NULL,'Marie',20,1,0),(6,'Duval','Stephanie','stephanie.duval@wanadoo.fr','$2y$10$OUz.ieRNXpBLqfvWJq9OtOvGJXXLQqKztDVhrQ5czowyqG6ob9lTy',NULL,NULL,NULL,NULL,'Stephanie',20,1,0),(7,'Rolland','Manon','manon.rolland@gmail.com','$2y$10$IHUr.lXfLXbcWWwvWx8KzOK/jMu8I.QldoW73z1WHvBYW4pOTcEvW',NULL,NULL,NULL,NULL,'Manon',20,0,1),(8,'Bob','Moreau','bob@mail.com','$2y$10$E3oSxjr7tlrI56Mr3RVEIeGKw5CvY8gl4rAg9MUo5BO8.gbQ79BlC',NULL,NULL,NULL,NULL,'Bob',20,0,1),(9,'Dupont','Léa','lea.dupont@mail.com','$2y$10$K6hcbZljh1koSnOOsHTfJOx/oj1kVaZzR0xX7fJutczUreRXw.DeW',NULL,NULL,NULL,NULL,'Léa',20,1,1),(10,'Frank','Arthur','arthur.frank@mail.com','$2y$10$Ww7MsAo8hDiTzqvXZAPULuSJKDM4QP9Ga/JwgD6RtvKDYkUtzhUc.',NULL,NULL,NULL,NULL,'Arthur',20,1,1),(11,'Henry','Mathieu','mathieu.henry@mail.com','$2y$10$NuSzbianxTsccXESlGrWl.wSDB7bgZ3f/StVHpjzhSgx7WBZAWFjm',NULL,NULL,NULL,NULL,'Mathieu',20,1,1),(12,NULL,NULL,'alexandre.yalicheff@gmail.com','$2y$10$tHc7KPn9GnBCqClvklfKVudaFcTlusSAe4b0NiGdbkfMGKJxfoOsi',NULL,NULL,NULL,NULL,'Alex',15,1,0),(56,NULL,NULL,'thomas.bernard@mail.com','$2y$10$8.reAa7pyt9VSwtnNZWnB.iZoaOFV57rbjgET6Mbhi/GrpyxMz6eO',NULL,NULL,NULL,NULL,'Thomas',20,1,0);
+INSERT INTO `utilisateur` VALUES (1,'Pierre','Martin','martin.pierre@gmail.com','$2y$10$nd48SFTnj11CBvLtTePu9.dQzPKZ1eJHDIlSrWdXMiAXDUrn3xHD.','0733556677','2 rue des coquelicot','26/11/1985',NULL,'Pierre',20,1,0,'actif'),(2,'Jones','Tom','tom.jones@gmail.com','$2y$10$OR94xiHV/1U47nG5X2gwF.iqFjqH1xMI7Vk3yD1s9WI.otmWU.h1.',NULL,NULL,NULL,NULL,'Tom',20,0,1,'actif'),(3,'Eric','Antoine','antoine.eric@gmail.com','$2y$10$WnTG8VkGm7.5uLTkDZPIdOFXvsQXTMYMZXRwMjR7bLE6vycpwGiNW',NULL,NULL,NULL,NULL,'Antoine',20,1,1,'actif'),(4,'Petitjean','Jean','jean.petitjean@gmail.com','$2y$10$pJaLZQCciZODVEUkQdhcsehR3NGvOYMwtk4yyCcymKdoLxldUr4Ua',NULL,NULL,NULL,NULL,'Jean',20,1,0,'actif'),(5,'Marchand','Marie','marie.marchand@mail.com','$2y$10$flHM16avn5iSW/UzlfXNguvmFdf5/ClFEHpV3Q.OsebFg2O6KOo4K',NULL,NULL,NULL,NULL,'Marie',20,1,0,'actif'),(6,'Duval','Stephanie','stephanie.duval@wanadoo.fr','$2y$10$OUz.ieRNXpBLqfvWJq9OtOvGJXXLQqKztDVhrQ5czowyqG6ob9lTy',NULL,NULL,NULL,NULL,'Stephanie',20,1,0,'actif'),(7,'Rolland','Manon','manon.rolland@gmail.com','$2y$10$IHUr.lXfLXbcWWwvWx8KzOK/jMu8I.QldoW73z1WHvBYW4pOTcEvW',NULL,NULL,NULL,NULL,'Manon',20,0,1,'actif'),(8,'Bob','Moreau','bob@mail.com','$2y$10$E3oSxjr7tlrI56Mr3RVEIeGKw5CvY8gl4rAg9MUo5BO8.gbQ79BlC',NULL,NULL,NULL,NULL,'Bob',20,0,1,'actif'),(9,'Dupont','Léa','lea.dupont@mail.com','$2y$10$K6hcbZljh1koSnOOsHTfJOx/oj1kVaZzR0xX7fJutczUreRXw.DeW',NULL,NULL,NULL,NULL,'Léa',20,1,1,'actif'),(10,'Frank','Arthur','arthur.frank@mail.com','$2y$10$Ww7MsAo8hDiTzqvXZAPULuSJKDM4QP9Ga/JwgD6RtvKDYkUtzhUc.',NULL,NULL,NULL,NULL,'Arthur',20,1,1,'actif'),(11,'Henry','Mathieu','mathieu.henry@mail.com','$2y$10$NuSzbianxTsccXESlGrWl.wSDB7bgZ3f/StVHpjzhSgx7WBZAWFjm',NULL,NULL,NULL,NULL,'Mathieu',20,1,1,'actif'),(12,NULL,NULL,'alexandre.yalicheff@gmail.com','$2y$10$tHc7KPn9GnBCqClvklfKVudaFcTlusSAe4b0NiGdbkfMGKJxfoOsi',NULL,NULL,NULL,NULL,'Alex',15,1,0,'actif'),(56,NULL,NULL,'thomas.bernard@mail.com','$2y$10$8.reAa7pyt9VSwtnNZWnB.iZoaOFV57rbjgET6Mbhi/GrpyxMz6eO',NULL,NULL,NULL,NULL,'Thomas',20,1,0,'actif');
 /*!40000 ALTER TABLE `utilisateur` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,7 +314,7 @@ CREATE TABLE `utilise` (
   KEY `fk_utilise_covoiturage1_idx` (`covoiturage_covoiturage_id`),
   KEY `fk_utilise_voiture1` (`voiture_voiture_id`),
   CONSTRAINT `fk_utilise_voiture1` FOREIGN KEY (`voiture_voiture_id`) REFERENCES `voiture` (`voiture_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,4 +367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-07 15:02:26
+-- Dump completed on 2026-01-18 16:19:33

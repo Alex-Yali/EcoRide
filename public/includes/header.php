@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ .  '/../../src/repository/infosUtilisateur.php';
+require_once __DIR__ . '/../../src/service/init.php';
+require_once __DIR__ . '/../../src/repository/infosUtilisateur.php';
 ?>
 
 <header>
@@ -31,13 +32,13 @@ require_once __DIR__ .  '/../../src/repository/infosUtilisateur.php';
                                 <span>Contact</span>
                                 <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">
                             </a>
-                        <?php elseif ($roleUtilisateur === 'employe' || 'admin'): ?>
+                        <?php elseif ($roleUtilisateur === 'employe' || $roleUtilisateur === 'admin'): ?>
                             <a title="Profil" href="./espace.php" class="menu-link">
                                 <span>Profil</span>
                                 <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">
                             </a>
                         <?php endif; ?>
-                        <a title="Deconnexion" href="../src/controller/deconnexion.php" class="menu-link">
+                        <a title="Deconnexion" href="/index.php?action=deconnexion" class="menu-link">
                             <span>Se déconnecter</span>
                             <img src="./assets/images/caret-vers-le-bas.png" class="caret-right">
                         </a>

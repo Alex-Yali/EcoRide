@@ -59,7 +59,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                     <h1>Durée du voyage</h1>
                     <section class="time">
                         <img src="./assets/images/sablier.png" class="icon-ecolo" alt="icon sablier">
-                        <input type="number" name="maxTime" class="maxTime" value="<?= htmlspecialchars($maxTime) ?>">
+                        <input type="number" name="maxTime" class="maxTime" min="1" value="<?= htmlspecialchars($maxTime) ?>">
                         <span>heures Max</span>
                     </section>
                 </section>
@@ -70,7 +70,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                     <h1>Prix</h1>
                     <section class="time">
                         <img src="./assets/images/pile-de-pieces.png" class="icon-ecolo" alt="icon pile de piece">
-                        <input type="number" name="maxPrix" class="maxTime" value="<?= htmlspecialchars($maxPrix) ?>">
+                        <input type="number" name="maxPrix" class="maxTime" min="1" value="<?= htmlspecialchars($maxPrix) ?>">
                         <span>crédits Max</span>
                     </section>
                 </section>
