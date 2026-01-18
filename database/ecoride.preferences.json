@@ -1,0 +1,55 @@
+[{
+  "_id": {
+    "$oid": "693c22860c19798d6d76a6c9"
+  },
+  "utilisateur_id": 2,
+  "preferences": {
+    "tabac": "Non fumeur",
+    "animal": "Animaux refusés",
+    "autre": "Musique Rap"
+  }
+},
+{
+  "_id": {
+    "$oid": "693c2d3b0c19798d6d76a6ca"
+  },
+  "utilisateur_id": 3,
+  "preferences": {
+    "tabac": "Fumeur",
+    "animal": "Animaux refusés",
+    "autre": ""
+  }
+},
+{
+  "_id": {
+    "$oid": "693c2e270c19798d6d76a6cb"
+  },
+  "utilisateur_id": 7,
+  "preferences": {
+    "tabac": "Non fumeur",
+    "animal": "Animaux refusés",
+    "autre": "Bavarde"
+  }
+},
+{
+  "_id": {
+    "$oid": "693c2ec90c19798d6d76a6cc"
+  },
+  "utilisateur_id": 8,
+  "preferences": {
+    "tabac": "Non fumeur",
+    "animal": "Animaux acceptés",
+    "autre": "Musique"
+  }
+},
+{
+  "_id": {
+    "$oid": "695bd043e02cc59df8827dc7"
+  },
+  "utilisateur_id": 12,
+  "preferences": {
+    "tabac": "Non fumeur",
+    "animal": "Animaux refusés",
+    "autre": ""
+  }
+}]
