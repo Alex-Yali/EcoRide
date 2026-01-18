@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../service/db.php'; // connexion PDO
+require_once __DIR__ . '/../service/csrf.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../src/service/db.php'; // connexion PDO
-require_once '../src/service/csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $compteSup = false;
@@ -35,22 +36,18 @@ try {
             throw new Exception("Erreur CSRF : requête invalide.");
         }
 
-        // 2. Supprimer le role dans possede
-
+        // Mise à jour statut utilisateur
         $idCompte = intval($_POST['compte']);;
-        $sqlSupRole = "DELETE FROM possede WHERE utilisateur_utilisateur_id = :idUtilisateur";
+        $sqlSupRole = "UPDATE utilisateur SET statut = :statut WHERE utilisateur_id = :idUtilisateur";
         $stmtSupRole = $pdo->prepare($sqlSupRole);
-        $stmtSupRole->execute([':idUtilisateur' => $idCompte]);
-
-        // 3. Supprimer le compte dans utilisateur
-
-        $sqlSupCompte = "DELETE FROM utilisateur WHERE utilisateur_id = :idUtilisateur";
-        $stmtSupCompte = $pdo->prepare($sqlSupCompte);
-        $stmtSupCompte->execute([':idUtilisateur' => $idCompte]);
+        $stmtSupRole->execute([
+            ':idUtilisateur' => $idCompte,
+            ':statut' => "suspendu"
+        ]);
 
         $pdo->commit();
 
-        $messageSup  = "Compte supprimé avec succès.";
+        $messageSup  = "Compte suspendu avec succès.";
         $compteSup = true;
     }
 } catch (PDOException $e) {

@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . '/../service/db.php'; // connexion PDO
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../src/service/db.php'; // connexion PDO
 
 try {
 

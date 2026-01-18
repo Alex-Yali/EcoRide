@@ -4,89 +4,81 @@ Mon projet de formation
 
 # Déployer l'application en local
 
-// 1️- Installer XAMPP //
+## 1️⃣ Récupérer le projet
 
-- Télécharger XAMPP : https://www.apachefriends.org
+1. Ouvrir le dépôt GitHub : https://github.com/Alex-Yali/EcoRide
+2. Cliquer sur **Code → Download ZIP**
+3. Dézipper le dossier dans `C:\Users\<nom_utilisateur>\projet\`
+4. Renommer le dossier en `EcoRide`
+5. Copier le fichier `.env.example` et le renommer en `.env`
+6. Modifier le fichier `.env` si nécessaire (mots de passe, ports, etc.)
 
-- Installer XAMPP puis ouvrir le XAMPP Control Panel
+---
 
-- Démarrer le module Apache en cliquant sur Start
+## 2️⃣ Ouvrir le projet dans VS Code
 
-// 2- Récuperer le projet //
+1. Télécharger et installer **Visual Studio Code** via le Microsoft Store
+2. Lancer VS Code
+3. Cliquer sur **File → Open Folder** et sélectionner le dossier `EcoRide`
 
-- Ouvrir : https://github.com/Alex-Yali/EcoRide
+> L’ensemble du code apparaît dans VS Code.
 
-- Cliquer sur le bouton Code puis sur Download ZIP
+---
 
-- Dézipper le dossier dans C:\xampp\htdocs puis le renomer EcoRide
+## 3️⃣ Installer et activer Docker
 
-// 3- Ouvrir le projet dans VS Code //
+1. Télécharger et installer **Docker Desktop** : https://www.docker.com/products/docker-desktop/
+2. Lancer Docker Desktop
+3. Vérifier que Docker fonctionne en ouvrant le terminal VS Code (Ctrl + ù) et en tapant :
 
-- Télécharger et instaler Visual Studio Code via Microsoft Store
+```powershell
+docker --version
+```
 
-- Démarrer VS Code
+---
 
-- Cliquer sur le menu File (en haut à gauche) puis Open Forlder et selectionner le dossier EcoRide
+## 4️⃣ Construire et lancer les conteneurs
 
-- L'ensemble du code apparait dans VS Code
+1. Ouvrir le terminal intégré dans VS Code (Ctrl + ù)
+2. Lancer la commande pour reconstruire les images :
 
-// 4- Accéder à la base de données //
+```powershell
+docker compose build --no-cache
+```
 
-- Rechercher le fichier .env.example dans le dossier C:\xampp\htdocs\EcoRide\database
+⚠️ Attendre que la build se termine complètement
 
-- Faire un copier --> coller de se fichier puis le renommer en .env
+3. Lancer les conteneurs en arrière-plan :
 
-- Démarrer le module MySQL dans XAMPP en cliquant sur Start puis sur Admin
+```powershell
+docker compose up -d
+```
 
-- Cliquer sur Nouvelle base de données --> nom : ecoride et Interclassement : utf8mb4_general_ci
+---
 
-- Cliquer sur Créer
+## 5️⃣ Importer la base MongoDB
 
-- Aller dans la base de donnée ecoride --> Onglet Importer --> Sélectionne le fichier .sql dans C:\xampp\htdocs\EcoRide\database --> Importer
+1. Lancer la commande :
 
-// 5- Activer extention //
+```powershell
+docker exec -i ecoride-mongo mongoimport --db ecoride --collection preferences --file /tmp/database/ecoride.preferences.json --jsonArray
+```
 
-- Aller dans le dossier C:\xampp\php\php.ini
+> Cette commande importe la collection `preferences` dans la base `ecoride`.
 
-- Ouvrir le fichier avec VS Code
+---
 
-- Cliquer sur la loupe puis coller extension=intl
+## 6️⃣ Accéder à l'application
 
-- Cliquer sur le fichier trouvé puis enlever le ; dans la ligne de ;extension=intl puis faire Ctrl + S pour sauvegarder
+1. Ouvrir votre navigateur web
+2. Aller à l’adresse : http://localhost:8000/index.php
 
-- Faire de meme pour la ligne extension=php_mongodb.dll (si elle n'existe pas --> l'ajouter à la suite de "extension=intl")
+> Vous avez accès à l’application EcoRide
 
-- Télécharger 8.2 Thread Safe (TS) x64 à l'adresse https://pecl.php.net/package/mongodb/2.1.4/windows
+---
 
-- Ouvrir le dossier puis copier le fichier php_mongodb.dll puis le coller dans le dossier C:\xampp\php\ext\
+### 💡 Notes / Astuces
 
-- Télécharger MongoDB à l'adresse https://www.mongodb.com/try/download/community
-
-- Lancer l'installateur --> cocher Install MongoDB Compass et Install MongoDB as a Service
-
-- Une fois installé --> ouvrir MongoDB Compass --> New Connection --> Save & Connect
-
-- Cliquer sur localhost:27017 --> Create database --> Database Name : ecoride, Collection Name : preferences --> create Database
-
-- Cliquer sur Import data --> séléctionner le fichier ecoride.preferences.json dans le dossier C:\xampp\htdocs\EcoRide\database
-
-- Télécharger Composer-Setup.exe : https://getcomposer.org/download/
-
-- Lancer l’installateur et cocher l’option “Add composer to PATH” pendant l’installation
-
-- Retourner dans le dossier C:\xampp\php\php.ini puis faire comme précedement (enlever le ;) sur les lignes
-  extension=openssl
-  extension=mbstring
-  extension=zip
-  extension=curl
-  extension=fileinfo
-
-- Ensuite retourner dans la terminal (ctrl + ù) de l'application sur VS Code puis coller : composer install --> puis entrer
-
-// 6- Accéder à l'application en local //
-
-- Lancer son navigateur web
-
-- Coller l'adresse : http://localhost/ecoride/public/index.php
-
-- Vous avez accès à l'application
+- Pour MySQL, utilisez Adminer : [http://localhost:8080](http://localhost:8080)
+- Pour MongoDB, utilisez Mongo-Express : [http://localhost:8081](http://localhost:8081)
+- Ne jamais mettre `localhost` dans le `.env` pour MongoDB ou MySQL en Docker. Utilisez toujours les noms des services (`mongo` et `db`).

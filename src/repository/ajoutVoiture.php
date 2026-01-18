@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../service/db.php'; // connexion PDO
+require_once __DIR__ . '/../service/csrf.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once '../src/service/db.php'; // connexion PDO
-require_once '../src/service/csrf.php';
 
 $idUtilisateur = $_SESSION['user_id'] ?? null; // ID de la personne connectée
 $voitureValide = false;
@@ -124,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
             }
 
             // Connexion MongoDB
-            require_once 'mongo.php';
+            require_once __DIR__ . '/../service/mongo.php';
 
             $preferencesMongo = [
                 "tabac" => $tabac,

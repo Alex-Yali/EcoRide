@@ -1,5 +1,10 @@
+<?php
+require_once __DIR__ . '/../src/service/db.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,13 +20,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <?php
     require 'includes/header.php'
     ?>
     <main>
-        <!-- Mentions légales  --> 
+        <!-- Mentions légales  -->
         <h1 class="gros-titre">Mentions légales :</h1>
         <section>
             <h2>Présentation du site</h2>
@@ -74,7 +80,7 @@
         <section>
             <h2>Contact</h2>
             <p class="text-mention">Pour toute question concernant le projet EcoRide, vous pouvez écrire à : <br>
-            <a title="Contact" href="mailto:contact@ecoride.site">contact@ecoride.site</a> <br><br>
+                <a title="Contact" href="mailto:contact@ecoride.site">contact@ecoride.site</a> <br><br>
             </p>
         </section>
     </main>
@@ -82,7 +88,8 @@
     <?php
     require 'includes/footer.php'
     ?>
-        <!-- JS  -->
+    <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
 </body>
+
 </html>

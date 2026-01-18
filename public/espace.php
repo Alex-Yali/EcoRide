@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../src/service/init.php';
 require '../src/repository/infosUtilisateur.php';
 require '../src/service/switchPassagerChauffeur.php';
 require '../src/repository/ajoutCompte.php';
@@ -201,7 +202,7 @@ $csrf = generate_csrf_token();
                 <nav class="passagerLink">
                     <ul>
                         <li><a href="#modal">Créer compte employé</a></li>
-                        <li><a href="#supCompte">Supprimer compte</a></li>
+                        <li><a href="#supCompte">Suspendre un compte</a></li>
                     </ul>
                 </nav>
             </section>
@@ -260,7 +261,7 @@ $csrf = generate_csrf_token();
             <section id="supCompte" class="modal">
                 <section class="compte">
                     <a href="#" class="close">x</a>
-                    <h2>Suppression compte</h2>
+                    <h2>Suspension compte</h2>
 
                     <!-- Messages compte -->
                     <?php if (!empty($messageSup)): ?>
@@ -271,7 +272,7 @@ $csrf = generate_csrf_token();
                     <form class="compteListe" action="" method="POST">
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                         <select id="liste" name="compte" required>
-                            <option value="" disabled selected hidden>Compte à supprimer</option>
+                            <option value="" disabled selected hidden>Compte à suspendre</option>
 
                             <?php if (!empty($compte)) : ?>
                                 <?php foreach ($compte as $c): ?>
@@ -283,7 +284,7 @@ $csrf = generate_csrf_token();
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-                        <button class="button" id="btnSupCompte" type="submit">Supprimer</button>
+                        <button class="button" id="btnSupCompte" type="submit">Suspendre</button>
                     </form>
                 </section>
             </section>

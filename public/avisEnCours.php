@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../src/service/db.php';
 require '../src/repository/infosUtilisateur.php';
 require '../src/repository/gestionAvis.php';
 require_once '../src/service/csrf.php';

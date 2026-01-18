@@ -1,8 +1,8 @@
 <?php
-require_once '../src/service/db.php'; // Connexion PDO
-require_once '../src/repository/infosUtilisateur.php';
-require_once '../src/service/mongo.php';
-require_once '../src/service/csrf.php';
+require_once __DIR__ . '/../service/db.php'; // Connexion PDO
+require_once __DIR__ . '/../repository/infosUtilisateur.php';
+require_once __DIR__ . '/../service/mongo.php';
+require_once __DIR__ . '/../service/csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

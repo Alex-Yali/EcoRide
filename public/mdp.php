@@ -1,5 +1,10 @@
+<?php
+require_once __DIR__ . '/../src/service/init.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <?php
@@ -35,7 +41,8 @@
     <?php
     require 'includes/footer.php'
     ?>
-        <!-- JS  -->
+    <!-- JS  -->
     <script src="./assets/js/main.js" type="module"></script>
 </body>
+
 </html>
