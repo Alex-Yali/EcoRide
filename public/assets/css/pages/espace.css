@@ -428,6 +428,9 @@ input {
     #user-type label {
         font-size: 0.87rem;
     }
+    #user-type {
+        flex-direction: column;
+    }
 
     /* --- Section card voiture / pref --- */
     .voitureInfo label {
