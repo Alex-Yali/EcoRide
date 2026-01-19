@@ -60,7 +60,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'deconnexion') {
                 <img src="./assets/images/voiture 4.jpg" class="image-voiture" alt="image voiture">
                 <section class="text-box">
                     <h2>Voyagez moins chère</h2>
-                    <p class="text">Voyager à plusieurs permet de diviser les coûts du carburant, des péages ou des frais d'entretien du véhicule. Que vous soyez conducteur ou passager, le covoiturage est une solution économique et pratique pour tous..</p>
+                    <p class="text">Voyager à plusieurs permet de diviser les coûts du carburant, des péages ou des frais d'entretien du véhicule. Que vous soyez conducteur ou passager, le covoiturage est une solution économique et pratique pour tous.</p>
                 </section>
             </section>
             <section class="image-descri">

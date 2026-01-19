@@ -117,7 +117,7 @@ $ecolo   = trim($_POST['ecolo'] ?? '');
                         $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
                         // Choix de l’image selon l’énergie
                         $energie = strtolower(trim($c['energie']));
-                        $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
+                        $image = ($energie === 'essence' || $energie === 'diesel') ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
                         ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
