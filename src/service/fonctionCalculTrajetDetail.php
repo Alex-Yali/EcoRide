@@ -4,13 +4,20 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Calcul durée du trajet
-$heureDepart = new DateTime($covoitDetail['heure_depart']);
-$heureArrivee = new DateTime($covoitDetail['heure_arrivee']);
-$duree = $heureDepart->diff($heureArrivee);
+$depart = new DateTime($covoitDetail['date_depart'] . ' ' . $covoitDetail['heure_depart']);
+$arrivee = new DateTime($covoitDetail['date_arrivee'] . ' ' . $covoitDetail['heure_arrivee']);
+
+// Calcul durée
+if ($arrivee < $depart) {
+    // Si arrivée avant départ (trajet nuit), ajouter 1 jour
+    $arrivee->modify('+1 day');
+}
+
+$duree = $depart->diff($arrivee);
 $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
 
 // Choix de l’image selon le type d’énergie
 $energie = strtolower(trim($covoitDetail['energie'] ?? ''));
-$image = ($energie === 'essence')
+$image = ($energie === 'essence' || $energie === 'diesel')
     ? './assets/images/voiture-noir.png'
     : './assets/images/voiture-electrique.png';

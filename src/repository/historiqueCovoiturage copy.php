@@ -112,16 +112,11 @@ try {
             }
         }
 
-        // Vérifier si l'avis a déjà été donné
-        if (!avisDejaDonne($pdo, $idUtilisateur, $covoiturage_id, $conducteur_id) && $prixParPersonne > 0) {
-
-            $etatAvis = ($avis === 'Oui') ? 'ok' : 'nok';
-
-            // Commencer transaction
-            $pdo->beginTransaction();
-
-            $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id, etat)
-                           VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage, :etat)";
+        // Si avis déjà donné
+        if ($avis === 'Oui' && $prixParPersonne > 0) {
+            // Ajouter avis conducteur
+            $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id,etat)
+                            VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage, :etat)";
             $stmtAddAvis = $pdo->prepare($sqlAddAvis);
             $stmtAddAvis->execute([
                 ':commentaire' => $commentaire,
@@ -129,36 +124,51 @@ try {
                 ':statut' => 'en attente',
                 ':chauffeur' => $conducteur_id,
                 ':covoiturage' => $covoiturage_id,
-                ':etat' => $etatAvis
+                ':etat' => 'ok'
             ]);
             $idAvis = $pdo->lastInsertId();
 
             $sqlAddDepose = "INSERT INTO depose (utilisateur_utilisateur_id, avis_avis_id)
-                             VALUES (:utilisateur, :avis)";
+                        VALUES (:utilisateur, :avis)";
             $stmtAddDepose = $pdo->prepare($sqlAddDepose);
             $stmtAddDepose->execute([
                 ':utilisateur' => $idUtilisateur,
                 ':avis' => $idAvis
             ]);
 
-            // Ajouter crédits uniquement si avis = Oui (etat = ok)
-            if ($etatAvis === 'ok') {
-                $sqlAddCredits = "UPDATE utilisateur 
-                                  SET credits = credits + :credit 
-                                  WHERE utilisateur_id = :id";
-                $stmtAddCredits = $pdo->prepare($sqlAddCredits);
-                $stmtAddCredits->execute([
-                    ':credit' => $prixParPersonne,
-                    ':id' => $conducteur_id
-                ]);
-            }
+            // Ajouter crédits au conducteur
+            $sqlAddCredits = "UPDATE utilisateur 
+                        SET credits = credits + ? 
+                        WHERE utilisateur_id = ?";
+            $stmtAddCredits = $pdo->prepare($sqlAddCredits);
+            $stmtAddCredits->execute([$prixParPersonne, $conducteur_id]);
+        }
 
-            $pdo->commit();
+        // Avis = non
+        if ($avis === 'Non' && $prixParPersonne > 0) {
+            // Ajouter avis conducteur
+            $sqlAddAvis = "INSERT INTO avis (commentaire, note, statut, chauffeur_id, covoiturage_id,etat)
+                            VALUES (:commentaire, :note, :statut, :chauffeur, :covoiturage, :etat)";
+            $stmtAddAvis = $pdo->prepare($sqlAddAvis);
+            $stmtAddAvis->execute([
+                ':commentaire' => $commentaire,
+                ':note' => $rating,
+                ':statut' => 'en attente',
+                ':chauffeur' => $conducteur_id,
+                ':covoiturage' => $covoiturage_id,
+                ':etat' => 'nok'
+            ]);
+            $idAvis = $pdo->lastInsertId();
+
+            $sqlAddDepose = "INSERT INTO depose (utilisateur_utilisateur_id, avis_avis_id)
+                            VALUES (:utilisateur, :avis)";
+            $stmtAddDepose = $pdo->prepare($sqlAddDepose);
+            $stmtAddDepose->execute([
+                ':utilisateur' => $idUtilisateur,
+                ':avis' => $idAvis
+            ]);
         }
     }
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
     echo "<p>Erreur : " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "</p>";
 }

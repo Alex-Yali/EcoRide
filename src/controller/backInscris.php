@@ -23,6 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($pseudo === '' || $email === '' || $password === '' || $passwordConfirm === '') {
             $message = "Veuillez renseigner le pseudo, l'email et le mot de passe.";
 
+            //Vérifier la longueur du pseudo
+        } elseif (mb_strlen($pseudo) > 10) {
+            $message = "Le pseudo ne doit pas dépasser 10 caractères.";
+
             //Vérifier si le mot de passe respect notre demande
         } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$/', $password)) {
             $message = "Le mot de passe doit contenir au moins 9 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
@@ -73,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_pseudo'] = $pseudo;
                     $_SESSION['email'] = $email;
                     $_SESSION['user_credits'] = $startCredit;
+
+                    // Message de bienvenue
+                    $_SESSION['inscription_ok'] = true;
 
                     header('Location: espace.php');
                     exit;
