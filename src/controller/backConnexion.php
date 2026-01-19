@@ -25,54 +25,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 WHERE email = :email");
                 $pdoStatement->execute(['email' => $email]);
                 $user = $pdoStatement->fetch(PDO::FETCH_ASSOC);
-                $statut = $user['statut'];
+
+                //Vérifier si l'utilisateur existe
                 if (!$user) {
                     $message = "Email ou mot de passe incorrect.";
-
-                    //Si infos bonnes on vérifie si le mot de passe est hashé (bcrypt)
-                } elseif ($statut == "suspendu") {
-                    $message = "Compte suspendu";
                 } else {
 
-                    $dbPass = $user['password'];
-                    $is_hashed = (strpos($dbPass, '$2y$') === 0);
+                    //Vérifier le statut du compte
+                    $statut = $user['statut'];
 
-                    // Mot de passe déjà haché -> vérifier avec password_verify
-                    if ($is_hashed) {
-                        if (password_verify($password, $dbPass)) {
-                            session_regenerate_id(true);
-                            $_SESSION['user_id'] = $user['utilisateur_id'];
-                            $_SESSION['user_email'] = $user['email'];
-                            $_SESSION['user_pseudo'] = $user['pseudo'];
-                            $_SESSION['user_credits'] = $user['credits'];
-                            header('Location: espace.php');
-                            exit;
-                        } else {
-                            $message = "Email ou mot de passe incorrect.";
-                        }
+                    if ($statut == "suspendu") {
+                        $message = "Compte suspendu";
                     } else {
-                        // Mot de passe en clair : on vérifie l'égalite puis on hache et met à jour
-                        if ($password === $dbPass) {
 
-                            // On hash le mot de passe
-                            $newHash = password_hash($password, PASSWORD_BCRYPT);
+                        //Si infos bonnes on vérifie si le mot de passe est hashé (bcrypt)
+                        $dbPass = $user['password'];
+                        $is_hashed = (strpos($dbPass, '$2y$') === 0);
 
-                            // On modifie dans la base de donnée
-                            $update = $pdo->prepare("UPDATE utilisateur SET password = :hash WHERE utilisateur_id = :id");
-                            $update->bindValue('hash', $newHash);
-                            $update->bindValue('id', $user['utilisateur_id']);
-                            $update->execute();
-
-                            // Ensuite connecter l'utilisateur
-                            session_regenerate_id(true);
-                            $_SESSION['user_id'] = $user['utilisateur_id'];
-                            $_SESSION['user_email'] = $user['email'];
-                            $_SESSION['user_pseudo'] = $user['pseudo'];
-                            $_SESSION['user_credits'] = $user['credits'];
-                            header('Location: espace.php');
-                            exit;
+                        // Mot de passe déjà haché -> vérifier avec password_verify
+                        if ($is_hashed) {
+                            if (password_verify($password, $dbPass)) {
+                                session_regenerate_id(true);
+                                $_SESSION['user_id'] = $user['utilisateur_id'];
+                                $_SESSION['user_email'] = $user['email'];
+                                $_SESSION['user_pseudo'] = $user['pseudo'];
+                                $_SESSION['user_credits'] = $user['credits'];
+                                header('Location: espace.php');
+                                exit;
+                            } else {
+                                $message = "Email ou mot de passe incorrect.";
+                            }
                         } else {
-                            $message = "Email ou mot de passe incorrect.";
+                            // Mot de passe en clair : on vérifie l'égalite puis on hache et met à jour
+                            if ($password === $dbPass) {
+
+                                // On hash le mot de passe
+                                $newHash = password_hash($password, PASSWORD_BCRYPT);
+
+                                // On modifie dans la base de donnée
+                                $update = $pdo->prepare("UPDATE utilisateur SET password = :hash WHERE utilisateur_id = :id");
+                                $update->bindValue('hash', $newHash);
+                                $update->bindValue('id', $user['utilisateur_id']);
+                                $update->execute();
+
+                                // Ensuite connecter l'utilisateur
+                                session_regenerate_id(true);
+                                $_SESSION['user_id'] = $user['utilisateur_id'];
+                                $_SESSION['user_email'] = $user['email'];
+                                $_SESSION['user_pseudo'] = $user['pseudo'];
+                                $_SESSION['user_credits'] = $user['credits'];
+                                header('Location: espace.php');
+                                exit;
+                            } else {
+                                $message = "Email ou mot de passe incorrect.";
+                            }
                         }
                     }
                 }

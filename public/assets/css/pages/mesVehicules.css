@@ -116,4 +116,7 @@ table tbody tr:hover {
     font-size: 0.7rem;
     padding: 0.4rem;
   }
+  table {
+    margin: 0.5rem;
+  }
 }

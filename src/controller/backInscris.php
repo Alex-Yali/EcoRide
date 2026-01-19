@@ -17,14 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pseudo = $_POST['pseudo'] ?? '';
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+        $passwordConfirm = $_POST['password_confirm'] ?? '';
 
         //Vérifier si un champ est vide
-        if ($pseudo === '' || $email === '' || $password === '') {
+        if ($pseudo === '' || $email === '' || $password === '' || $passwordConfirm === '') {
             $message = "Veuillez renseigner le pseudo, l'email et le mot de passe.";
 
             //Vérifier si le mot de passe respect notre demande
         } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$/', $password)) {
             $message = "Le mot de passe doit contenir au moins 9 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
+        } elseif ($passwordConfirm !== $password) {
+            $message = "Les mots de passe ne correspondent pas";
 
             //Vérifier si l'utilisateur existe déjà
         } else {
