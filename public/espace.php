@@ -294,6 +294,14 @@ $csrf = generate_csrf_token();
     <!-- Footer -->
     <?php require 'includes/footer.php'; ?>
 
+    <!-- Message bienvenue -->
+    <?php if (!empty($_SESSION['inscription_ok'])): ?>
+        <script>
+            alert("Bienvenue ! Vous disposez dès maintenant de 20 crédits.");
+        </script>
+    <?php unset($_SESSION['inscription_ok']);
+    endif; ?>
+
     <!-- JS -->
     <script src="./assets/js/main.js" type="module"></script>
     <!-- Script graphique -->

@@ -15,7 +15,7 @@ if (!empty($_SESSION['user_id'])) {
 
     if ($user) {
         $pseudoUtilisateur = ucfirst($user['pseudo']);
-        $creditsUtilisateur = $user['credits'];
+        $creditsUtilisateur = max(0, $user['credits']);
         $idUtilisateur = $user['utilisateur_id'];
         $roleUtilisateur = $user['libelle'];
     } else {

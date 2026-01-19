@@ -62,32 +62,29 @@ try {
             $stmtInfo->execute([':id' => $idAvis]);
             $info = $stmtInfo->fetch(PDO::FETCH_ASSOC);
 
-            $etat = $info['etat']; // 'ok' ou 'nok'
+            $etat = $info['etat'];
             $prixParPersonne = $info['prix_personne'];
             $idChauffeur = $info['chauffeur_id'];
 
+            // Ajouter crédits si valider et etat 'nok'
+            if ($etat === 'nok') {
+                $sqlAddCredits = "UPDATE utilisateur 
+                                    SET credits = credits + :credit 
+                                    WHERE utilisateur_id = :id";
+                $stmtAddCredits = $pdo->prepare($sqlAddCredits);
+                $stmtAddCredits->execute([
+                    ':credit' => $prixParPersonne,
+                    ':id' => $idChauffeur
+                ]);
+            }
+
             // Valider l'avis
-            $sqlValider = "UPDATE avis SET statut = 'valider', employe_id = :idEmploye WHERE avis_id = :id AND statut = 'en attente'";
+            $sqlValider = "UPDATE avis SET statut = 'valider', employe_id = :idEmploye WHERE avis_id = :id";
             $stmtValider = $pdo->prepare($sqlValider);
             $stmtValider->execute([
                 ':id' => $idAvis,
                 ':idEmploye' => $idUtilisateur
             ]);
-
-            // Si l'avis a bien été validé par l'employé
-            if ($stmtValider->rowCount() > 0) {
-                // Ajouter crédits uniquement si etat = 'nok'
-                if ($etat === 'nok') {
-                    $sqlAddCredits = "UPDATE utilisateur 
-                                      SET credits = credits + :credit 
-                                      WHERE utilisateur_id = :id";
-                    $stmtAddCredits = $pdo->prepare($sqlAddCredits);
-                    $stmtAddCredits->execute([
-                        ':credit' => $prixParPersonne,
-                        ':id' => $idChauffeur
-                    ]);
-                }
-            }
 
             header("Location: ../avisEnCours.php");
             exit;

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../service/db.php'; // connexion PDO
 require_once __DIR__ . '/../service/csrf.php';
+require_once __DIR__ . '/infosUtilisateur.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -26,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $places = (int) $_POST['places'];
     $prix = (float) $_POST['prix'];
     $voiture = $_POST['voiture'] ?? '';
+    $dtDepart = new DateTime("$dateDepart $heureDepart");
+    $dtArrivee = new DateTime("$dateArrivee $heureArrivee");
 
     if ($voiture === '') {
         $messageTrajet  = "Veuillez sélectionner une voiture.";
@@ -39,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
         $dateArrivee === '' || $heureArrivee === '' || $places <= 0 || $prix <= 0  ||  $voiture <= 0
     ) {
         $messageTrajet  = "Veuillez renseigner tous les champs.";
+    } elseif ($dtArrivee < $dtDepart) {
+        $messageTrajet = "La date et l'heure d'arrivée doivent être après le départ.";
+        // Vérifier si crédit suffisant
+    } elseif ($creditsUtilisateur < 2) {
+        $messageTrajet  = "Vous n'avez pas assez de crédits.";
     } else {
         $depart = ucfirst(strtolower($depart));
         $destination = ucfirst(strtolower($destination));
