@@ -3,18 +3,17 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Calcul durée du trajet
+// Création des DateTime complètes
 $depart = new DateTime($covoitDetail['date_depart'] . ' ' . $covoitDetail['heure_depart']);
 $arrivee = new DateTime($covoitDetail['date_arrivee'] . ' ' . $covoitDetail['heure_arrivee']);
 
-// Calcul durée
-if ($arrivee < $depart) {
-    // Si arrivée avant départ (trajet nuit), ajouter 1 jour
-    $arrivee->modify('+1 day');
-}
+// Calcul durée totale en minutes
+$totalMinutes = ($arrivee->getTimestamp() - $depart->getTimestamp()) / 60;
 
-$duree = $depart->diff($arrivee);
-$dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
+// Convertir en heures et minutes
+$heures = floor($totalMinutes / 60);
+$minutes = $totalMinutes % 60;
+$dureeCovoit = $heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
 
 // Choix de l’image selon le type d’énergie
 $energie = strtolower(trim($covoitDetail['energie'] ?? ''));
