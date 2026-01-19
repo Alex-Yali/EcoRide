@@ -62,7 +62,7 @@ $csrf = generate_csrf_token();
                                 <section class="com">
                                     <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?>
                                 </section>
-                                <form method="POST" action="../src/repository/gestionAvis.php" class="valideAvis">
+                                <form method="POST" action="../../src/repository/gestionAvis.php" class="valideAvis">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                                     <button class="check check-green" type="submit" name="valider" value="<?= $a['avis_id'] ?>">✅ Accepter avis</button>
                                     <button class="check check-red" type="submit" name="refuser" value="<?= $a['avis_id'] ?>">❌ Refuser avis</button>
