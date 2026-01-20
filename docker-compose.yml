@@ -1,5 +1,5 @@
 services:
-  #Service PHP
+  # Service PHP
   php:
     build: .
     container_name: ecoride-php
@@ -12,7 +12,8 @@ services:
     env_file:
       - ./.env
     volumes:
-      - .:/var/www/html
+      - ./src:/var/www/html/src
+      - ./public:/var/www/html/public
 
   # Database MySQL
   db:
