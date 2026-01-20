@@ -383,7 +383,7 @@ input {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
 
     #user-type label {
         padding: 0;
@@ -418,7 +418,7 @@ input {
     .passagerLink, .chauffeurLink {
         padding: 1rem;
         width: 80%;
-        margin: 0 auto;
+        margin: 0 auto 1rem;
     }
     .passagerLink li, .chauffeurLink li {
         justify-content: center;

@@ -253,7 +253,7 @@ main {
     .footer-links { gap: 3.125rem; }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     .nav-head {
         padding: 0 1.25rem;
         justify-content: space-between;

@@ -103,7 +103,7 @@ table tbody tr:hover {
   }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
   .user-id {
     margin: 0 auto;
       font-size: 0.87rem;
@@ -113,8 +113,8 @@ table tbody tr:hover {
       align-items: center;
     }
   table thead th, table tbody td {
-    font-size: 0.7rem;
-    padding: 0.4rem;
+    font-size: 0.65rem;
+    padding: 0.2rem;
   }
   table {
     margin: 0.5rem;
