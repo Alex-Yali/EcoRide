@@ -233,6 +233,10 @@ $csrf = generate_csrf_token();
 
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
 
+                        <label>Pseudo :
+                            <input type="text" name="pseudo" required>
+                        </label>
+
                         <label>Email :
                             <input type="email" name="email" required>
                         </label>
@@ -241,8 +245,8 @@ $csrf = generate_csrf_token();
                             <input type="password" name="password" required>
                         </label>
 
-                        <label>Pseudo :
-                            <input type="text" name="pseudo" required>
+                        <label>Confirmer mot de passe :
+                            <input type="password" name="password_confirm" required>
                         </label>
 
                         <label>Crédits :
