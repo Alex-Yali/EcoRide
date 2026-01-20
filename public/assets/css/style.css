@@ -271,8 +271,8 @@ main {
     .footer-links,
     .footer-links p,
     .footer-links a {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
-    .footer-links { gap: 1.5rem; }
+    .footer-links { gap: 0.5rem; }
 }
