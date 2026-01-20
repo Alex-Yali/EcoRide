@@ -1,6 +1,6 @@
 <?php
-require_once '../src/service/db.php';
-require_once '../src/service/csrf.php';
+require_once __DIR__ . '/../service/db.php';
+require_once __DIR__ . '/../service/csrf.php';
 $message = '';
 $startCredit = 20;
 
