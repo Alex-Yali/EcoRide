@@ -50,7 +50,7 @@
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     .nav-bar {
         width: 80%;
     }

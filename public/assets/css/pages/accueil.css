@@ -76,7 +76,7 @@ h2 {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
 
     .image-descri {
         flex-direction: column;

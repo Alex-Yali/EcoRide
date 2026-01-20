@@ -291,7 +291,7 @@ h3, legend {
         width: 20%;
     }
     .info-covoit {
-        width: 92%;
+        width: 100%;
         height: auto;
     }
     .user-name {
@@ -316,7 +316,7 @@ h3, legend {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     .user-id {
         width: auto;
         margin: 0;
@@ -389,6 +389,9 @@ h3, legend {
     }
     #btnValider {
         height: auto;
+    }
+    .box {
+        width: 100%;
     }
 
 }

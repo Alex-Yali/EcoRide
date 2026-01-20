@@ -42,7 +42,7 @@ $csrf = generate_csrf_token();
                     <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
                 </section>
             </section>
-            <section>
+            <section class="box">
                 <?php if ($mesCovoit): ?>
                     <?php foreach ($mesCovoit as $c): ?>
                         <?php

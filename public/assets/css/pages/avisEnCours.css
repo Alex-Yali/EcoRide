@@ -250,7 +250,7 @@ table tbody tr:hover {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     h1 {
         white-space: nowrap;
         font-size: 1.75rem;
@@ -258,6 +258,7 @@ table tbody tr:hover {
 
     .boxAvis {
         width: 80%;
+        margin-bottom: 1rem;
     }
 
     .infos {
