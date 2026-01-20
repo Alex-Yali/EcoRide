@@ -25,15 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['formType'] ?? '') === 'ajo
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $pseudo = trim($_POST['pseudo'] ?? '');
-    $credits = (int)$_POST['credits'];
+    $credits = (int)($_POST['credits'] ?? 0);
+    $passwordConfirm = trim($_POST['password_confirm'] ?? '');
 
     // Vérifier si un champ est vide
-    if ($email === '' || $password === '' || $pseudo === '' || $credits <= 0) {
+    if ($email === '' || $password === '' || $pseudo === '' || $passwordConfirm === '' || $credits <= 0) {
         $messageCompte  = "Veuillez renseigner tous les champs.";
+
+        //Vérifier la longueur du pseudo
+    } elseif (mb_strlen($pseudo) > 10) {
+        $messageCompte = "Le pseudo ne doit pas dépasser 10 caractères.";
 
         //Vérifier si le mot de passe respect notre demande
     } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$/', $password)) {
         $messageCompte = "Le mot de passe doit contenir au moins 9 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.";
+    } elseif ($passwordConfirm !== $password) {
+        $messageCompte = "Les mots de passe ne correspondent pas";
     } else {
         $pseudo = ucfirst(strtolower($pseudo));
         $email = strtolower($email);
