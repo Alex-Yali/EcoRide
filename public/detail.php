@@ -1,8 +1,8 @@
 <?php
-require_once '../src/repository/detailCovoiturage.php';
-require_once '../src/service/fonctionCalculTrajetDetail.php';
-require_once '../src/repository/infosUtilisateur.php';
-require_once '../src/service/csrf.php';
+require_once __DIR__ . '/../src/repository/detailCovoiturage.php';
+require_once __DIR__ . '/../src/service/fonctionCalculTrajetDetail.php';
+require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
+require_once __DIR__ . '/../src/service/csrf.php';
 $csrf = generate_csrf_token();
 ?>
 

@@ -1,7 +1,7 @@
 <?php
-require '../src/repository/covoiturageEnCours.php';
-require '../src/repository/infosUtilisateur.php';
-require '../src/service/csrf.php';
+require_once __DIR__ . '/../src/repository/covoiturageEnCours.php';
+require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
+require_once __DIR__ . '/../src/service/csrf.php';
 $csrf = generate_csrf_token();
 ?>
 

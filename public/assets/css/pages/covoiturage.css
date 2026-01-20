@@ -139,21 +139,16 @@ h1 {
     background-color: white;
     border-radius: 1rem;
     width: 50rem;
-    height: 9rem;
+    height: auto;
     margin-bottom: 1.25rem;
     border: 1px solid #ccc;
+    padding: 0.5rem;
 }
 
 .time-covoit {
     display: flex;
     align-items: center;
     padding-left: 2rem;
-}
-
-.start-time,
-.end-time {
-    width: 8%;
-    height: 25%;
 }
 
 .start-time p,
@@ -247,7 +242,7 @@ h1 {
         width: 95%;
         margin: 0 auto 2rem;
     }
-    .box-covoit { margin: 3rem auto 0; }
+    .box-covoit { margin: 3rem 1rem 0; }
     .nbr-place { padding-left: 3rem; }
     .button {
         height: 2.5rem;
@@ -318,5 +313,9 @@ h1 {
     }
     .time {
         margin-bottom: 0.6rem;
+    }
+    .start-time,
+    .end-time {
+        width: 8%;
     }
 }

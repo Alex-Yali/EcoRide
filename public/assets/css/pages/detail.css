@@ -88,6 +88,7 @@ h2 {
 .time-covoit {
     display: flex;
     align-items: center;
+    padding: 0 1rem;
 }
 
 .start-time {
