@@ -51,10 +51,10 @@ require_once __DIR__ . '/../src/repository/mesVoitures.php';
                         <tr>
                             <th>Marque</th>
                             <th>Modèle</th>
-                            <th>Immatriculation</th>
+                            <th>Immat</th>
                             <th>Couleur</th>
                             <th>Énergie</th>
-                            <th>Date 1ère immatriculation</th>
+                            <th>Date 1ère immat</th>
                         </tr>
                     </thead>
                     <tbody>
