@@ -253,7 +253,7 @@ h1 {
     #btnFiltres { margin: 0; }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     .filtres {
         width: 90%;
         gap: 0;

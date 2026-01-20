@@ -43,7 +43,7 @@ input {
 }
 
 /* --- Responsive --- */
-@media (max-width: 426px) {
+@media (max-width: 480px) {
     h1 {
         font-size: 1rem;
     }
