@@ -1,6 +1,6 @@
 <?php
-require '../src/repository/infosUtilisateur.php';
-require '../src/repository/mesVoitures.php';
+require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
+require_once __DIR__ . '/../src/repository/mesVoitures.php';
 ?>
 
 

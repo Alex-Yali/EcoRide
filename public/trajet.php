@@ -1,7 +1,8 @@
-<?php require '../src/repository/mesVoitures.php';
-require '../src/repository/ajoutVoitureTrajet.php';
-require '../src/repository/ajoutTrajet.php';
-require_once '../src/service/csrf.php';
+<?php
+require_once __DIR__ . '/../src/repository/mesVoitures.php';
+require_once __DIR__ . '/../src/repository/ajoutVoitureTrajet.php';
+require_once __DIR__ . '/../src/repository/ajoutTrajet.php';
+require_once __DIR__ . '/../src/service/csrf.php';
 $csrf = generate_csrf_token();
 ?>
 

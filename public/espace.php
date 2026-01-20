@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/../src/service/init.php';
-require '../src/repository/infosUtilisateur.php';
-require '../src/service/switchPassagerChauffeur.php';
-require '../src/repository/ajoutCompte.php';
-require '../src/repository/graphique.php';
-require '../src/repository/supCompte.php';
-require '../src/service/csrf.php';
-require '../src/repository/ajoutVoiture.php';
+require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
+require_once __DIR__ . '/../src/service/switchPassagerChauffeur.php';
+require_once __DIR__ . '/../src/repository/ajoutCompte.php';
+require_once __DIR__ . '/../src/repository/graphique.php';
+require_once __DIR__ . '/../src/repository/supCompte.php';
+require_once __DIR__ . '/../src/service/csrf.php';
+require_once __DIR__ . '/../src/repository/ajoutVoiture.php';
 $csrf = generate_csrf_token();
 
 ?>

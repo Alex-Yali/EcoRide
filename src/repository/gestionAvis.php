@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../service/db.php'; // connexion PDO
-require_once __DIR__ . '/../repository/infosUtilisateur.php';
+require_once __DIR__ . '/infosUtilisateur.php';
 require_once __DIR__ . '/../service/csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -89,7 +89,7 @@ try {
                 }
             }
 
-            header("Location: ../avisEnCours.php");
+            header("Location: /avisEnCours.php");
             exit;
         }
 
@@ -104,7 +104,7 @@ try {
                 ':id' => $idAvis,
                 ':idEmploye' => $idUtilisateur
             ]);
-            header("Location: ../avisEnCours.php");
+            header("Location: /avisEnCours.php");
             exit;
         }
     }
@@ -149,7 +149,7 @@ try {
                         FROM avis a
                         JOIN depose d ON d.avis_avis_id = a.avis_id
                         JOIN utilisateur ua ON ua.utilisateur_id = d.utilisateur_utilisateur_id  -- passager
-                        WHERE statut IN ('valider','refuser')
+                        WHERE a.statut IN ('valider','refuser')
                         AND a.employe_id = :idEmploye
                         ";
     $stmtAvisCheck = $pdo->prepare($sqlAvisCheck);
