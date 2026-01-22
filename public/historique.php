@@ -46,11 +46,14 @@ $csrf = generate_csrf_token();
                 <?php if ($mesCovoit): ?>
                     <?php foreach ($mesCovoit as $c): ?>
                         <?php
-                        $heureDepart = new DateTime($c['heure_depart']);
-                        $heureArrivee = new DateTime($c['heure_arrivee']);
-                        $duree = $heureDepart->diff($heureArrivee);
-                        $dureeCovoit = $duree->h . 'h' . str_pad($duree->i, 2, '0', STR_PAD_LEFT);
-
+                        $depart = new DateTime($c['date_depart'] . ' ' . $c['heure_depart']);
+                        $arrivee = new DateTime($c['date_arrivee'] . ' ' . $c['heure_arrivee']);
+                        // Calcul durée totale en minutes
+                        $totalMinutes = ($arrivee->getTimestamp() - $depart->getTimestamp()) / 60;
+                        // Convertir en heures et minutes
+                        $heures = floor($totalMinutes / 60);
+                        $minutes = $totalMinutes % 60;
+                        $dureeCovoit = $heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
                         // Choix de l’image selon l’énergie
                         $energie = strtolower(trim($c['energie']));
                         $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
