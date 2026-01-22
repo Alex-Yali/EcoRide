@@ -7,6 +7,7 @@ require_once __DIR__ . '/../src/repository/graphique.php';
 require_once __DIR__ . '/../src/repository/supCompte.php';
 require_once __DIR__ . '/../src/service/csrf.php';
 require_once __DIR__ . '/../src/repository/ajoutVoiture.php';
+require_once __DIR__ . '/../src/repository/note.php';
 $csrf = generate_csrf_token();
 
 ?>
@@ -153,7 +154,10 @@ $csrf = generate_csrf_token();
                             <section class="user-id">
                                 <section class="user-name">
                                     <img src="./assets/images/compte noir.png" alt="image compte noir">
-                                    <span class="pseudo"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                                    <section class="note">
+                                        <span class="pseudo"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                                        <span><?= isset($note['moyenne']) && $note['moyenne'] !== null ? round($note['moyenne'], 1) . ' ★' : 'Non noté' ?></span>
+                                    </section>
                                 </section>
                                 <section class="user-info">
                                     <img src="./assets/images/pile-de-pieces.png" alt="image pièces">
