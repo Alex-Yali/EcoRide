@@ -81,7 +81,7 @@ $csrf = generate_csrf_token();
                     <!-- Places -->
                     <section class="nav-cat">
                         <img src="./assets/images/compte gris.png" class="icon" alt="">
-                        <input type="number" name="places" id="places2" placeholder="Nombre de places" min="1" required>
+                        <input type="number" name="places" id="places2" placeholder="Nombre de places" min="1" max="4" required>
                     </section>
 
                     <!-- Prix -->
@@ -163,7 +163,7 @@ $csrf = generate_csrf_token();
                     </label>
 
                     <label>Places dispo :
-                        <input type="number" name="place" min="1" required>
+                        <input type="number" name="place" min="1" max="4" required>
                     </label>
 
                     <section class="voitureEnergie">
