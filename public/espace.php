@@ -109,7 +109,7 @@ $csrf = generate_csrf_token();
                                     <input type="text" id="couleur" name="couleur" required>
                                 </label>
                                 <label>Places dispo :
-                                    <input type="number" id="place" name="place" min="1" required>
+                                    <input type="number" id="place" name="place" min="1" min="4" required>
                                 </label>
                                 <section class="energie">
                                     <label for="energie">Énergie utilisée :</label>

@@ -24,6 +24,6 @@ btnAvis.forEach((avis) => {
   avis.addEventListener("click", (event) => {
     event.preventDefault();
     const idAvis = avis.dataset.id;
-    window.open(`./avis.php?id=${idAvis}`, "_blank"); // Ouvre la page de détails dans un nouvel onglet
+    window.location.href = `./avis.php?id=${idAvis}`;
   });
 });
