@@ -45,7 +45,7 @@ $csrf = generate_csrf_token();
                 <label for="password"></label><input type="password" name="password" id="password" placeholder="Mot de passe" required>
             </section>
             <section>
-                <label for="password"></label><input type="password" name="password_confirm" id="password" placeholder=" Confirmer mot de passe" required>
+                <label for="password"></label><input type="password" name="password_confirm" id="password_confirm" placeholder=" Confirmer mot de passe" required>
             </section>
 
             <!-- Affichage du message d'erreur -->

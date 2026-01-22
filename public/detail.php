@@ -123,13 +123,14 @@ $csrf = generate_csrf_token();
                         $prixCovoit = $covoitDetail['prix_personne'];
                         $placeDispo = $covoitDetail['nb_place'];
                         $creditsUtilisateur = $creditsUtilisateur ?? 0;
-                        if ($idUtilisateur && $creditsUtilisateur >= $prixCovoit && $placeDispo > 0): ?>
+                        $passager = (int) $user['passager'];
+                        if ($idUtilisateur && $creditsUtilisateur >= $prixCovoit && $placeDispo > 0 && $passager === 1): ?>
                             <button id="btnParticipe" class="button" type="button">Participer</button>
                         <?php elseif (!$idUtilisateur): ?>
                             <a href="connexion.php" class="button" id="btnConnexion">Se connecter</a>
                         <?php else: ?>
                             <button id="btnParticipeDesactive" class="button" type="button"
-                                title="Crédits insuffisants ou aucune place disponible pour ce voyage.">Participer</button>
+                                title="Vous n'êtes pas passager, ou crédits insuffisants, ou aucune place disponible pour ce voyage.">Participer</button>
                         <?php endif; ?>
                     </section>
 

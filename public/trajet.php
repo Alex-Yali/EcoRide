@@ -88,7 +88,6 @@ $csrf = generate_csrf_token();
                     <section class="nav-cat">
                         <img src="./assets/images/prix gris.png" class="icon" alt="">
                         <input type="number" name="prix" id="prix2" placeholder="Prix (€)" min="1" required>
-                        <span class="info-icon" title="2 crédits seront déduits de votre solde">ℹ️</span>
                     </section>
 
                     <!-- Véhicule -->
@@ -112,6 +111,7 @@ $csrf = generate_csrf_token();
                             <img src="./assets/images/icon plus.png" id="icon-plus" alt="Ajouter">
                         </a>
                     </section>
+                    <p class="info-icon">ℹ️: 2 crédits seront déduits de votre solde </p>
 
                     <!-- Bouton -->
                     <input type="hidden" name="formType" value="ajoutTrajet">
