@@ -123,7 +123,7 @@ $csrf = generate_csrf_token();
                         $prixCovoit = $covoitDetail['prix_personne'];
                         $placeDispo = $covoitDetail['nb_place'];
                         $creditsUtilisateur = $creditsUtilisateur ?? 0;
-                        $passager = (int) $user['passager'];
+                        $passager = $user ? (int) ($user['passager'] ?? 0) : 0;
                         if ($idUtilisateur && $creditsUtilisateur >= $prixCovoit && $placeDispo > 0 && $passager === 1): ?>
                             <button id="btnParticipe" class="button" type="button">Participer</button>
                         <?php elseif (!$idUtilisateur): ?>
