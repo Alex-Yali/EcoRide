@@ -145,6 +145,10 @@ h1 {
     padding: 0.5rem;
 }
 
+.info-covoit:hover {
+    transform: scale(1.05);
+}
+
 .time-covoit {
     display: flex;
     align-items: center;
