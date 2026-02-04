@@ -31,6 +31,23 @@ input {
     padding: 0.5rem;
 }
 
+.password-container {
+    position: relative;
+}
+
+.oeil {
+    height: 20px;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none; /* Empêche de sélectionner l'icône comme du texte */
+}
+
 /* --- Responsive --- */
 @media (max-width: 480px) {
     h1 {
