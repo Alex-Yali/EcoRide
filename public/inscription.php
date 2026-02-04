@@ -41,11 +41,19 @@ $csrf = generate_csrf_token();
             <section>
                 <label for="email"></label><input type="email" id="email" name="email" placeholder="Email@mail.com" required>
             </section>
-            <section>
+            <section class="password-container">
                 <label for="password"></label><input type="password" name="password" id="password" placeholder="Mot de passe" required>
+                <span id="togglePassword" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
             </section>
-            <section>
+            <section class="progression">
+                <section class="strength-meter">
+                    <section id="strength-bar" class="strength-bar"></section>
+                </section>
+                <small id="strength-text"></small>
+            </section>
+            <section class="password-container">
                 <label for="password"></label><input type="password" name="password_confirm" id="password_confirm" placeholder=" Confirmer mot de passe" required>
+                <span id="togglePasswordConfirm" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
             </section>
 
             <!-- Affichage du message d'erreur -->

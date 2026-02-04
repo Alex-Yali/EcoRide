@@ -41,8 +41,9 @@ $csrf = generate_csrf_token();
                 <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
             </section>
 
-            <section>
+            <section class="password-container">
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
+                <span id="togglePassword" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
             </section>
 
             <!-- Affichage du message d'erreur -->
@@ -57,6 +58,7 @@ $csrf = generate_csrf_token();
 
     <?php require 'includes/footer.php'; ?>
     <script src="./assets/js/main.js" type="module"></script>
+    <script src="./assets/js/pages/connexion.js" type="module"></script>
 </body>
 
 </html>
