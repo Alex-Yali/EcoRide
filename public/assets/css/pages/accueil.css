@@ -35,6 +35,10 @@ h1 {
     gap: 1.25rem;
 }
 
+.image-descri:hover {
+    transform: scale(1.1);
+}
+
 /* Titres internes */
 h2 {
     margin: 0;
