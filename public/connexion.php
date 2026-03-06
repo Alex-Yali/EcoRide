@@ -37,11 +37,13 @@ $csrf = generate_csrf_token();
 
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf); ?>">
 
-            <section>
+            <section class="input-group">
                 <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
+                <span class="icon"></span>
+                <span class="error">Le mail n'est pas au bon format</span>
             </section>
 
-            <section class="password-container">
+            <section class="input-group">
                 <input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <span id="togglePassword" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
             </section>

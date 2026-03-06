@@ -35,13 +35,17 @@ $csrf = generate_csrf_token();
         <form id="formulaire" action="" method="POST">
 
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-            <section>
-                <label for="pseudo"></label><input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
+            <section class="input-group">
+                <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
+                <span class="icon"></span>
+                <span class="error">Le pseudo doit être inférieur à 10 caractères</span>
             </section>
-            <section>
-                <label for="email"></label><input type="email" id="email" name="email" placeholder="Email@mail.com" required>
+            <section class="input-group">
+                <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
+                <span class="icon"></span>
+                <span class="error">Le mail n'est pas au bon format</span>
             </section>
-            <section class="password-container">
+            <section class="input-group">
                 <label for="password"></label><input type="password" name="password" id="password" placeholder="Mot de passe" required>
                 <span id="togglePassword" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
             </section>
@@ -51,9 +55,10 @@ $csrf = generate_csrf_token();
                 </section>
                 <small id="strength-text"></small>
             </section>
-            <section class="password-container">
+            <section class="input-group">
                 <label for="password"></label><input type="password" name="password_confirm" id="password_confirm" placeholder=" Confirmer mot de passe" required>
                 <span id="togglePasswordConfirm" class="eye-icon"><img src="assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
+                <span class="error">Les mots de passe ne sont pas identiques</span>
             </section>
 
             <!-- Affichage du message d'erreur -->

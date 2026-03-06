@@ -227,6 +227,59 @@ main {
     text-underline-offset: 1rem;
 }
 
+/* Formulaire inscription et connexion */
+.input-group {
+  position: relative;
+}
+
+.input-group input {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    background-color: #D9D9D9;
+    width: 34rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    display: none;
+    margin: 2px 0 0 2px;
+}
+
+input.is-invalid ~ .error {
+    display: block;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 1.25rem;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.input-group input.is-valid {
+    border: 2px solid #267240;
+}
+
+.input-group input.is-valid + .icon::before {
+    content: "✔";
+    color: #267240;
+}
+
+.input-group input.is-invalid {
+    border: 2px solid #ff0000;
+}
+
+.input-group input.is-invalid + .icon::before {
+    content: "✖";
+    color: red;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .nav-head { padding: 0 9.375rem; }
@@ -275,4 +328,9 @@ main {
     }
 
     .footer-links { gap: 0.5rem; }
+
+    .input-group input {
+        width: 18rem;
+        font-size: 0.8rem;
+    }
 }

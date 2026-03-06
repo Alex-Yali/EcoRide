@@ -1,3 +1,73 @@
+ /*Implémenter le JS de ma page*/
+const inputMail = document.getElementById("email");
+const inputPassword = document.getElementById("password");
+const btnValidation = document.getElementById("btnConect");
+ 
+inputMail.addEventListener("keyup", validateForm);
+inputPassword.addEventListener("keyup", validateForm);
+
+
+function validateMail(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(emailRegex.test(input.value)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+function validatePassword(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$/;
+    const passwordUser = input.value;
+
+    if(passwordUser.match(passwordRegex)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+//Function permettant de valider tout le formulaire
+function validateForm(){
+    const mailOk = validateMail(inputMail);
+    const passwordOk = validatePassword(inputPassword);
+
+    if(mailOk && passwordOk){
+        btnValidation.disabled = false;
+    }
+    else{
+        btnValidation.disabled = true;
+    }
+}
+
 /* Affichage mot de passe en clair */
 const passwordInput = document.querySelector('#password');
 const togglePassword = document.querySelector('#togglePassword');
