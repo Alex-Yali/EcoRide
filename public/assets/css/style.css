@@ -254,7 +254,7 @@ input.is-invalid ~ .error {
     display: block;
 }
 
-.icon {
+.iconForm {
   position: absolute;
   right: 10px;
   top: 1.25rem;
@@ -266,7 +266,7 @@ input.is-invalid ~ .error {
     border: 2px solid #267240;
 }
 
-.input-group input.is-valid + .icon::before {
+.input-group input.is-valid + .iconForm::before {
     content: "✔";
     color: #267240;
 }
@@ -275,7 +275,7 @@ input.is-invalid ~ .error {
     border: 2px solid #ff0000;
 }
 
-.input-group input.is-invalid + .icon::before {
+.input-group input.is-invalid + .iconForm::before {
     content: "✖";
     color: red;
 }

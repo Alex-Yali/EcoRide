@@ -39,7 +39,7 @@ $csrf = generate_csrf_token();
 
             <section class="input-group">
                 <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
-                <span class="icon"></span>
+                <span class="iconForm"></span>
                 <span class="error">Le mail n'est pas au bon format</span>
             </section>
 

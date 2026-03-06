@@ -37,12 +37,12 @@ $csrf = generate_csrf_token();
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
             <section class="input-group">
                 <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required>
-                <span class="icon"></span>
+                <span class="iconForm"></span>
                 <span class="error">Le pseudo doit être inférieur à 10 caractères</span>
             </section>
             <section class="input-group">
                 <input type="email" id="email" name="email" placeholder="Email@mail.com" required>
-                <span class="icon"></span>
+                <span class="iconForm"></span>
                 <span class="error">Le mail n'est pas au bon format</span>
             </section>
             <section class="input-group">
