@@ -1,0 +1,12 @@
+# Activer le moteur de réécriture d'URL
+RewriteEngine On
+
+# Redirection à la racine
+RewriteBase /
+
+# Si le fichier ou dossier existe, on ne passe pas par index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Définir regle de réécriture
+RewriteRule ^ index.php [QSA,L]

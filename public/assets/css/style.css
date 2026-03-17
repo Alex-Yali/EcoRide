@@ -280,6 +280,25 @@ input.is-invalid ~ .error {
     color: red;
 }
 
+/* Message Erreur */
+.errorMessage { 
+    color:red; 
+    font-size:0.8rem; 
+    margin:0; 
+    text-align:center;
+    padding-top:1rem; 
+}
+
+.errorMessageCovoit { 
+    color:red; 
+    text-align:center;
+}
+
+.successMessageCovoit { 
+    color:green;  
+    text-align:center;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .nav-head { padding: 0 9.375rem; }
