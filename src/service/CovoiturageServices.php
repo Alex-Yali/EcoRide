@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\CovoiturageRepository;
+use App\db\Mysql;
 
 class CovoiturageServices
 {
@@ -222,5 +223,65 @@ class CovoiturageServices
             }
         }
         return "";
+    }
+
+    // --------------------------------- Historique covoit utilisateur participe --------------------------------- //
+    public function mesCovoituragesHistorique($idUtilisateur): array
+    {
+        $covoiturageRepository = new CovoiturageRepository();
+
+        // Récupérer les historiques des covoiturages où l'utilisateur a participer
+        $mesCovoitsHistorique = $covoiturageRepository->mesCovoituragesHistorique($idUtilisateur);
+        return $mesCovoitsHistorique;
+    }
+
+    public function traiterAvis($post, $idUtilisateur): void
+    {
+        $covoiturageRepository = new CovoiturageRepository();
+
+        // Récupération des données du formulaire
+        $avis = $_POST['avis'] ?? '';
+        $rating = $_POST['rating'] ?? '';
+        $commentaire = trim($_POST['commentaire'] ?? '');
+        $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
+
+        // Récupérer les historiques des covoiturages où l'utilisateur a participer
+        $mesCovoitsHistorique = $covoiturageRepository->mesCovoituragesHistorique($idUtilisateur);
+
+        $prixParPersonne = 0;
+        $conducteur_id = 0;
+
+        // Chercher le covoiturage correspondant
+        foreach ($mesCovoitsHistorique as $c) {
+            if ($c->getCovoiturageId() == $covoiturage_id) {
+                $prixParPersonne = $c->getPrixPersonne();
+                $conducteur_id =  $c->getConducteurId();
+                break;
+            }
+        }
+
+        // Vérifier si l'avis a déjà été donné
+        $avisDejaDonne = $covoiturageRepository->avisDejaDonne($idUtilisateur, $covoiturage_id, $conducteur_id);
+
+        if (!$avisDejaDonne && $prixParPersonne > 0) {
+
+            $etatAvis = ($avis === 'Oui') ? 'ok' : 'nok';
+
+            // Commencer transaction
+            $pdo = Mysql::getInstance()->getPDO();
+            $pdo->beginTransaction();
+
+            // Ajouter l'avis
+            $idAvis = $covoiturageRepository->ajouterAvis($commentaire, $rating, $conducteur_id, $covoiturage_id, $etatAvis);
+
+            // Récuperer utilisateur depose avis
+            $covoiturageRepository->ajouterDepose($idUtilisateur, $idAvis);
+
+            // Ajouter crédits uniquement si avis = Oui (etat = ok)
+            if ($etatAvis === 'ok') {
+                $covoiturageRepository->ajouterCredits($prixParPersonne, $conducteur_id);
+            }
+            $pdo->commit();
+        }
     }
 }

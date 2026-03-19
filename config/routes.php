@@ -13,13 +13,13 @@ return [
 
     // Espace covoiturage
     "/covoiturage/" => ["controller" => "App\Controller\CovoiturageController", "action" => "covoiturage"],
-    "/detail/" => ["controller" => "App\Controller\PageController", "action" => "detail"],
+    "/detail/" => ["controller" => "App\Controller\CovoiturageController", "action" => "detail"],
     "/mesCovoiturages/" => ["controller" => "App\Controller\CovoiturageController", "action" => "mesCovoiturages"],
+    "/historique/" => ["controller" => "App\Controller\CovoiturageController", "action" => "mesCovoituragesHistorique"],
 
     // Espace utilisateur
     "/espace/" => ["controller" => "App\Controller\EspaceController", "action" => "espace"],
 
-    "/historique/" => ["controller" => "App\Controller\PageController", "action" => "historique"],
     "/historiqueAvis/" => ["controller" => "App\Controller\PageController", "action" => "historiqueAvis"],
     "/mdp/" => ["controller" => "App\Controller\PageController", "action" => "mdp"],
     "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],

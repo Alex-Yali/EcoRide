@@ -1,10 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/repository/historiqueCovoiturage.php';
-// require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
-// require_once __DIR__ . '/../src/service/csrf.php';
-// $csrf = generate_csrf_token();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -48,68 +41,52 @@
                     <span>Crédits restants : <?= htmlspecialchars($infosUtilisateur->getCredits()) ?></span>
                 </section>
             </section>
-            <section>
-                <?php if ($mesCovoit): ?>
-                    <?php foreach ($mesCovoit as $c): ?>
-                        <?php
-                        $depart = new DateTime($c['date_depart'] . ' ' . $c['heure_depart']);
-                        $arrivee = new DateTime($c['date_arrivee'] . ' ' . $c['heure_arrivee']);
-                        // Calcul durée totale en minutes
-                        $totalMinutes = ($arrivee->getTimestamp() - $depart->getTimestamp()) / 60;
-                        // Convertir en heures et minutes
-                        $heures = floor($totalMinutes / 60);
-                        $minutes = $totalMinutes % 60;
-                        $dureeCovoit = $heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
-                        // Choix de l’image selon l’énergie
-                        $energie = strtolower(trim($c['energie']));
-                        $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
-                        ?>
+            <section class="box">
+                <?php if ($mesCovoitsHistorique): ?>
+                    <?php foreach ($mesCovoitsHistorique as $c): ?>
                         <section class="box-covoit">
-                            <p id="date-covoit"><?= htmlspecialchars($c['date_formatee']) ?></p>
+                            <p id="date-covoit"><?= htmlspecialchars($c->getDateFormatted()) ?></p>
                             <section class="info-covoit">
                                 <section class="time-covoit">
                                     <section class="start-time">
-                                        <p><?= htmlspecialchars($c['lieu_depart']) ?><br><?= date('H:i', strtotime($c['heure_depart'])) ?></p>
+                                        <p><?= htmlspecialchars($c->getLieuDepart()) ?><br><?= htmlspecialchars($c->getHeureDepartFormat()) ?></p>
                                     </section>
                                     <section>
-                                        <p class="duree"><?= htmlspecialchars($dureeCovoit) ?></p>
+                                        <p class="duree"><?= htmlspecialchars($c->getDureeFormatted()) ?></p>
                                         <section class="ligne"></section>
                                     </section>
                                     <section class="end-time">
-                                        <p><?= htmlspecialchars($c['lieu_arrivee']) ?><br><?= date('H:i', strtotime($c['heure_arrivee'])) ?></p>
+                                        <p><?= htmlspecialchars($c->getLieuArrivee()) ?><br><?= htmlspecialchars($c->getHeureArriveeFormat()) ?></p>
                                     </section>
                                     <section class="nbr-place">
-                                        <p><?= htmlspecialchars($c['nb_place']) ?> places</p>
+                                        <p><?= htmlspecialchars($c->getNbPlace()) ?> places</p>
                                     </section>
                                     <section class="prix-place">
-                                        <p><?= htmlspecialchars($c['prix_personne']) ?> crédits</p>
+                                        <p><?= htmlspecialchars($c->getPrixPersonne()) ?> crédits</p>
                                     </section>
                                 </section>
                                 <section class="perso-covoit">
                                     <section class="perso">
-                                        <img class="icon-perso" src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($energie) ?>">
+                                        <img class="icon-perso" src="<?= htmlspecialchars($c->getImageVoiture()) ?>" alt="voiture">
                                         <img class="icon-perso" src="/assets/images/homme.png" alt="conducteur">
                                         <section class="perso-avis">
-                                            <p><?= htmlspecialchars(ucfirst($c['conducteur_pseudo'] ?? 'N/A')) ?><br>
-                                                <?= $c['conducteur_moyenne'] !== null ? round($c['conducteur_moyenne'], 1) . ' ★' : 'Non noté' ?>
+                                            <p><?= htmlspecialchars(ucfirst($c->getConducteurPseudo() ?? 'N/A')) ?><br>
+                                                <?= $c->getConducteurMoyenne() !== null ? round($c->getConducteurMoyenne(), 1) . ' ★' : 'Non noté' ?>
                                             </p>
                                         </section>
                                     </section>
 
                                     <!-- Chauffeur -->
-                                    <?php if ($c['statut'] === 'Terminer'): ?>
+                                    <?php if ($c->getStatut() === 'Terminer'): ?>
                                         <span>Trajet terminé</span>
-                                    <?php elseif ($c['statut'] === 'Annuler'): ?>
+                                    <?php elseif ($c->getStatut() === 'Annuler'): ?>
                                         <span>Trajet annulé</span>
                                     <?php endif; ?>
 
                                 </section>
                             </section>
                             <!-- Verifie si l'utilisateur connecté est le conducteur du covoiturage et si à déjà donné un avis -->
-                            <?php
-                            $conducteur_id = $c['conducteur_id'];
-                            $dejaAvis = avisDejaDonne($pdo, $idUtilisateur, $c['covoiturage_id'], $conducteur_id); ?>
-                            <?php if (($idUtilisateur !== $conducteur_id) && !$dejaAvis && $c['statut'] !== 'Annuler'): ?>
+                            <?php if (($c->getUtilisateurId() !== $c->getConducteurId()) && !$c->getDejaAvis() && $c->getStatut() !== 'Annuler'): ?>
                                 <section class="avis-covoit">
                                     <form action="" class="formAvis" method="POST">
                                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
@@ -148,7 +125,7 @@
                                                 </section>
                                             </section>
                                             <!-- Champ caché pour identifier le covoiturage -->
-                                            <input type="hidden" name="covoiturage_id" value="<?= htmlspecialchars($c['covoiturage_id']) ?>">
+                                            <input type="hidden" name="covoiturage_id" value="<?= htmlspecialchars($c->getCovoiturageId()) ?>">
                                             <button class="button" type="submit" id="btnEnvoyer" name="action" value="envoyer">Envoyer</button>
                                         </section>
                                     </form>

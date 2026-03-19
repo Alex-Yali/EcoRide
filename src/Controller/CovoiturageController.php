@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\CovoiturageServices;
+use App\Repository\CovoiturageRepository;
 
 class CovoiturageController extends Controller
 {
@@ -58,6 +59,8 @@ class CovoiturageController extends Controller
         try {
             $idUtilisateur = $_SESSION['user_id'] ?? 0;
             $covoiturage_id = $_POST['covoiturage_id'] ?? 0;
+            $message = "";
+            $mesCovoits = [];
             $csrf = generate_csrf_token();
 
             $covoituraServices = new CovoiturageServices();
@@ -67,8 +70,6 @@ class CovoiturageController extends Controller
 
             if (empty($mesCovoits)) {
                 $message = "Aucun covoiturage en cours.";
-            } else {
-                $message = '';
             }
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $covoiturage_id > 0) {
@@ -78,7 +79,7 @@ class CovoiturageController extends Controller
                     $message = "Erreur CSRF : requête invalide.";
                 } else {
                     $action = $_POST['action'] ?? '';
-                    $message = $covoituraServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
+                    $covoituraServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
 
                     // Rafraîchissement
                     header("Location: /mesCovoiturages");
@@ -90,6 +91,58 @@ class CovoiturageController extends Controller
         }
         $this->render('pages/mesCovoiturages', [
             'mesCovoits' => $mesCovoits,
+            'message' => $message,
+            'csrf' => $csrf ?? '',
+        ]);
+    }
+
+    // --------------------------------- Historique covoit utilisateur participe --------------------------------- //
+    public function mesCovoituragesHistorique(): void
+    {
+        try {
+            $idUtilisateur = $_SESSION['user_id'] ?? 0;
+            $message = "";
+            $mesCovoitsHistorique = [];
+            $csrf = generate_csrf_token();
+
+            $covoiturageServices = new CovoiturageServices();
+
+            // Récupérer les historiques des covoits où l'utilisateur à participé
+            $mesCovoitsHistorique = $covoiturageServices->mesCovoituragesHistorique($idUtilisateur);
+
+            if (empty($mesCovoitsHistorique)) {
+                $message = "Aucun historique de covoiturage.";
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'envoyer') {
+
+                // Vérification CSRF
+                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+                    $message = "Erreur CSRF : requête invalide.";
+                } else {
+                    $covoiturageServices->traiterAvis($_POST, $idUtilisateur);
+
+                    // Rafraîchissement
+                    header("Location: /historique");
+                    exit();
+                }
+            }
+            // Calculer pour chaque covoiturage si l'avis a déjà été donné
+            $covoiturageRepository = new CovoiturageRepository();
+
+            foreach ($mesCovoitsHistorique as $c) {
+                $conducteurId = $c->getConducteurId();
+                $covoitId = $c->getCovoiturageId();
+
+                // Ajouter une propriété temporaire à l'objet
+                $dejaAvis = $covoiturageRepository->avisDejaDonne($idUtilisateur, $covoitId, $conducteurId);
+                $c->setDejaAvis($dejaAvis);
+            }
+        } catch (\Exception $e) {
+            $message = "Une erreur est survenue : " . $e->getMessage();
+        }
+        $this->render('pages/historique', [
+            'mesCovoitsHistorique' => $mesCovoitsHistorique,
             'message' => $message,
             'csrf' => $csrf ?? '',
         ]);
