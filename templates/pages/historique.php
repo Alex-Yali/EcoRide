@@ -34,11 +34,18 @@
             <section class="user-id">
                 <section class="user-name">
                     <img src="/assets/images/compte noir.png" alt="image compte noir">
-                    <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                    <section class="note">
+                        <span class="pseudo"><?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></span>
+                        <?php if ($infosUtilisateur->getChauffeur()): ?>
+                            <span>
+                                <?= $moyenneUtilisateur !== null ? round((float)$moyenneUtilisateur, 1) . ' ★' : 'Non noté' ?>
+                            </span>
+                        <?php endif; ?>
+                    </section>
                 </section>
                 <section class="user-info">
                     <img src="/assets/images/pile-de-pieces.png" alt="image pieces noir">
-                    <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
+                    <span>Crédits restants : <?= htmlspecialchars($infosUtilisateur->getCredits()) ?></span>
                 </section>
             </section>
             <section>

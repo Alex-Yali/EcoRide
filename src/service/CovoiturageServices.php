@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use DateTime;
 use App\Repository\CovoiturageRepository;
 
 class CovoiturageServices
@@ -11,7 +10,7 @@ class CovoiturageServices
     public string $messageCovoit = '';
     public bool $covoitValide = false;
 
-    // Rechercher les covoiturages dispo
+    // --------------------------------- Recherche covoits --------------------------------- //
     public function searchCovoiturage($depart, $arrivee, $date, $idUtilisateur): array
     {
         $covoiturageRepository = new CovoiturageRepository();
@@ -105,21 +104,123 @@ class CovoiturageServices
         return array_values($filtres);
     }
 
-    public function formatDate(array $dateCovoit): ?string
+    // --------------------------------- Covoit utilisateur participe --------------------------------- //
+    public function mesCovoiturages($idUtilisateur): array
     {
-        if (empty($dateCovoit)) {
-            return null;
+        $covoiturageRepository = new CovoiturageRepository();
+
+        // Récupération des covoiturages où l'utilisateur participe
+        $mesCovoits = $covoiturageRepository->mesCovoiturages($idUtilisateur);
+        return $mesCovoits;
+    }
+
+    public function gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action): string
+    {
+        $covoiturageRepository = new CovoiturageRepository();
+
+        // Vérifier rôle utilisateur
+        $participant = $covoiturageRepository->roleUtilisateurCovoit($idUtilisateur, $covoiturage_id);
+
+        if (!$participant) {
+            return "Action non autorisée.";
         }
 
-        $fDate = new DateTime($dateCovoit[0]->getDateDepart());
+        // Déterminer statut
+        $statut = match ($action) {
+            'demarrer' => 'Demarrer',
+            'terminer' => 'Terminer',
+            'annuler' => 'Annuler',
+            default => null
+        };
+        if (!$statut) {
+            return "Action invalide.";
+        }
+        // Mise à jour statut
+        if ($statut === 'Demarrer' || $statut === 'Terminer') {
+            $covoiturageRepository->majStatut($statut, $covoiturage_id);
+        }
 
-        $fmt = new \IntlDateFormatter(
-            'fr_FR',
-            \IntlDateFormatter::FULL,
-            \IntlDateFormatter::NONE,
-            'Europe/Paris'
-        );
+        // Trajet terminé par le chauffeur"
+        if ($statut === 'Terminer' && $participant['chauffeur'] == 1) {
 
-        return mb_convert_case($fmt->format($fDate), MB_CASE_TITLE, "UTF-8");
+            // Récupérer infos du covoiturage
+            $infosCovoit = $covoiturageRepository->infosCovoiturages($covoiturage_id);
+
+            // Récupérer les passagers
+            $passagers = $covoiturageRepository->passagersCovoiturages($covoiturage_id);
+
+            // Envoi d’email aux passagers
+            foreach ($passagers as $p) {
+                $to = $p['email'];
+                $subject = "Arrivée à destination";
+                $messageMail = "
+                    Bonjour {$p['pseudo']},<br><br>
+                    Votre covoiturage de <b>{$infosCovoit['lieu_depart']}</b> à <b>{$infosCovoit['lieu_arrivee']}</b><br>
+                    du <b>{$infosCovoit['date_depart']}</b à <b>{$infosCovoit['heure_depart']}</b> est arrivé à destination.<br><br>
+                    Merci d’avoir voyagé avec EcoRide !<br>
+                    Vous pouvez maintenant laisser un avis sur votre conducteur dans l'historique de vos covoiturages dans votre espace .<br><br>
+                    <hr>
+                    <i>L’équipe EcoRide</i>";
+                @mail($to, $subject, $messageMail);
+            }
+        }
+
+        // Si Annulation
+        if ($statut === 'Annuler') {
+            // Récupérer le prix du covoit par personne
+            $infosCovoit = $covoiturageRepository->infosCovoiturages($covoiturage_id);
+            $prix = $infosCovoit['prix_personne'] ?? 0;
+
+            // Le chauffeur annule le trajet
+            if ($participant['chauffeur'] == 1) {
+
+                // Mise à jour statut
+                $covoiturageRepository->majStatut('Annuler', $covoiturage_id);
+
+                // Récupérer les passagers
+                $passagers = $covoiturageRepository->passagersCovoiturages($covoiturage_id);
+
+                foreach ($passagers as $p) {
+                    // 1️ Remboursement du passager
+                    $covoiturageRepository->rembourserUtilisateur($prix, $p['utilisateur_id']);
+
+                    // 2️ Envoi d’un email d’annulation
+                    $to = $p['email'];
+                    $subject = "Annulation du covoiturage";
+                    $messageMail = "
+                        Bonjour {$p['pseudo']},<br><br>
+                        Le conducteur a annulé le covoiturage prévu de 
+                        <b>{$infosCovoit['lieu_depart']}</b> à <b>{$infosCovoit['lieu_arrivee']}</b><br>
+                        le <b>{$infosCovoit['date_depart']}</b> à <b>{$infosCovoit['heure_depart']}</b>.<br><br>
+                        Vos crédits ont été remboursés automatiquement.<br><br>
+                        Merci de votre compréhension.<br>
+                        <hr>
+                        <i>L’équipe EcoRide</i>";
+
+                    @mail($to, $subject, $messageMail);
+                }
+
+                // 3 Remettre toutes les places disponibles
+                $nbPlacesTotales = count($passagers) + $infosCovoit['nb_place'];
+                $covoiturageRepository->incrementerPlacesTotales($nbPlacesTotales, $covoiturage_id);
+            }
+
+            //  Le passager annule sa participation au trajet
+            if ($participant['chauffeur'] == 0) {
+
+                if ($prix > 0) {
+
+                    // 1️ Remboursement du passager
+                    $covoiturageRepository->rembourserUtilisateur($prix, $idUtilisateur);
+
+                    // 2️ Libérer une place (+1)
+                    $covoiturageRepository->incrementerPlace($covoiturage_id);
+
+                    // 3️ Supprimer la participation du passager
+                    $covoiturageRepository->supprimerParticipation($idUtilisateur, $covoiturage_id);
+                }
+            }
+        }
+        return "";
     }
 }

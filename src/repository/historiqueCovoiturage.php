@@ -32,7 +32,7 @@ try {
                         v.modele,
                         v.energie,
                         c.statut,
-                        u_conducteur.pseudo AS conducteur_pseudo, -- Récupère le pseudo du conducteur
+                        u_conducteur.pseudo AS conducteur_pseudo, 
                         u_conducteur.utilisateur_id AS conducteur_id,
                         (
                         SELECT AVG(a2.note)
@@ -47,9 +47,8 @@ try {
                         ON p_conducteur.covoiturage_covoiturage_id = c.covoiturage_id
                         AND p_conducteur.chauffeur = 1
                     LEFT JOIN utilisateur u_conducteur ON u_conducteur.utilisateur_id = p_conducteur.utilisateur_utilisateur_id
-                    JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id -- On relie le covoiturage à la voiture qu’il utilise 
-                    JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id -- Récupère les infos de la voiture utilisée
-                    WHERE pa.utilisateur_utilisateur_id = :idUtilisateur -- Récupères que les covoiturages auxquels l’utilisateur connecté participe
+                    JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id 
+                    WHERE pa.utilisateur_utilisateur_id = :idUtilisateur 
                     AND c.statut IN ('Terminer','Annuler','Valider')
                     ORDER BY c.date_depart ASC, c.heure_depart ASC
                     ";
@@ -62,9 +61,9 @@ try {
     if (!empty($mesCovoit)) {
         $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
 
-        foreach ($mesCovoit as &$covoit) { // & pour modifier directement l'élément
+        foreach ($mesCovoit as &$covoit) {
             $fDate = new DateTime($covoit['date_depart']);
-            $covoit['date_formatee'] = ucfirst($fmt->format($fDate)); // nouvelle clé
+            $covoit['date_formatee'] = ucfirst($fmt->format($fDate));
         }
         unset($covoit);
     } else {

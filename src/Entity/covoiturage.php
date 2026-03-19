@@ -21,6 +21,9 @@ class Covoiturage
     protected ?string $energie = null;
     protected ?string $pseudo = null;
     protected ?float $moyenne = null;
+    protected ?string $conducteur_pseudo = null;
+    protected ?float $conducteur_moyenne = null;
+    protected ?float $conducteur_id = null;
 
     // heures formatées
     public function getHeureDepartFormat(): string
@@ -151,5 +154,35 @@ class Covoiturage
     public function getMoyenne(): ?float
     {
         return $this->moyenne;
+    }
+
+    // date formattée
+    public function getDateFormatted(): string
+    {
+        $date = new DateTime($this->date_depart);
+
+        $fmt = new \IntlDateFormatter(
+            'fr_FR',
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE,
+            'Europe/Paris'
+        );
+
+        return mb_convert_case($fmt->format($date), MB_CASE_TITLE, "UTF-8");
+    }
+
+    public function getConducteurPseudo(): ?string
+    {
+        return $this->conducteur_pseudo;
+    }
+
+    public function getConducteurMoyenne(): ?float
+    {
+        return $this->conducteur_moyenne;
+    }
+
+    public function getConducteurId(): ?int
+    {
+        return $this->conducteur_id;
     }
 }

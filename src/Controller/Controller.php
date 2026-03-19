@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\db\Mysql;
 use App\Repository\EspaceRepository;
+use App\Repository\UtilisateurRepository;
+use App\Service\CovoiturageServices;
 
 class Controller
 {
@@ -14,27 +16,44 @@ class Controller
             session_start();
         }
 
-        // Ajouter automatiquement les infos utilisateur
         $params['idUtilisateur'] = $_SESSION['user_id'] ?? null;
         $params['roleUtilisateur'] = $_SESSION['user_roles'] ?? [];
 
-        // Si user_roles est vide mais que user_id existe, récupérer depuis la BDD
+        // Ajouter automatiquement les infos utilisateur au global
+        $infosUtilisateur = null;
+        if (!empty($params['idUtilisateur'])) {
+            $utilisateurRepository = new UtilisateurRepository(Mysql::getInstance()->getPDO());
+            $infosUtilisateur = $utilisateurRepository->infosUtilisateur($params['idUtilisateur']);
+        }
+        $params['infosUtilisateur'] = $infosUtilisateur;
+
+        // Ajouter automatiquement la moyenne utilisateur connecté au global
+        $moyenneUtilisateur = null;
+        if (!empty($params['idUtilisateur'])) {
+            $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
+            $moyenneUtilisateur = $espaceRepository->Moyenne($params['idUtilisateur']);
+        }
+        $params['moyenneUtilisateur'] = $moyenneUtilisateur;
+
+        // Ajouter automatiquement le role utilisateur connecté au global
         if (!empty($params['idUtilisateur']) && empty($params['roleUtilisateur'])) {
             $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
             $roles = $espaceRepository->roleUtilisateur($params['idUtilisateur']);
 
-            // Transformer en tableau
             $roleLabels = [];
-            foreach ($roles as $roleObj) {
-                if (method_exists($roleObj, 'getLibelle')) {
-                    $roleLabels[] = $roleObj->getLibelle();
+            foreach ($roles as $role) {
+                if (method_exists($role, 'getLibelle')) {
+                    $roleLabels[] = $role->getLibelle();
                 }
             }
             $params['roleUtilisateur'] = $roleLabels;
-
-            // Stocker en session
             $_SESSION['roleUtilisateur'] = $roleLabels;
         }
+
+        // if (!empty($params['covoiturages'])) {
+        //     $covoiturageService = new CovoiturageServices();
+        //     $params['dateCovoit'] = $covoiturageService->formatDate($params['covoiturages']);
+        // }
 
         $filePath = APP_ROOT . "/templates/$path.php";
 

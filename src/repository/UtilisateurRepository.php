@@ -10,8 +10,7 @@ class UtilisateurRepository extends Repository
 {
     public function infosUtilisateur(int $userId): ?Utilisateur
     {
-        $sqlInfos = "SELECT u.pseudo, u.credits, u.utilisateur_id, u.passager 
-                     FROM utilisateur u
+        $sqlInfos = "SELECT * FROM utilisateur u
                      WHERE u.utilisateur_id = :user_id";
         $stmtinfos = $this->pdo->prepare($sqlInfos);
         $stmtinfos->execute([

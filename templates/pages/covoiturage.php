@@ -102,9 +102,9 @@ $filters = $filters ?? [
 
             <!-- Résultats -->
             <section class="box-covoit">
-                <p id="date-covoit"><?= htmlspecialchars(ucfirst($dateCovoit ?? '')) ?></p>
-                <?php if ($covoitsDateExacte): ?>
-                    <?php foreach ($covoitsDateExacte as $c): ?>
+                <p id="date-covoit"><?= htmlspecialchars(ucfirst($covoits[0]->getDateFormatted()) ?? '') ?></p>
+                <?php if ($covoits): ?>
+                    <?php foreach ($covoits as $c): ?>
                         <section class="info-covoit">
                             <section class="time-covoit">
                                 <section class="start-time">

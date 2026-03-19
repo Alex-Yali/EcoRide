@@ -14,6 +14,7 @@ return [
     // Espace covoiturage
     "/covoiturage/" => ["controller" => "App\Controller\CovoiturageController", "action" => "covoiturage"],
     "/detail/" => ["controller" => "App\Controller\PageController", "action" => "detail"],
+    "/mesCovoiturages/" => ["controller" => "App\Controller\CovoiturageController", "action" => "mesCovoiturages"],
 
     // Espace utilisateur
     "/espace/" => ["controller" => "App\Controller\EspaceController", "action" => "espace"],
@@ -22,7 +23,6 @@ return [
     "/historiqueAvis/" => ["controller" => "App\Controller\PageController", "action" => "historiqueAvis"],
     "/mdp/" => ["controller" => "App\Controller\PageController", "action" => "mdp"],
     "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],
-    "/mesCovoiturages/" => ["controller" => "App\Controller\PageController", "action" => "mesCovoiturages"],
     "/rechercher/" => ["controller" => "App\Controller\PageController", "action" => "rechercher"],
     "/trajet/" => ["controller" => "App\Controller\PageController", "action" => "trajet"],
 

@@ -1,10 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/repository/covoiturageEnCours.php';
-// require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
-// require_once __DIR__ . '/../src/service/csrf.php';
-// $csrf = generate_csrf_token();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -34,71 +27,66 @@
             <section class="user-id">
                 <section class="user-name">
                     <img src="/assets/images/compte noir.png" alt="image compte noir">
-                    <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                    <section class="note">
+                        <span class="pseudo"><?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></span>
+                        <?php if ($infosUtilisateur->getChauffeur()): ?>
+                            <span>
+                                <?= $moyenneUtilisateur !== null ? round((float)$moyenneUtilisateur, 1) . ' ★' : 'Non noté' ?>
+                            </span>
+                        <?php endif; ?>
+                    </section>
                 </section>
                 <section class="user-info">
                     <img src="/assets/images/pile-de-pieces.png" alt="image pieces noir">
-                    <span>Crédits restants : <?= htmlspecialchars($creditsUtilisateur) ?></span>
+                    <span>Crédits restants : <?= htmlspecialchars($infosUtilisateur->getCredits()) ?></span>
                 </section>
             </section>
             <section class="box">
-                <?php if ($mesCovoit): ?>
-                    <?php foreach ($mesCovoit as $c): ?>
-                        <?php
-                        $depart = new DateTime($c['date_depart'] . ' ' . $c['heure_depart']);
-                        $arrivee = new DateTime($c['date_arrivee'] . ' ' . $c['heure_arrivee']);
-                        // Calcul durée totale en minutes
-                        $totalMinutes = ($arrivee->getTimestamp() - $depart->getTimestamp()) / 60;
-                        // Convertir en heures et minutes
-                        $heures = floor($totalMinutes / 60);
-                        $minutes = $totalMinutes % 60;
-                        $dureeCovoit = $heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
-                        // Choix de l’image selon l’énergie
-                        $energie = strtolower(trim($c['energie']));
-                        $image = $energie === 'essence' ? './assets/images/voiture-noir.png' : './assets/images/voiture-electrique.png';
-                        ?>
+                <?php if ($mesCovoits): ?>
+                    <?php foreach ($mesCovoits as $c): ?>
                         <form class="box-covoit" action="" method="POST">
                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-                            <p id="date-covoit"><?= htmlspecialchars($c['date_formatee']) ?></p>
+                            <p id="date-covoit"><?= htmlspecialchars($c->getDateFormatted()) ?></p>
                             <section class="info-covoit">
                                 <section class="time-covoit">
                                     <section class="start-time">
-                                        <p><?= htmlspecialchars($c['lieu_depart']) ?><br><?= date('H:i', strtotime($c['heure_depart'])) ?></p>
+                                        <p><?= htmlspecialchars($c->getLieuDepart()) ?><br><?= htmlspecialchars($c->getHeureDepartFormat()) ?></p>
+                                        </p>
                                     </section>
                                     <section>
-                                        <p class="duree"><?= htmlspecialchars($dureeCovoit) ?></p>
+                                        <p class="duree"><?= htmlspecialchars($c->getDureeFormatted()) ?></p>
                                         <section class="ligne"></section>
                                     </section>
                                     <section class="end-time">
-                                        <p><?= htmlspecialchars($c['lieu_arrivee']) ?><br><?= date('H:i', strtotime($c['heure_arrivee'])) ?></p>
+                                        <p><?= htmlspecialchars($c->getLieuArrivee()) ?><br><?= htmlspecialchars($c->getHeureArriveeFormat()) ?></p>
                                     </section>
                                     <section class="nbr-place">
-                                        <p><?= htmlspecialchars($c['nb_place']) ?> places</p>
+                                        <p><?= htmlspecialchars($c->getNbPlace()) ?> places</p>
                                     </section>
                                     <section class="prix-place">
-                                        <p><?= htmlspecialchars($c['prix_personne']) ?> crédits</p>
+                                        <p><?= htmlspecialchars($c->getPrixPersonne()) ?> crédits</p>
                                     </section>
                                 </section>
                                 <section class="perso-covoit">
                                     <section class="perso">
-                                        <img class="icon-perso" src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($energie) ?>">
+                                        <img class="icon-perso" src="<?= htmlspecialchars($c->getImageVoiture()) ?>" alt="voiture">
                                         <img class="icon-perso" src="/assets/images/homme.png" alt="conducteur">
                                         <section class="perso-avis">
-                                            <p><?= htmlspecialchars(ucfirst($c['conducteur_pseudo'] ?? 'N/A')) ?><br>
-                                                <?= $c['conducteur_moyenne'] !== null ? round($c['conducteur_moyenne'], 1) . ' ★' : 'Non noté' ?>
+                                            <p><?= htmlspecialchars(ucfirst($c->getConducteurPseudo() ?? 'N/A')) ?><br>
+                                                <?= $c->getConducteurMoyenne() !== null ? round($c->getConducteurMoyenne(), 1) . ' ★' : 'Non noté' ?>
                                             </p>
                                         </section>
                                     </section>
                                     <!-- Champ caché pour identifier le covoiturage -->
-                                    <input type="hidden" name="covoiturage_id" value="<?= $c['covoiturage_id'] ?>">
+                                    <input type="hidden" name="covoiturage_id" value="<?= $c->getCovoiturageId() ?>">
 
-                                    <?php if ($idUtilisateur === $c['conducteur_id']): ?>
+                                    <?php if ($idUtilisateur === $c->getConducteurId()): ?>
                                         <!-- Chauffeur : boutons selon le statut -->
-                                        <?php if ($c['statut'] === 'Demarrer'): ?>
+                                        <?php if ($c->getStatut() === 'Demarrer'): ?>
                                             <button class="button btn-arrivee" type="submit" name="action" value="terminer">Arrivée à destination</button>
-                                        <?php elseif ($c['statut'] === 'Terminer'): ?>
+                                        <?php elseif ($c->getStatut() === 'Terminer'): ?>
                                             <span>Trajet terminé</span>
-                                        <?php elseif ($c['statut'] === 'Annuler'): ?>
+                                        <?php elseif ($c->getStatut() === 'Annuler'): ?>
                                             <span>Trajet annulé</span>
                                         <?php else: ?>
                                             <button class="button btn-demarrer" type="submit" name="action" value="demarrer">Démarrer</button>
@@ -109,11 +97,11 @@
 
                                     <?php else: ?>
                                         <!-- Passager : afficher seulement le statut -->
-                                        <?php if ($c['statut'] === 'Demarrer'): ?>
+                                        <?php if ($c->getStatut() === 'Demarrer'): ?>
                                             <span>Trajet en cours</span>
-                                        <?php elseif ($c['statut'] === 'Terminer'): ?>
+                                        <?php elseif ($c->getStatut() === 'Terminer'): ?>
                                             <span>Trajet terminé</span>
-                                        <?php elseif ($c['statut'] === 'Annuler'): ?>
+                                        <?php elseif ($c->getStatut() === 'Annuler'): ?>
                                             <span>Trajet annulé</span>
                                         <?php else: ?>
                                             <span>Trajet à venir</span>

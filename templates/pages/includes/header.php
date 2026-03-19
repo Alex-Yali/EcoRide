@@ -1,9 +1,3 @@
-<?php
-// Récupérer les variable en session
-$idUtilisateur = $idUtilisateur ?? null;
-$roleUtilisateur = $roleUtilisateur ?? [];
-?>
-
 <header>
     <!-- Barre de navigation -->
     <nav class="nav-head">

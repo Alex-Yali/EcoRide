@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Repository\EspaceRepository;
 use App\Service\EspaceServices;
-use App\Repository\UtilisateurRepository;
 use App\db\Mysql;
-use PDO;
 
 class EspaceController extends Controller
 {
@@ -16,8 +14,6 @@ class EspaceController extends Controller
         $radio = 'passager';
         $voitureExiste = false;
         $voitureValide = false;
-        $moyenneUtilisateur = null;
-        $infosUtilisateur = null;
         $message = '';
         $messageVoiture = '';
         $messageCompte = '';
@@ -30,7 +26,6 @@ class EspaceController extends Controller
             try {
                 // Repository
                 $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
-                $utilisateurRepository = new UtilisateurRepository();
                 $espaceServices = new EspaceServices();
 
                 // Gérer le switch de statut + ajout voiture
@@ -60,7 +55,6 @@ class EspaceController extends Controller
 
                 // Récupérer le statut
                 $statutUtilisateur = $espaceRepository->statutUtilisateur($idUtilisateur);
-                $infosUtilisateur = $utilisateurRepository->infosUtilisateur($idUtilisateur);
 
                 if ($statutUtilisateur) {
                     $passager = $statutUtilisateur->getPassager();
@@ -80,9 +74,6 @@ class EspaceController extends Controller
                         $voitureExiste = $espaceServices->voitureExiste($idUtilisateur, Mysql::getInstance()->getPDO());
                     }
 
-                    // Récupérer la moyenne
-                    $moyenneUtilisateur = $espaceRepository->Moyenne($idUtilisateur);
-
                     //  Afficher les graphiques
                     $espaceServices = new EspaceServices();
                     $graphiques = $espaceServices->graphique(Mysql::getInstance()->getPDO());
@@ -101,8 +92,6 @@ class EspaceController extends Controller
             'voitureValide' => $voitureValide,
             'messageVoiture' => $messageVoiture,
             'message' => $message,
-            'infosUtilisateur' => $infosUtilisateur,
-            'moyenneUtilisateur' => $moyenneUtilisateur,
             'graphiques' => $graphiques,
             'messageCompte' => $messageCompte,
         ]);
