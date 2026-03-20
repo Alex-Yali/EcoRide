@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Repository\UtilisateurRepository;
 use App\db\Mysql;
 use App\Service\VoitureServices;
 
 class VoitureController extends Controller
 {
+    /* ============================================ Affichage voiture chauffeur ============================================= */
+
     public function vehicule(): void
     {
         $idUtilisateur = $_SESSION['user_id'] ?? null;

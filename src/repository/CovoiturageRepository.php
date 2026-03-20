@@ -4,11 +4,10 @@ namespace App\Repository;
 
 use PDO;
 use App\Entity\Covoiturage;
-use App\Entity\Participe;
 
 class CovoiturageRepository extends Repository
 {
-    // --------------------------------- Recherche covoits --------------------------------- //
+    /* ============================================ Recherche covoits ============================================= */
 
     // Rechercher le covoiturage à la date demandée
     public function findCovoiturage($depart, $arrivee, $date, $idUtilisateur): array
@@ -119,7 +118,7 @@ class CovoiturageRepository extends Repository
         return $covoitsDateProche;
     }
 
-    // --------------------------------- Covoit utilisateur participe --------------------------------- //
+    /* ============================================ Covoit utilisateur participe ============================================= */
 
     // Récupérer les covoiturages actifs
     public function mesCovoiturages($idUtilisateur): array
@@ -161,7 +160,6 @@ class CovoiturageRepository extends Repository
                         AND (c.statut IS NULL OR c.statut NOT IN ('Terminer','Annuler','Valider'))
                         ORDER BY c.date_depart ASC, c.heure_depart ASC
                     ";
-
         $stmtMesCovoit = $this->pdo->prepare($sqlMesCovoit);
         $stmtMesCovoit->execute([':idUtilisateur' => $idUtilisateur]);
         $mesCovoits = $stmtMesCovoit->fetchAll(PDO::FETCH_CLASS, Covoiturage::class);
@@ -262,7 +260,7 @@ class CovoiturageRepository extends Repository
         ]);
     }
 
-    // --------------------------------- Historique covoit utilisateur participe --------------------------------- //
+    /* ============================================ Historique covoit utilisateur participe ============================================= */
 
     // Récupérer les covoiturages non actifs
     public function mesCovoituragesHistorique($idUtilisateur): array
@@ -304,7 +302,6 @@ class CovoiturageRepository extends Repository
                                     AND c.statut IN ('Terminer','Annuler','Valider')
                                     ORDER BY c.date_depart ASC, c.heure_depart ASC
                                     ";
-
         $stmtMesCovoitsHistorique = $this->pdo->prepare($sqlMesCovoitsHistorique);
         $stmtMesCovoitsHistorique->execute([':idUtilisateur' => $idUtilisateur]);
         $mesCovoitsHistorique = $stmtMesCovoitsHistorique->fetchAll(PDO::FETCH_CLASS, Covoiturage::class);

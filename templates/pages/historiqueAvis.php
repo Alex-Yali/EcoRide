@@ -1,9 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
-// require_once __DIR__ . '/../src/repository/gestionAvis.php';
-?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -34,7 +28,7 @@
             <section class="user-id">
                 <section class="user-name">
                     <img src="/assets/images/compte noir.png" alt="image compte noir">
-                    <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                    <span id="first-name"><?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></span>
                 </section>
             </section>
             <!-- Avis -->
@@ -46,22 +40,22 @@
                         <section class="commentaire">
                             <section class="utilisateur">
                                 <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
-                                <?= htmlspecialchars(ucfirst($a['auteur_pseudo'] ?? 'N/A')) ?>
+                                <?= htmlspecialchars(ucfirst($a->getAuteurPseudo() ?? 'N/A')) ?>
                             </section>
                             <section class="avis">
                                 <section class="note">
-                                    Note : <?= htmlspecialchars(ucfirst($a['note'] ?? 'N/A')) ?>
+                                    Note : <?= htmlspecialchars(ucfirst($a->getNote() ?? 'N/A')) ?>
                                 </section>
                                 <section class="com">
-                                    <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?>
+                                    <?= htmlspecialchars(ucfirst($a->getCommentaire() ?? 'N/A')) ?>
                                 </section>
-                                <?php if ($a['statut'] === 'valider'): ?>
+                                <?php if ($a->getStatut() === 'valider'): ?>
                                     <span style="color: #267240;">Avis validé</span>
                                 <?php else: ?>
                                     <span style="color: red;">Avis refusé</span>
                                 <?php endif; ?>
                             </section>
-                            <input type="hidden" name="avis_id" value="<?= $a['avis_id'] ?>">
+                            <input type="hidden" name="avis_id" value="<?= $a->getAvisId() ?>">
                         </section>
                     <?php endforeach; ?>
                 <?php endif; ?>

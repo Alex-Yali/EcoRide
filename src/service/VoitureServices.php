@@ -9,6 +9,8 @@ class VoitureServices
 {
     public string $message = '';
 
+    /* ============================================ Affichage voiture chauffeur ============================================= */
+
     public function voitureUtilisateur(PDO $pdo, $idUtilisateur)
     {
 

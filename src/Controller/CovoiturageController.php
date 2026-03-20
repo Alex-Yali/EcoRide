@@ -7,7 +7,8 @@ use App\Repository\CovoiturageRepository;
 
 class CovoiturageController extends Controller
 {
-    // --------------------------------- Recherche covoits --------------------------------- //
+    /* ============================================ Recherche covoits ============================================= */
+
     public function covoiturage(): void
     {
         try {
@@ -53,7 +54,8 @@ class CovoiturageController extends Controller
         ]);
     }
 
-    // --------------------------------- Covoit utilisateur participe --------------------------------- //
+    /* ============================================ Covoit utilisateur participe ============================================= */
+
     public function mesCovoiturages(): void
     {
         try {
@@ -96,7 +98,8 @@ class CovoiturageController extends Controller
         ]);
     }
 
-    // --------------------------------- Historique covoit utilisateur participe --------------------------------- //
+    /* ============================================ Historique covoit utilisateur participe ============================================= */
+
     public function mesCovoituragesHistorique(): void
     {
         try {
@@ -134,7 +137,7 @@ class CovoiturageController extends Controller
                 $conducteurId = $c->getConducteurId();
                 $covoitId = $c->getCovoiturageId();
 
-                // Ajouter une propriété temporaire à l'objet
+                // Ajouter une propriété à l'objet
                 $dejaAvis = $covoiturageRepository->avisDejaDonne($idUtilisateur, $covoitId, $conducteurId);
                 $c->setDejaAvis($dejaAvis);
             }

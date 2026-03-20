@@ -8,6 +8,8 @@ use App\Entity\Utilisateur;
 
 class UtilisateurRepository extends Repository
 {
+    /* ============================================ Infos utilisateur ============================================= */
+
     public function infosUtilisateur(int $userId): ?Utilisateur
     {
         $sqlInfos = "SELECT * FROM utilisateur u

@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use PDO;
-use App\Entity\Voiture;
 use App\db\MongoDB;
+use App\Entity\Voiture;
 
 class VoitureRepository extends Repository
 {
@@ -14,6 +14,8 @@ class VoitureRepository extends Repository
     {
         $this->pdo = $pdo;
     }
+
+    /* ============================================ Ajout voiture si utilisateur devient chauffeur ou passager / chauffeur ============================================= */
 
     // Vérifier si immatriculation existe déjà
     public function checkImmatriculation($immatriculation): bool
@@ -106,6 +108,8 @@ class VoitureRepository extends Repository
         );
     }
 
+    /* ============================================ Affichage voiture chauffeur ============================================= */
+
     // Récupérer les véhicules de l'utilisateur connecté
     public function voitureUtilisateur($userId)
     {
@@ -120,7 +124,7 @@ class VoitureRepository extends Repository
 
         $stmtVoituresUtilisateur = $this->pdo->prepare($sqlVoituresUtilisateur);
         $stmtVoituresUtilisateur->execute([':userId' => $userId]);
-        $voituresUtilisateur = $stmtVoituresUtilisateur->fetchAll(PDO::FETCH_ASSOC);
+        $voituresUtilisateur = $stmtVoituresUtilisateur->fetchAll(PDO::FETCH_CLASS, Voiture::class);
         return $voituresUtilisateur ?: [];
     }
 }

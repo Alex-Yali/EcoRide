@@ -15,6 +15,9 @@ class EspaceServices
     public bool $voitureValide = false;
     public bool $voitureExiste = false;
 
+    /* ============================================ Gestion radio utilisateur ============================================= */
+
+
     public function radioUtilisateur(int $userId): string
     {
         $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
@@ -125,6 +128,8 @@ class EspaceServices
         $espaceRepository = new EspaceRepository($pdo);
         return $espaceRepository->checkVoitureUtilisateur($userId);
     }
+
+    /* ============================================ Graphiques ============================================= */
 
     public function graphique(PDO $pdo)
     {

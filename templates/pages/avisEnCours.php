@@ -1,12 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/service/db.php';
-// require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
-// require_once __DIR__ . '/../src/repository/gestionAvis.php';
-// require_once __DIR__ . '/../src/service/csrf.php';
-// $csrf = generate_csrf_token();
-?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -37,34 +28,34 @@
             <section class="user-id">
                 <section class="user-name">
                     <img src="/assets/images/compte noir.png" alt="image compte noir">
-                    <span id="first-name"><?= htmlspecialchars($pseudoUtilisateur) ?></span>
+                    <span id="first-name"><?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></span>
                 </section>
             </section>
             <!-- Avis -->
             <section class="boxAvis">
                 <?php if (empty($avis)): ?>
-                    <p>Aucun avis à valider.</p>
+                    <p>Aucun avis à gérer.</p>
                 <?php else: ?>
                     <?php foreach ($avis as $a): ?>
                         <section class="commentaire">
                             <section class="utilisateur">
                                 <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
-                                <?= htmlspecialchars(ucfirst($a['auteur_pseudo'] ?? 'N/A')) ?>
+                                <?= htmlspecialchars(ucfirst($a->getAuteurPseudo() ?? 'N/A')) ?>
                             </section>
                             <section class="avis">
                                 <section class="note">
-                                    Note : <?= htmlspecialchars(ucfirst($a['note'] ?? 'N/A')) ?>
-                                    <a title="Detail voyage" href="?avis_id=<?= $a['avis_id'] ?>#modal">
+                                    Note : <?= htmlspecialchars(ucfirst($a->getNote() ?? 'N/A')) ?>
+                                    <a title="Detail voyage" href="?avis_id=<?= $a->getAvisId() ?>#modal">
                                         <img src="/assets/images/icon plus.png" id="icon-plus" alt="Ajouter">
                                     </a>
                                 </section>
                                 <section class="com">
-                                    <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?>
+                                    <?= htmlspecialchars(ucfirst($a->getCommentaire() ?? 'N/A')) ?>
                                 </section>
                                 <form method="POST" action="" class="valideAvis">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-                                    <button class="check check-green" type="submit" name="valider" value="<?= $a['avis_id'] ?>">✅ Accepter avis</button>
-                                    <button class="check check-red" type="submit" name="refuser" value="<?= $a['avis_id'] ?>">❌ Refuser avis</button>
+                                    <button class="check check-green" type="submit" name="valider" value="<?= $a->getAvisId() ?>">✅ Accepter avis</button>
+                                    <button class="check check-red" type="submit" name="refuser" value="<?= $a->getAvisId() ?>">❌ Refuser avis</button>
                                 </form>
                             </section>
                         </section>
@@ -92,17 +83,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($infos)): ?>
+                        <?php if (!empty($infosCovoitAvis)): ?>
                             <tr>
-                                <td data-label="Numéro covoiturage"><?= htmlspecialchars(ucfirst($infos['covoiturage_id'] ?? 'N/A')) ?></td>
-                                <td data-label="Pseudo passager"><?= htmlspecialchars(ucfirst($infos['passager_pseudo'] ?? 'N/A')) ?></td>
-                                <td data-label="Email passager"><?= htmlspecialchars(ucfirst($infos['passager_email'] ?? 'N/A')) ?></td>
-                                <td data-label="Pseudo chauffeur"><?= htmlspecialchars(ucfirst($infos['chauffeur_pseudo'] ?? 'N/A')) ?></td>
-                                <td data-label="Email chauffeur"><?= htmlspecialchars(ucfirst($infos['chauffeur_email'] ?? 'N/A')) ?></td>
-                                <td data-label="Lieu Départ"><?= htmlspecialchars(ucfirst($infos['lieu_depart'] ?? 'N/A')) ?></td>
-                                <td data-label="Date Départ"><?= htmlspecialchars(ucfirst($infos['date_depart'] ?? 'N/A')) ?></td>
-                                <td data-label="Lieu Arrivée"><?= htmlspecialchars(ucfirst($infos['lieu_arrivee'] ?? 'N/A')) ?></td>
-                                <td data-label="Date Arrivée"><?= htmlspecialchars(ucfirst($infos['date_arrivee'] ?? 'N/A')) ?></td>
+                                <td data-label="Numéro covoiturage"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getCovoiturageId() ?? 'N/A')) ?></td>
+                                <td data-label="Pseudo passager"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getPassagerPseudo() ?? 'N/A')) ?></td>
+                                <td data-label="Email passager"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getPassagerEmail() ?? 'N/A')) ?></td>
+                                <td data-label="Pseudo chauffeur"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getChauffeurPseudo() ?? 'N/A')) ?></td>
+                                <td data-label="Email chauffeur"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getChauffeurEmail() ?? 'N/A')) ?></td>
+                                <td data-label="Lieu Départ"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getLieuDepart() ?? 'N/A')) ?></td>
+                                <td data-label="Date Départ"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getDateDepart() ?? 'N/A')) ?></td>
+                                <td data-label="Lieu Arrivée"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getLieuArrivee() ?? 'N/A')) ?></td>
+                                <td data-label="Date Arrivée"><?= htmlspecialchars(ucfirst($infosCovoitAvis->getDateArrivee() ?? 'N/A')) ?></td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

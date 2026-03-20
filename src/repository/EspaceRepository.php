@@ -15,6 +15,7 @@ class EspaceRepository
     {
         $this->pdo = $pdo;
     }
+    /* ============================================ Gestion radio utilisateur ============================================= */
 
     // Sélection statut passager / chauffeur
     public function statutUtilisateur(int $userId): ?Utilisateur
@@ -102,6 +103,8 @@ class EspaceRepository
             ':user_id' => $userId
         ]);
     }
+
+    /* ============================================ Graphiques ============================================= */
 
     // Graphiques
     public function graphique()

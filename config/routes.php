@@ -8,7 +8,6 @@ return [
     "/deconnexion/" => ["controller" => "App\Controller\AuthController", "action" => "deconnexion"],
 
     "/avis/" => ["controller" => "App\Controller\PageController", "action" => "avis"],
-    "/avisEnCours/" => ["controller" => "App\Controller\PageController", "action" => "avisEnCours"],
     "/contact/" => ["controller" => "App\Controller\PageController", "action" => "contact"],
 
     // Espace covoiturage
@@ -19,9 +18,12 @@ return [
 
     // Espace utilisateur
     "/espace/" => ["controller" => "App\Controller\EspaceController", "action" => "espace"],
-
-    "/historiqueAvis/" => ["controller" => "App\Controller\PageController", "action" => "historiqueAvis"],
     "/mdp/" => ["controller" => "App\Controller\PageController", "action" => "mdp"],
+
+    // Espace avis
+    "/avisEnCours/" => ["controller" => "App\Controller\AvisController", "action" => "avis"],
+    "/historiqueAvis/" => ["controller" => "App\Controller\AvisController", "action" => "historiqueAvis"],
+
     "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],
     "/rechercher/" => ["controller" => "App\Controller\PageController", "action" => "rechercher"],
     "/trajet/" => ["controller" => "App\Controller\PageController", "action" => "trajet"],

@@ -8,7 +8,7 @@ use App\Entity\Utilisateur;
 class AuthRepository extends Repository
 {
 
-    /*============================================= Connexion ============================================= */
+    /* ============================================= Connexion ============================================= */
 
     //Vérifier si les infos renseignées correspondent à un utilisateur
     public function infosValide($email): ?Utilisateur
@@ -36,7 +36,7 @@ class AuthRepository extends Repository
         return $hashUpdate;
     }
 
-    /*============================================ Inscription ============================================= */
+    /* ============================================ Inscription ============================================= */
 
     //Vérifier si l'utilisateur existe déjà
     public function checkUser($email, $pseudo): array

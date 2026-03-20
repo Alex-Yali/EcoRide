@@ -11,7 +11,8 @@ class CovoiturageServices
     public string $messageCovoit = '';
     public bool $covoitValide = false;
 
-    // --------------------------------- Recherche covoits --------------------------------- //
+    /* ============================================ Recherche covoits ============================================= */
+
     public function searchCovoiturage($depart, $arrivee, $date, $idUtilisateur): array
     {
         $covoiturageRepository = new CovoiturageRepository();
@@ -105,7 +106,8 @@ class CovoiturageServices
         return array_values($filtres);
     }
 
-    // --------------------------------- Covoit utilisateur participe --------------------------------- //
+    /* ============================================ Covoit utilisateur participe ============================================= */
+
     public function mesCovoiturages($idUtilisateur): array
     {
         $covoiturageRepository = new CovoiturageRepository();
@@ -225,7 +227,8 @@ class CovoiturageServices
         return "";
     }
 
-    // --------------------------------- Historique covoit utilisateur participe --------------------------------- //
+    /* ============================================ Historique covoit utilisateur participe ============================================= */
+
     public function mesCovoituragesHistorique($idUtilisateur): array
     {
         $covoiturageRepository = new CovoiturageRepository();

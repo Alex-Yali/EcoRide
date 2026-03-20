@@ -6,6 +6,8 @@ use App\Service\AuthServices;
 
 class AuthController extends Controller
 {
+    /* ============================================= Connexion ============================================= */
+
     public function connexion(): void
     {
         try {
@@ -44,6 +46,8 @@ class AuthController extends Controller
             'csrf' => $csrf ?? '',
         ]);
     }
+
+    /* ============================================ Inscription ============================================= */
 
     public function inscription(): void
     {

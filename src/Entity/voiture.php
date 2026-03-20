@@ -12,6 +12,7 @@ class Voiture
     protected ?string $couleur = null;
     protected ?string $date_premiere_immatriculation = null;
     protected ?int $nb_place = null;
+    protected ?string $libelle = null;
 
     // voiture id
     public function getVoitureId(): ?int
@@ -65,5 +66,11 @@ class Voiture
         } else {
             return '/assets/images/voiture-electrique.png';
         }
+    }
+
+    // Libelle marque
+    public function getLibelle(): ?string
+    {
+        return $this->libelle;
     }
 }
