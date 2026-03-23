@@ -57,17 +57,14 @@ class AuthRepository extends Repository
         $sqlInscri = "INSERT INTO utilisateur (pseudo, email, password, credits) 
                       VALUES (:pseudo, :email, :password, :credits)";
         $stmtInscri = $this->pdo->prepare($sqlInscri);
-        if ($stmtInscri->execute([
+        $stmtInscri->execute([
             ':email' => $email,
             ':pseudo' => $pseudo,
             ':credits' =>  $startCredit,
             ':password' => $hashedPassword
-        ])) {
-            $userId = $this->pdo->lastInsertId();
-            return $userId;
-        } else {
-            return 0;
-        }
+        ]);
+        $userId = $this->pdo->lastInsertId();
+        return $userId;
     }
 
     // Ajout role table possede

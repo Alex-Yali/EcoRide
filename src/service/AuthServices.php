@@ -3,14 +3,13 @@
 namespace App\Service;
 
 use App\Repository\AuthRepository;
-use App\Repository\EspaceRepository;
 use App\db\Mysql;
 
 class AuthServices
 {
     public string $message = '';
 
-    public function ConnexionUtilisateur()
+    public function connexionUtilisateur()
     {
 
         $email = trim($_POST['email'] ?? '');
@@ -82,15 +81,15 @@ class AuthServices
         }
     }
 
-    public function InscriptionUtilisateur()
+    public function inscriptionUtilisateur()
     {
         $startCredit = 20;
 
         // Recherche principale
-        $pseudo = $_POST['pseudo'] ?? '';
+        $pseudo = trim($_POST['pseudo'] ?? '');
         $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
-        $passwordConfirm = $_POST['password_confirm'] ?? '';
+        $password = trim($_POST['password'] ?? '');
+        $passwordConfirm = trim($_POST['password_confirm'] ?? '');
 
         // Vérifier si un champ est vide
         if ($pseudo === '' || $email === '' || $password === '' || $passwordConfirm === '') {
@@ -127,18 +126,30 @@ class AuthServices
         // Hashage
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        // Ajout utilisateur bdd
-        $userId = $inscriptionRepository->addUser($email, $pseudo, $startCredit, $hashedPassword);
+        try {
+            // Commencer transaction
+            $pdo = Mysql::getInstance()->getPDO();
+            $pdo->beginTransaction();
 
-        // Ajout rôle bdd
-        $inscriptionRepository->addRolePossede($userId, 3);
+            // Ajout utilisateur bdd
+            $userId = $inscriptionRepository->addUser($email, $pseudo, $startCredit, $hashedPassword);
 
-        // Stockage session
-        $_SESSION['user_id'] = $userId;
-        $_SESSION['user_pseudo'] = $pseudo;
-        $_SESSION['email'] = $email;
-        $_SESSION['user_credits'] = $startCredit;
-        $_SESSION['inscription_ok'] = true;
-        return true;
+            // Ajout rôle bdd
+            $inscriptionRepository->addRolePossede($userId, 3);
+
+            $pdo->commit();
+
+            // Stockage session
+            $_SESSION['user_id'] = $userId;
+            $_SESSION['user_pseudo'] = $pseudo;
+            $_SESSION['email'] = $email;
+            $_SESSION['user_credits'] = $startCredit;
+            $_SESSION['inscription_ok'] = true;
+            return true;
+        } catch (\PDOException $e) {
+            $pdo->rollBack();
+            $this->message = "Erreur lors de l'ajout";
+            return false;
+        }
     }
 }

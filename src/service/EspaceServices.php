@@ -136,7 +136,7 @@ class EspaceServices
         $idUtilisateur = $_SESSION['user_id'] ?? null;
 
         if (!$idUtilisateur) {
-            $this->messageCompte  = "Erreur : aucun utilisateur connecté.";
+            $this->message  = "Erreur : aucun utilisateur connecté.";
             return false;
         }
 

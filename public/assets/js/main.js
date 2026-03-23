@@ -20,4 +20,4 @@
       menuImg.src = "/assets/images/icon compte.png"; // on remet l’image du menu si clic en dehors
     }
   });
-
+  

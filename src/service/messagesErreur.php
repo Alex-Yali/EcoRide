@@ -31,10 +31,17 @@
             </p>
         <?php endif; ?>
 
-        <!-- Messages d'erreur ajout compte -->
+        <!-- Messages d'erreur création compte employé -->
         <?php if (!empty($messageCompte)) : ?>
             <p class="<?= ($compteValide  ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
                 <?= htmlspecialchars($messageCompte) ?>
+            </p>
+        <?php endif; ?>
+
+        <!-- Messages d'erreur suspension compte -->
+        <?php if (!empty($messageSusp)): ?>
+            <p style="color: <?= ($compteSusp ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
+                <?= htmlspecialchars($messageSusp) ?>
             </p>
         <?php endif; ?>
 

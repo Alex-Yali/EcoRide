@@ -31,5 +31,4 @@ return [
     // Espace voitures
     "/vehicule/" => ["controller" => "App\Controller\VoitureController", "action" => "vehicule"],
 
-
 ];

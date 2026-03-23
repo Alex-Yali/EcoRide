@@ -24,12 +24,12 @@
 
     <main>
         <h1 class="gros-titre">Mon espace :</h1>
+        <!-- Message de succès / erreur -->
+        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+
         <!-- Section Utilisateur -->
         <?php foreach ($roleUtilisateur as $role): ?>
             <?php if ($role === 'utilisateur'): ?>
-                <!-- Message de succès / erreur -->
-                <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
-
                 <section class="user-box">
                     <form id="user-type" action="/espace/" method="POST">
 
@@ -194,8 +194,8 @@
                     </section>
                     <nav class="passagerLink">
                         <ul>
-                            <li><a href="#modal">Créer compte employé</a></li>
-                            <li><a href="#supCompte">Suspendre un compte</a></li>
+                            <li><button class="modal-open-btn" id="openAjoutModal">Créer compte employé</button></li>
+                            <li><button class="modal-open-btn" id="openSuspModal">Suspendre un compte</button></li>
                         </ul>
                     </nav>
                 </section>
@@ -210,66 +210,72 @@
                 </section>
 
                 <!-- Modal création compte employé -->
-                <section id="modal" class="modal">
+                <section id="ajoutCompte" class="modal">
                     <section class="compte">
-                        <a href="#" class="close">x</a>
+                        <button class="close" data-modal="ajoutCompte">x</button>
                         <h2>Création compte employé</h2>
 
-                        <form method="POST" class="modal-content">
+                        <form method="POST" class="modal-content" action="">
 
                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-
-                            <label>Pseudo :
-                                <input type="text" name="pseudo" required>
-                            </label>
-
-                            <label>Email :
-                                <input type="email" name="email" required>
-                            </label>
-
-                            <label>Mot de passe :
-                                <input type="password" name="password" required>
-                            </label>
-
-                            <label>Confirmer mot de passe :
-                                <input type="password" name="password_confirm" required>
-                            </label>
-
-                            <label>Crédits :
-                                <input type="number" name="credits" min="1" required>
-                            </label>
-
                             <input type="hidden" name="formType" value="ajoutCompte">
 
-                            <button class="button" id="btnCompte" type="submit">Créer</button>
+                            <section class="modal-group">
+                                <label>Pseudo : </label>
+                                <input type="text" name="pseudo" id="pseudo" value="<?= htmlspecialchars($pseudo ?? '') ?>" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Le pseudo doit être inférieur à 10 caractères</span>
+                            </section>
 
+                            <section class="modal-group">
+                                <label>Email : </label>
+                                <input type="email" id="email" name="email" value="<?= htmlspecialchars($email ?? '') ?>" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Le mail n'est pas au bon format</span>
+                            </section>
+
+                            <section class="modal-group">
+                                <label>Mot de passe : </label>
+                                <input type="password" name="password" id="password" required>
+                                <span id="togglePassword" class="eye-icon"><img src="/assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
+                            </section>
+
+                            <section class="progression">
+                                <section class="strength-meter">
+                                    <section id="strength-bar" class="strength-bar"></section>
+                                </section>
+                                <small id="strength-text"></small>
+                            </section>
+
+                            <section class="modal-group">
+                                <label>Confirmer mot de passe : </label>
+                                <input type="password" name="password_confirm" id="password_confirm" required>
+                                <span id="togglePasswordConfirm" class="eye-icon"><img src="/assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
+                                <span class="error">Les mots de passe ne sont pas identiques</span>
+                            </section>
+
+                            <button class="button" id="btnCompte" type="submit">Créer</button>
                         </form>
                     </section>
                 </section>
 
                 <!-- Modal suppression compte -->
-                <section id="supCompte" class="modal">
+                <section id="suspCompte" class="modal">
                     <section class="compte">
-                        <a href="#" class="close">x</a>
+                        <button class="close" data-modal="suspCompte">x</button>
                         <h2>Suspension compte</h2>
 
-                        <!-- Messages compte -->
-                        <?php if (!empty($messageSup)): ?>
-                            <p style="color: <?= ($compteSup ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                                <?= htmlspecialchars($messageSup) ?>
-                            </p>
-                        <?php endif; ?>
                         <form class="compteListe" action="" method="POST">
                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                             <select id="liste" name="compte" required>
                                 <option value="" disabled selected hidden>Compte à suspendre</option>
 
-                                <?php if (!empty($compte)) : ?>
-                                    <?php foreach ($compte as $c): ?>
-                                        <option value="<?= htmlspecialchars($c['utilisateur_id']) ?>">
-                                            <?= htmlspecialchars(ucfirst($c['pseudo'] ?? 'N/A')) ?>
-                                            - <?= htmlspecialchars(ucfirst($c['email'] ?? '')) ?>
-                                            - <?= htmlspecialchars(ucfirst($c['libelle'] ?? '')) ?>
+                                <?php if (!empty($comptes)) : ?>
+                                    <?php foreach ($comptes as $c): ?>
+                                        <option value="<?= htmlspecialchars($c->getUtilisateurId()) ?>">
+                                            <?= htmlspecialchars(ucfirst($c->getPseudo() ?? 'N/A')) ?>
+                                            - <?= htmlspecialchars(ucfirst($c->getEmail() ?? '')) ?>
+                                            - <?= htmlspecialchars(ucfirst($c->getLibelle() ?? '')) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -295,6 +301,7 @@
 
     <!-- JS -->
     <script src="/assets/js/main.js" type="module"></script>
+    <script src="/assets/js/pages/espace.js" type="module"></script>
 
     <!-- Script graphique -->
     <script>

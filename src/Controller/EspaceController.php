@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Repository\EspaceRepository;
 use App\Service\EspaceServices;
 use App\db\Mysql;
+use App\Repository\UtilisateurRepository;
+use App\Service\UtilisateurServices;
 
 class EspaceController extends Controller
 {
@@ -12,11 +14,15 @@ class EspaceController extends Controller
     {
         $idUtilisateur = $_SESSION['user_id'] ?? null;
         $radio = 'passager';
-        $voitureExiste = false;
-        $voitureValide = false;
         $message = '';
         $messageVoiture = '';
+        $voitureExiste = false;
+        $voitureValide = false;
         $messageCompte = '';
+        $compteValide = false;
+        $comptes = '';
+        $messageSusp = '';
+        $compteSusp = false;
         $graphiques = false;
         $csrf = generate_csrf_token();
 
@@ -27,6 +33,8 @@ class EspaceController extends Controller
                 // Repository
                 $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
                 $espaceServices = new EspaceServices();
+                $utilisateurRepository = new UtilisateurRepository();
+                $utilisateurServices = new UtilisateurServices();
 
                 // Gérer le switch de statut + ajout voiture
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -50,8 +58,34 @@ class EspaceController extends Controller
                             $voitureValide = $espaceServices->ajouterVoiture($_POST, $idUtilisateur, Mysql::getInstance()->getPDO());
                             $messageVoiture = $espaceServices->messageVoiture;
                         }
+
+                        // Ajouter compte employé
+                        if (($_POST['formType'] ?? '') === 'ajoutCompte') {
+
+                            // Recherche principale
+                            $pseudo = trim($_POST['pseudo'] ?? '');
+                            $email = trim($_POST['email'] ?? '');
+                            $password = trim($_POST['password'] ?? '');
+                            $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+
+                            $compteValide = $utilisateurServices->ajouterEmploye($pseudo, $email, $password, $passwordConfirm);
+                            $message = $utilisateurServices->message;
+                            $messageCompte = $utilisateurServices->messageCompte;
+                        }
+
+                        // Suspendre compte utilisateur/employé
+                        if (isset($_POST['compte'])) {
+
+                            $idCompte = intval($_POST['compte']);
+
+                            $compteSusp = $utilisateurServices->suspendreCompte($idCompte);
+                            $messageSusp = $utilisateurServices->messageSusp;
+                        }
                     }
                 }
+
+                // Récupérer compte utilisateur/employé
+                $comptes = $utilisateurRepository->checkUtilisateurOrEmploye();
 
                 // Récupérer le statut
                 $statutUtilisateur = $espaceRepository->statutUtilisateur($idUtilisateur);
@@ -77,7 +111,7 @@ class EspaceController extends Controller
                     //  Afficher les graphiques
                     $espaceServices = new EspaceServices();
                     $graphiques = $espaceServices->graphique(Mysql::getInstance()->getPDO());
-                    $messageCompte = $espaceServices->messageCompte;
+                    $message = $espaceServices->message;
                 }
             } catch (\Exception $e) {
                 $message = "Une erreur est survenue : " . $e->getMessage();
@@ -94,6 +128,10 @@ class EspaceController extends Controller
             'message' => $message,
             'graphiques' => $graphiques,
             'messageCompte' => $messageCompte,
+            'compteValide' => $compteValide,
+            'messageSusp' => $messageSusp,
+            'compteSusp' => $compteSusp,
+            'comptes' => $comptes,
         ]);
     }
 }

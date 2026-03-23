@@ -117,7 +117,7 @@ class CovoiturageServices
         return $mesCovoits;
     }
 
-    public function gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action): string
+    public function gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action)
     {
         $covoiturageRepository = new CovoiturageRepository();
 
@@ -170,27 +170,32 @@ class CovoiturageServices
 
         // Si Annulation
         if ($statut === 'Annuler') {
-            // Récupérer le prix du covoit par personne
-            $infosCovoit = $covoiturageRepository->infosCovoiturages($covoiturage_id);
-            $prix = $infosCovoit['prix_personne'] ?? 0;
+            try {
+                // Commencer transaction
+                $pdo = Mysql::getInstance()->getPDO();
+                $pdo->beginTransaction();
 
-            // Le chauffeur annule le trajet
-            if ($participant['chauffeur'] == 1) {
+                // Récupérer le prix du covoit par personne
+                $infosCovoit = $covoiturageRepository->infosCovoiturages($covoiturage_id);
+                $prix = $infosCovoit['prix_personne'] ?? 0;
 
-                // Mise à jour statut
-                $covoiturageRepository->majStatut('Annuler', $covoiturage_id);
+                // Le chauffeur annule le trajet
+                if ($participant['chauffeur'] == 1) {
 
-                // Récupérer les passagers
-                $passagers = $covoiturageRepository->passagersCovoiturages($covoiturage_id);
+                    // Mise à jour statut
+                    $covoiturageRepository->majStatut('Annuler', $covoiturage_id);
 
-                foreach ($passagers as $p) {
-                    // 1️ Remboursement du passager
-                    $covoiturageRepository->rembourserUtilisateur($prix, $p['utilisateur_id']);
+                    // Récupérer les passagers
+                    $passagers = $covoiturageRepository->passagersCovoiturages($covoiturage_id);
 
-                    // 2️ Envoi d’un email d’annulation
-                    $to = $p['email'];
-                    $subject = "Annulation du covoiturage";
-                    $messageMail = "
+                    foreach ($passagers as $p) {
+                        // 1️ Remboursement du passager
+                        $covoiturageRepository->rembourserUtilisateur($prix, $p['utilisateur_id']);
+
+                        // 2️ Envoi d’un email d’annulation
+                        $to = $p['email'];
+                        $subject = "Annulation du covoiturage";
+                        $messageMail = "
                         Bonjour {$p['pseudo']},<br><br>
                         Le conducteur a annulé le covoiturage prévu de 
                         <b>{$infosCovoit['lieu_depart']}</b> à <b>{$infosCovoit['lieu_arrivee']}</b><br>
@@ -200,31 +205,36 @@ class CovoiturageServices
                         <hr>
                         <i>L’équipe EcoRide</i>";
 
-                    @mail($to, $subject, $messageMail);
+                        @mail($to, $subject, $messageMail);
+                    }
+
+                    // 3 Remettre toutes les places disponibles
+                    $nbPlacesTotales = count($passagers) + $infosCovoit['nb_place'];
+                    $covoiturageRepository->incrementerPlacesTotales($nbPlacesTotales, $covoiturage_id);
                 }
 
-                // 3 Remettre toutes les places disponibles
-                $nbPlacesTotales = count($passagers) + $infosCovoit['nb_place'];
-                $covoiturageRepository->incrementerPlacesTotales($nbPlacesTotales, $covoiturage_id);
-            }
+                //  Le passager annule sa participation au trajet
+                if ($participant['chauffeur'] == 0) {
 
-            //  Le passager annule sa participation au trajet
-            if ($participant['chauffeur'] == 0) {
+                    if ($prix > 0) {
 
-                if ($prix > 0) {
+                        // 1️ Remboursement du passager
+                        $covoiturageRepository->rembourserUtilisateur($prix, $idUtilisateur);
 
-                    // 1️ Remboursement du passager
-                    $covoiturageRepository->rembourserUtilisateur($prix, $idUtilisateur);
+                        // 2️ Libérer une place (+1)
+                        $covoiturageRepository->incrementerPlace($covoiturage_id);
 
-                    // 2️ Libérer une place (+1)
-                    $covoiturageRepository->incrementerPlace($covoiturage_id);
-
-                    // 3️ Supprimer la participation du passager
-                    $covoiturageRepository->supprimerParticipation($idUtilisateur, $covoiturage_id);
+                        // 3️ Supprimer la participation du passager
+                        $covoiturageRepository->supprimerParticipation($idUtilisateur, $covoiturage_id);
+                    }
                 }
+                $pdo->commit();
+            } catch (\Exception $e) {
+                $pdo->rollBack();
+                return "Erreur lors de l'annulation.";
             }
+            return "";
         }
-        return "";
     }
 
     /* ============================================ Historique covoit utilisateur participe ============================================= */
@@ -270,21 +280,27 @@ class CovoiturageServices
 
             $etatAvis = ($avis === 'Oui') ? 'ok' : 'nok';
 
-            // Commencer transaction
-            $pdo = Mysql::getInstance()->getPDO();
-            $pdo->beginTransaction();
+            try {
+                // Commencer transaction
+                $pdo = Mysql::getInstance()->getPDO();
+                $pdo->beginTransaction();
 
-            // Ajouter l'avis
-            $idAvis = $covoiturageRepository->ajouterAvis($commentaire, $rating, $conducteur_id, $covoiturage_id, $etatAvis);
+                // Ajouter l'avis
+                $idAvis = $covoiturageRepository->ajouterAvis($commentaire, $rating, $conducteur_id, $covoiturage_id, $etatAvis);
 
-            // Récuperer utilisateur depose avis
-            $covoiturageRepository->ajouterDepose($idUtilisateur, $idAvis);
+                // Récuperer utilisateur depose avis
+                $covoiturageRepository->ajouterDepose($idUtilisateur, $idAvis);
 
-            // Ajouter crédits uniquement si avis = Oui (etat = ok)
-            if ($etatAvis === 'ok') {
-                $covoiturageRepository->ajouterCredits($prixParPersonne, $conducteur_id);
+                // Ajouter crédits uniquement si avis = Oui (etat = ok)
+                if ($etatAvis === 'ok') {
+                    $covoiturageRepository->ajouterCredits($prixParPersonne, $conducteur_id);
+                }
+
+                $pdo->commit();
+            } catch (\PDOException $e) {
+                $pdo->rollBack();
+                $this->message = "Erreur lors de l'ajout";
             }
-            $pdo->commit();
         }
     }
 }

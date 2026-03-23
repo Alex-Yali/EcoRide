@@ -7,6 +7,9 @@ use App\Repository\AvisRepository;
 
 class AvisServices
 {
+
+    public string $message = '';
+
     /* ============================================ Afficher avis ============================================= */
 
     public function avis(): array
@@ -40,23 +43,28 @@ class AvisServices
         $prixParPersonne = $infosAvis['prix_personne'];
         $idChauffeur = $infosAvis['chauffeur_id'];
 
-        // Commencer transaction
-        $pdo = Mysql::getInstance()->getPDO();
-        $pdo->beginTransaction();
+        try {
+            // Commencer transaction
+            $pdo = Mysql::getInstance()->getPDO();
+            $pdo->beginTransaction();
 
-        // Valider l'avis
-        $validerAvis = $avisRepository->validerAvis($idAvis, $idUtilisateur);
+            // Valider l'avis
+            $validerAvis = $avisRepository->validerAvis($idAvis, $idUtilisateur);
 
-        if (!$validerAvis) {
-            throw new \Exception("Avis déjà traité ou invalide");
+            if (!$validerAvis) {
+                throw new \Exception("Avis déjà traité ou invalide");
+            }
+
+            // Ajouter crédits uniquement si etat = 'nok'
+            if ($etat === 'nok') {
+                $avisRepository->ajouterCredits($prixParPersonne, $idChauffeur);
+            }
+
+            $pdo->commit();
+        } catch (\PDOException $e) {
+            $pdo->rollBack();
+            $this->message = "Erreur lors de l'ajout";
         }
-
-        // Ajouter crédits uniquement si etat = 'nok'
-        if ($etat === 'nok') {
-            $avisRepository->ajouterCredits($prixParPersonne, $idChauffeur);
-        }
-
-        $pdo->commit();
     }
 
     /* ============================================ Refuser avis ============================================= */

@@ -23,7 +23,7 @@ class AuthController extends Controller
 
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
-                    $user = $authService->ConnexionUtilisateur();
+                    $user = $authService->connexionUtilisateur();
 
                     // Redirige à l'espace utilisateur
                     if ($user) {
@@ -65,7 +65,7 @@ class AuthController extends Controller
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
 
-                    if ($authService->InscriptionUtilisateur()) {
+                    if ($authService->inscriptionUtilisateur()) {
                         header('Location: /espace/');
                         exit;
                     }
