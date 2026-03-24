@@ -1,19 +1,25 @@
-/* Fermeture après ajout voiture */
+ /* Gestion Modal */
 
-document.addEventListener("DOMContentLoaded", () => {
-    const close = document.querySelector(".close");
+const ajoutModal = document.getElementById('ajoutVoiture');
+const openAjoutBtn = document.getElementById('openAjoutModal');
+const closeButtons = document.querySelectorAll('.close');
 
-    if (close) {
-        close.addEventListener("click", (e) => {
-            e.preventDefault();
+// Ouvrir modal ajout
+openAjoutBtn.addEventListener('click', () => {
+    ajoutModal.classList.add('active');
+});
 
-            // 1) Fermer le modal 
-            window.location.hash = "";
+// Fermer
+closeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modalId = btn.getAttribute('data-modal');
+        document.getElementById(modalId).classList.remove('active');
+    });
+});
 
-            // 2) Recharger la page
-            setTimeout(() => {
-                window.location.reload();
-            }, 10);
-        });
+// Fermer en cliquant dehors
+window.addEventListener('click', (e) => {
+    if (e.target === ajoutModal) {
+        ajoutModal.classList.remove('active');
     }
 });

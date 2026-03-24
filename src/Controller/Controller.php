@@ -50,11 +50,6 @@ class Controller
             $_SESSION['roleUtilisateur'] = $roleLabels;
         }
 
-        // if (!empty($params['covoiturages'])) {
-        //     $covoiturageService = new CovoiturageServices();
-        //     $params['dateCovoit'] = $covoiturageService->formatDate($params['covoiturages']);
-        // }
-
         $filePath = APP_ROOT . "/templates/$path.php";
 
         if (!file_exists($filePath)) {

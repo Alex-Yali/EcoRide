@@ -1,50 +1,49 @@
-    <!DOCTYPE html>
-    <html lang="fr">
+<!-- Messages d'erreur globaux -->
+<?php if (!empty($message)) : ?>
+    <p class="<?= 'errorMessage' ?>">
+        <?= htmlspecialchars($message) ?>
+    </p>
+<?php endif; ?>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Styles -->
-        <link rel="stylesheet" href="/assets/css/style.css">
-    </head>
+<!-- Messages d'erreur recherche covoiturage -->
+<?php if (!empty($messageCovoit)) : ?>
+    <p class="<?= ($covoitValide ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($messageCovoit) ?>
+    </p>
+<?php endif; ?>
 
-    <body>
+<!-- Messages d'erreur ajout voiture -->
+<?php if (!empty($messageVoiture)) : ?>
+    <p class="<?= ($voitureValide  ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($messageVoiture) ?>
+    </p>
+<?php endif; ?>
 
-        <!-- Messages d'erreur globaux -->
-        <?php if (!empty($message)) : ?>
-            <p class="<?= 'errorMessage' ?>">
-                <?= htmlspecialchars($message) ?>
-            </p>
-        <?php endif; ?>
+<?php if (!empty($_SESSION['messageVoiture'])): ?>
+    <p class="<?= !empty($_SESSION['voitureValide'] ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($_SESSION['messageVoiture']); ?>
+    </p>
 
-        <!-- Messages d'erreur recherche covoiturage -->
-        <?php if (!empty($messageCovoit)) : ?>
-            <p class="<?= ($covoitValide ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
-                <?= htmlspecialchars($messageCovoit) ?>
-            </p>
-        <?php endif; ?>
+    <?php unset($_SESSION['messageVoiture'], $_SESSION['voitureValide']); ?>
+<?php endif; ?>
 
-        <!-- Messages d'erreur ajout voiture -->
-        <?php if (!empty($messageVoiture)) : ?>
-            <p class="<?= ($voitureValide  ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
-                <?= htmlspecialchars($messageVoiture) ?>
-            </p>
-        <?php endif; ?>
+<!-- Messages d'erreur création compte employé -->
+<?php if (!empty($messageCompte)) : ?>
+    <p class="<?= ($compteValide  ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($messageCompte) ?>
+    </p>
+<?php endif; ?>
 
-        <!-- Messages d'erreur création compte employé -->
-        <?php if (!empty($messageCompte)) : ?>
-            <p class="<?= ($compteValide  ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
-                <?= htmlspecialchars($messageCompte) ?>
-            </p>
-        <?php endif; ?>
+<!-- Messages d'erreur suspension compte -->
+<?php if (!empty($messageSusp)): ?>
+    <p class="<?= ($compteSusp ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($messageSusp) ?>
+    </p>
+<?php endif; ?>
 
-        <!-- Messages d'erreur suspension compte -->
-        <?php if (!empty($messageSusp)): ?>
-            <p style="color: <?= ($compteSusp ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                <?= htmlspecialchars($messageSusp) ?>
-            </p>
-        <?php endif; ?>
-
-    </body>
-
-    </html>
+<!-- Messages d'erreur ajout covoit -->
+<?php if (!empty($messageTrajet)): ?>
+    <p class="<?= ($trajetValide ?? false) ? 'successMessageCovoit' : 'errorMessageCovoit' ?>">
+        <?= htmlspecialchars($messageTrajet) ?>
+    </p>
+<?php endif; ?>

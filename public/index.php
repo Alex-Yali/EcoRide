@@ -10,7 +10,6 @@ define('APP_ENV', ".env.local");
 // Charger les services
 require APP_ROOT . "/src/Service/Csrf.php";
 require APP_ROOT . "/src/Service/Init.php";
-require APP_ROOT . "/src/Service/MessagesErreur.php";
 
 use App\Db\Mysql;
 use App\Routing\Router;

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use PDO;
 use App\db\MongoDB;
+use App\Entity\Covoiturage;
 use App\Entity\Voiture;
 
 class VoitureRepository extends Repository
@@ -15,9 +16,9 @@ class VoitureRepository extends Repository
         $this->pdo = $pdo;
     }
 
-    /* ============================================ Ajout voiture si utilisateur devient chauffeur ou passager / chauffeur ============================================= */
+    /* ============================================ Ajout voiture ============================================= */
 
-    // Vérifier si immatriculation existe déjà
+    // 1. Vérifier si immatriculation existe déjà
     public function checkImmatriculation($immatriculation): bool
     {
         $sqlVoiture = "SELECT voiture_id FROM voiture WHERE immatriculation = :immatriculation";
@@ -26,7 +27,7 @@ class VoitureRepository extends Repository
         return $stmtVoiture->fetch() !== false;
     }
 
-    // Inserer table voiture
+    // 2. Inserer table voiture
     public function insertVoiture($modele, $immatriculation, $couleur, $dateImmat, $energie, $place)
     {
         $sqlAjoutVoiture = "INSERT INTO voiture (modele, immatriculation, couleur, date_premiere_immatriculation, energie, nb_place)
@@ -48,7 +49,7 @@ class VoitureRepository extends Repository
         return $this->pdo->lastInsertId();
     }
 
-    // Inserer table marque
+    // 3. Inserer table marque
     public function ajoutMarque($marque)
     {
         $sqlMarque = "SELECT marque_id FROM marque WHERE libelle = :marque";
@@ -65,7 +66,7 @@ class VoitureRepository extends Repository
         return $this->pdo->lastInsertId();
     }
 
-    // Inserer table détient
+    // 4. Inserer table détient
     public function insertDetient($idVoiture, $idMarque)
     {
         $sqlDetient = "INSERT INTO detient (voiture_voiture_id, marque_marque_id)
@@ -77,7 +78,7 @@ class VoitureRepository extends Repository
         ]);
     }
 
-    // Inserer table gere
+    // 5. Inserer table gere
     public function insertGere($userId, $idVoiture)
     {
         $sqlGere = "INSERT INTO gere (utilisateur_utilisateur_id, voiture_voiture_id)
@@ -89,7 +90,7 @@ class VoitureRepository extends Repository
         ]);
     }
 
-    // Ajouter les preferences utilisateur
+    // 6. Ajouter les preferences utilisateur
     public function updatePreferencesMongo($userId, $tabac, $animal, $autre)
     {
         $mongo = MongoDB::getInstance();
@@ -126,5 +127,112 @@ class VoitureRepository extends Repository
         $stmtVoituresUtilisateur->execute([':userId' => $userId]);
         $voituresUtilisateur = $stmtVoituresUtilisateur->fetchAll(PDO::FETCH_CLASS, Voiture::class);
         return $voituresUtilisateur ?: [];
+    }
+
+    /* ============================================ Ajouter trajet ============================================= */
+
+    // 1. Vérifier que la voiture appartient à l'utilisateur via la table 'gere'
+    public function checkVoitureUtilisateur($idUtilisateur, $idVoiture)
+    {
+        $sqlCheckVoitureUtilisateur = "SELECT voiture_voiture_id 
+                                       FROM gere 
+                                       WHERE utilisateur_utilisateur_id = :idUtilisateur 
+                                       AND voiture_voiture_id = :idVoiture";
+
+        $stmtCheckVoitureUtilisateur = $this->pdo->prepare($sqlCheckVoitureUtilisateur);
+        $stmtCheckVoitureUtilisateur->execute([
+            ':idUtilisateur' => $idUtilisateur,
+            ':idVoiture' => $idVoiture
+        ]);
+        $checkVoitureUtilisateur = $stmtCheckVoitureUtilisateur->fetchColumn();
+        return $checkVoitureUtilisateur;
+    }
+
+    // 2. Vérifier si l'utilisateur a déjà ce covoiturage
+    public function checkCovoitUtilisateur($idUtilisateur, $dateDepart, $heureDepart, $depart, $dateArrivee, $heureArrivee, $destination)
+    {
+        $sqlCheckCovoitUtilisateur = "SELECT c.covoiturage_id
+                        FROM covoiturage c
+                        JOIN participe p 
+                            ON p.covoiturage_covoiturage_id = c.covoiturage_id
+                        WHERE p.utilisateur_utilisateur_id = :idUtilisateur
+                            AND c.date_depart = :dateDepart
+                            AND c.heure_depart = :heureDepart
+                            AND c.lieu_depart = :lieuDepart
+                            AND c.date_arrivee = :dateArrivee
+                            AND c.heure_arrivee = :heureArrivee
+                            AND c.lieu_arrivee = :lieuArrivee";
+
+        $stmtCheckCovoitUtilisateur = $this->pdo->prepare($sqlCheckCovoitUtilisateur);
+        $stmtCheckCovoitUtilisateur->execute([
+            ':idUtilisateur' => $idUtilisateur,
+            ':dateDepart' => $dateDepart,
+            ':heureDepart' => $heureDepart,
+            ':lieuDepart' => $depart,
+            ':dateArrivee' => $dateArrivee,
+            ':heureArrivee' => $heureArrivee,
+            ':lieuArrivee' => $destination
+        ]);
+        $checkCovoitUtilisateur = $stmtCheckCovoitUtilisateur->fetchObject(Covoiturage::class);
+        return $checkCovoitUtilisateur;
+    }
+
+    // 3. Ajouter le covoiturage
+    public function ajouterTrajet($dateDepart, $heureDepart, $depart, $dateArrivee, $heureArrivee, $destination, $places, $prix)
+    {
+        $sqlAjoutTrajet = "INSERT INTO covoiturage (date_depart, heure_depart, lieu_depart, date_arrivee, heure_arrivee, lieu_arrivee, nb_place, prix_personne)
+                           VALUES (:dateDepart, :heureDepart, :lieuDepart, :dateArrivee, :heureArrivee, :lieuArrivee, :places, :prix)";
+        $stmtAjoutTrajet = $this->pdo->prepare($sqlAjoutTrajet);
+        $stmtAjoutTrajet->execute([
+            ':dateDepart' => $dateDepart,
+            ':heureDepart' => $heureDepart,
+            ':lieuDepart' => $depart,
+            ':dateArrivee' => $dateArrivee,
+            ':heureArrivee' => $heureArrivee,
+            ':lieuArrivee' => $destination,
+            ':places' => $places,
+            ':prix' => $prix
+        ]);
+        $trajet = $this->pdo->lastInsertId();
+        return $trajet;
+    }
+
+    // 4. Ajouter relation utilisateur-covoiturage dans participe
+    public function participerCovoit($idUtilisateur, $idTrajet)
+    {
+        $sqlParticipe = "INSERT INTO participe (utilisateur_utilisateur_id, covoiturage_covoiturage_id, chauffeur, passager)
+                         VALUES (:idUtilisateur, :idCovoiturage, :chauffeur, :passager)";
+        $stmtParticipe = $this->pdo->prepare($sqlParticipe);
+        $stmtParticipe->execute([
+            ':idUtilisateur' => $idUtilisateur,
+            ':idCovoiturage' => $idTrajet,
+            ':chauffeur' => 1,
+            ':passager' => 0
+        ]);
+    }
+
+    // 5. Ajouter relation covoiturage–voiture dans utilise
+    public function utiliseVoiturecovoit($voiture, $idTrajet)
+    {
+        $sqlUtiliseVoiturecovoit = "INSERT INTO utilise (voiture_voiture_id, covoiturage_covoiturage_id)
+                            VALUES (:idVoiture, :idCovoiturage)";
+        $stmtUtiliseVoiturecovoit = $this->pdo->prepare($sqlUtiliseVoiturecovoit);
+        $stmtUtiliseVoiturecovoit->execute([
+            ':idVoiture' => $voiture,
+            ':idCovoiturage' => $idTrajet
+        ]);
+    }
+
+    // 6. Déduire 2 crédits à l'utilisateur
+    public function removeCredits($idUtilisateur, $prixTrajet)
+    {
+        $sqlRemoveCredits = "UPDATE utilisateur 
+                             SET credits = credits - :prixTrajet 
+                             WHERE utilisateur_id = :idUtilisateur";
+        $stmtRemoveCredits = $this->pdo->prepare($sqlRemoveCredits);
+        $stmtRemoveCredits->execute([
+            'prixTrajet' => $prixTrajet,
+            'idUtilisateur' => $idUtilisateur
+        ]);
     }
 }

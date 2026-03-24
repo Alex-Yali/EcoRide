@@ -26,9 +26,11 @@ return [
 
     "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],
     "/rechercher/" => ["controller" => "App\Controller\PageController", "action" => "rechercher"],
-    "/trajet/" => ["controller" => "App\Controller\PageController", "action" => "trajet"],
 
     // Espace voitures
     "/vehicule/" => ["controller" => "App\Controller\VoitureController", "action" => "vehicule"],
+
+    // Espace trajet
+    "/trajet/" => ["controller" => "App\Controller\TrajetController", "action" => "trajet"],
 
 ];

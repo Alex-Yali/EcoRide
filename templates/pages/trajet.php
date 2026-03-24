@@ -1,11 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/repository/mesVoitures.php';
-// require_once __DIR__ . '/../src/repository/ajoutVoitureTrajet.php';
-// require_once __DIR__ . '/../src/repository/ajoutTrajet.php';
-// require_once __DIR__ . '/../src/service/csrf.php';
-// $csrf = generate_csrf_token();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -32,13 +24,8 @@
 
     <main>
         <h1 class="gros-titre">Saisir un voyage :</h1>
-
-        <!-- Messages d'erreur ajout covoit -->
-        <?php if (!empty($messageTrajet)): ?>
-            <p style="color: <?= ($trajetValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                <?= htmlspecialchars($messageTrajet) ?>
-            </p>
-        <?php endif; ?>
+        <!-- Message de succès / erreur -->
+        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
 
         <section class="ajoutTrajet">
 
@@ -97,19 +84,20 @@
                         <select id="cars2" name="voiture" required>
                             <option value="" disabled selected hidden>Véhicules</option>
 
-                            <?php if (!empty($voitures)) : ?>
-                                <?php foreach ($voitures as $voiture): ?>
-                                    <option value="<?= htmlspecialchars($voiture['voiture_id']) ?>">
-                                        <?= htmlspecialchars(ucfirst($voiture['libelle'] ?? 'N/A')) ?>
-                                        <?= htmlspecialchars(ucfirst($voiture['modele'] ?? '')) ?>
+                            <?php if (empty($voituresUtilisateur)) : ?>
+                                <p>Vous n'avez aucun véhicule associé à votre compte.</p>
+                            <?php else: ?>
+                                <?php foreach ($voituresUtilisateur as $voiture): ?>
+                                    <option value="<?= htmlspecialchars($voiture->getVoitureId() ?? 'N/A') ?>">
+                                        <?= htmlspecialchars(ucfirst($voiture->getLibelle() ?? 'N/A')) ?>
+                                        <?= htmlspecialchars(ucfirst($voiture->getModele() ?? 'N/A')) ?>
                                     </option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-
-                        <a title="Ajouter un véhicule" href="#modal">
+                        <button class="modal-open-btn" id="openAjoutModal" title="Ajouter un véhicule">
                             <img src="/assets/images/icon plus.png" id="icon-plus" alt="Ajouter">
-                        </a>
+                        </button>
                     </section>
                     <p class="info-icon">ℹ️: 2 crédits seront déduits de votre solde </p>
 
@@ -125,18 +113,10 @@
         </section>
 
         <!-- Modal ajout voiture -->
-        <section id="modal" class="modal">
+        <section id="ajoutVoiture" class="modal">
             <section class="voiture">
-                <a href="#" class="close">x</a>
+                <button class="close" data-modal="ajoutVoiture">x</button>
                 <h2>Ajouter un véhicule</h2>
-
-                <!-- Messages d'erreur ajout voiture -->
-                <?php if (!empty($messageVoiture)): ?>
-                    <p style="color: <?= ($voitureValide ?? false) ? 'green' : 'red' ?>; text-align:center; margin:0;">
-                        <?= htmlspecialchars($messageVoiture) ?>
-                    </p>
-                <?php endif; ?>
-
 
                 <form method="POST" class="modal-content">
 

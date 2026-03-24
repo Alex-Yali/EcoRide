@@ -141,16 +141,6 @@
     color: black;
 }
 
-.modal-open-btn {
-    text-decoration: none;
-    color: black;
-    cursor: pointer; 
-    background: none;
-    border: none;
-    font-family: "Open Sans", sans-serif;
-    font-size: 1rem;
-}
-
 ul {
     padding: 0;
 }
@@ -265,6 +255,15 @@ input {
     display: flex;
 }
 
+.modal-open-btn {
+    text-decoration: none;
+    color: black;
+    cursor: pointer; 
+    background: none;
+    border: none;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+}
 
 .modal-content {
     position: relative;
@@ -279,6 +278,7 @@ input {
 .close {
     position: absolute;
     text-decoration: none;
+    font-weight: bold;
     font-size: 1.2rem;
     color: #267240;
     top: 0.2rem;
