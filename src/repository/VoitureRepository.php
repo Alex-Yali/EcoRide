@@ -145,7 +145,7 @@ class VoitureRepository extends Repository
             ':idVoiture' => $idVoiture
         ]);
         $checkVoitureUtilisateur = $stmtCheckVoitureUtilisateur->fetchColumn();
-        return $checkVoitureUtilisateur;
+        return $checkVoitureUtilisateur !== false;
     }
 
     // 2. Vérifier si l'utilisateur a déjà ce covoiturage

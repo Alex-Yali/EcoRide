@@ -73,12 +73,12 @@ class TrajetController extends Controller
                             $destination = trim($_POST['destination'] ?? '');
                             $dateArrivee = trim($_POST['dateArrivee'] ?? '');
                             $heureArrivee = trim($_POST['heureArrivee'] ?? '');
-                            $places = (int) $_POST['places'];
-                            $prix = (float) $_POST['prix'];
-                            $voiture = $_POST['voiture'] ?? '';
+                            $places = (int) ($_POST['places'] ?? 0);
+                            $prix = (float) ($_POST['prix'] ?? 0);
+                            $idVoiture = (int) ($_POST['voiture'] ?? 0);
 
                             // Ajouter trajet
-                            $trajetValide = $trajetServices->ajouterTrajet(Mysql::getInstance()->getPDO(), $depart, $dateDepart, $heureDepart, $destination, $dateArrivee, $heureArrivee, $places, $prix, $creditsUtilisateur, $voiture, $idUtilisateur, $idVoiture, $idTrajet);
+                            $trajetValide = $trajetServices->ajouterTrajet(Mysql::getInstance()->getPDO(), $depart, $dateDepart, $heureDepart, $destination, $dateArrivee, $heureArrivee, $places, $prix, $creditsUtilisateur, $idUtilisateur, $idVoiture, $idTrajet);
                             $message = $trajetServices->message;
                             $messageTrajet = $trajetServices->messageTrajet;
                         }

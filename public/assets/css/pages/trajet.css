@@ -9,7 +9,7 @@
 /* --- Proposer trajet --- */
 .ajouter-trajet {
     background-color: white;
-    height: 28rem;
+    height: auto;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -103,6 +103,48 @@ label {
     gap: 1.87rem;
 }
 
+/* Dynamiser trajet */
+.trajet-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.trajet-group:has(input.is-invalid) {
+    margin-bottom: 30px;
+}
+
+.trajet-group input.is-invalid ~ .error {
+    display: block;
+}
+
+.trajet-group input.is-valid {
+    border: 2px solid #267240;
+}
+
+.trajet-group input.is-valid + .iconTrajet::before {
+    content: "✔";
+    color: #267240;
+}
+
+.trajet-group input.is-invalid {
+    border: 2px solid #ff0000;
+}
+
+.trajet-group input.is-invalid + .iconTrajet::before {
+    content: "✖";
+    color: red;
+}
+
+.iconTrajet {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
 /* Modal */
 .modal {
     display: none;
@@ -121,15 +163,19 @@ label {
 }
 
 .modal-open-btn {
+    text-decoration: none;
+    color: black;
     cursor: pointer; 
     background: none;
     border: none;
-    padding: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
 }
 
 .modal-content {
     position: relative;
     display: flex;
+    align-items: center;
     flex-direction: column;
     background: #fff;
     width: 90%;
@@ -156,6 +202,59 @@ label {
     color: #267240;
 }
 
+.modal-group {
+    position: relative;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.modal-group:has(input.is-invalid) {
+    margin-bottom: 25px;
+}
+
+.iconModal {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.error {
+    position: absolute;
+    top: 100%;
+    color: red;
+    font-size: 0.8rem;
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-group input.is-invalid ~ .error {
+    display: block;
+}
+
+.modal-group input.is-valid {
+    border: 2px solid #267240;
+}
+
+.modal-group input.is-valid + .iconModal::before {
+    content: "✔";
+    color: #267240;
+}
+
+.modal-group input.is-invalid {
+    border: 2px solid #ff0000;
+}
+
+.modal-group input.is-invalid + .iconModal::before {
+    content: "✖";
+    color: red;
+}
+
 .voiture {
     position: relative;
     width: 30%;
@@ -170,7 +269,7 @@ label {
 }
 
 .voiture input {
-    width: 70%;
+    width: 100%;
     text-align: center;
 }
 
@@ -190,6 +289,11 @@ label {
     margin: 1.25rem auto;
 }
 
+@media (max-width: 1440px) {
+    .modal-group:has(input.is-invalid) {
+        margin-bottom: 35px;
+    }
+}
 
 @media (max-width: 1024px) {
     #voiture {
@@ -229,5 +333,8 @@ label {
     }
     h1 {
         margin-top: 0;
+    }
+    .voiture {
+        width: 80%;
     }
 }

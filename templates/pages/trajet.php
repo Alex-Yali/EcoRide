@@ -36,13 +36,15 @@
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
 
                     <!-- Départ -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/Cars 1.png" class="icon" alt="">
                         <input id="depart2" name="depart" type="text" placeholder="Départ" required>
+                        <span class="iconTrajet"></span>
+                        <span class="error">La ville de départ doit être inférieur à 20 caractères</span>
                     </section>
 
                     <!-- Date & heure départ -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/calendrier gris.png" class="icon" alt="">
                         <input type="date" name="dateDepart" required>
                         <input type="time" name="heureDepart" required>
@@ -51,13 +53,15 @@
                     <section class="separateurFiltres"></section>
 
                     <!-- Destination -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/ping.png" class="icon" alt="">
                         <input id="destination2" name="destination" type="text" placeholder="Destination" required>
+                        <span class="iconTrajet"></span>
+                        <span class="error">La ville d'arrivée doit être inférieur à 20 caractères</span>
                     </section>
 
                     <!-- Date & heure arrivée -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/calendrier gris.png" class="icon" alt="">
                         <input type="date" name="dateArrivee" required>
                         <input type="time" name="heureArrivee" required>
@@ -66,15 +70,19 @@
                     <section class="separateurFiltres"></section>
 
                     <!-- Places -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/compte gris.png" class="icon" alt="">
                         <input type="number" name="places" id="places2" placeholder="Nombre de places" min="1" max="4" required>
+                        <span class="iconTrajet"></span>
+                        <span class="error">Veuillez sélectionner min 1 et max 4 places</span>
                     </section>
 
                     <!-- Prix -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/prix gris.png" class="icon" alt="">
-                        <input type="number" name="prix" id="prix2" placeholder="Prix (€)" min="1" required>
+                        <input type="number" name="prix" id="prix2" placeholder="Prix (€)" min="1" max="20" required>
+                        <span class="iconTrajet"></span>
+                        <span class="error">Veuillez sélectionner max 20 crédits</span>
                     </section>
 
                     <!-- Véhicule -->
@@ -122,31 +130,52 @@
 
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
 
-                    <label>Plaque d’immatriculation :
-                        <input type="text" name="immatriculation" required>
-                    </label>
 
-                    <label>Date de 1ère immatriculation :
-                        <input type="text" name="dateImmat" required>
-                    </label>
+                    <label>Plaque d’immatriculation : </label>
+                    <section class="modal-group">
+                        <input type="text" name="immatriculation" id="immatriculation" required>
+                        <span class="iconModal"></span>
+                        <span class="error">Format attendu : AA-123-AA</span>
+                    </section>
 
-                    <label>Marque :
-                        <input type="text" name="marque" required>
-                    </label>
 
-                    <label>Modèle :
-                        <input type="text" name="modele" required>
-                    </label>
+                    <label>Date de 1ère immatriculation : </label>
+                    <section class="modal-group">
+                        <input type="text" name="dateImmat" id="dateImmat" required>
+                        <span class="iconModal"></span>
+                        <span class="error">Format attendu : 12 mars 2026</span>
+                    </section>
 
-                    <label>Couleur :
-                        <input type="text" name="couleur" required>
-                    </label>
+                    <label>Marque : </label>
+                    <section class="modal-group">
+                        <input type="text" name="marque" id="marque" required>
+                        <span class="iconModal"></span>
+                        <span class="error">La marque doit être inférieur à 15 caractères</span>
+                    </section>
 
-                    <label>Places dispo :
-                        <input type="number" name="place" min="1" max="4" required>
-                    </label>
+                    <label>Modèle : </label>
+                    <section class="modal-group">
+                        <input type="text" name="modele" id="modele" required>
+                        <span class="iconModal"></span>
+                        <span class="error">Le modele doit être inférieur à 20 caractères</span>
+                    </section>
 
-                    <section class="voitureEnergie">
+
+                    <label>Couleur : </label>
+                    <section class="modal-group">
+                        <input type="text" name="couleur" id="couleur" required>
+                        <span class="iconModal"></span>
+                        <span class="error">La couleur doit être inférieur à 15 caractères</span>
+                    </section>
+
+                    <label>Places dispo : </label>
+                    <section class="modal-group">
+                        <input type="number" name="place" id="place" min="1" max="4" required>
+                        <span class="iconModal"></span>
+                        <span class="error">Veuillez sélectionner min 1 et max 4 places</span>
+                    </section>
+
+                    <section class="modal-group">
                         <label for="energie">Énergie utilisée :</label>
                         <input list="typeEnergie" id="energie" name="energie" required>
                         <datalist id="typeEnergie">
@@ -154,6 +183,8 @@
                             <option value="Diesel">
                             <option value="Électrique">
                         </datalist>
+                        <span class="iconModal"></span>
+                        <span class="error">Veuillez sélectionner un type d'énergie</span>
                     </section>
 
                     <input type="hidden" name="formType" value="ajoutVoiture">
