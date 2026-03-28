@@ -1,11 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/repository/detailCovoiturage.php';
-// require_once __DIR__ . '/../src/service/fonctionCalculTrajetDetail.php';
-// require_once __DIR__ . '/../src/repository/infosUtilisateur.php';
-// require_once __DIR__ . '/../src/service/csrf.php';
-// $csrf = generate_csrf_token();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -49,7 +41,7 @@
                 <section class="separateurFiltres"></section>
 
                 <section class="user-detail">
-                    <img class="user-icon" src="<?= htmlspecialchars($image) ?>" alt="icon voiture">
+                    <img class="user-icon" src="<?= htmlspecialchars($imageVoiture) ?>" alt="icon voiture">
                     <p class="detail-size">
                         <?= htmlspecialchars(ucfirst($covoitDetail['marqueVoiture'] ?? 'N/A')) ?> :
                         <?= htmlspecialchars(ucfirst($covoitDetail['modele'] ?? 'N/A')) ?><br>
@@ -106,9 +98,7 @@
                     </section>
                 </section>
 
-                <?php
-                $participeDeja = participeDeja($pdo, $idUtilisateur, $idCovoit);
-                if ($participeDeja): ?>
+                <?php if ($participeCovoit): ?>
                     <section>
                         <p id="Participe">Votre participation au covoiturage a été enregistrée !</p>
                     </section>
@@ -119,12 +109,7 @@
                             <p><?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits</p>
                         </section>
 
-                        <?php
-                        $prixCovoit = $covoitDetail['prix_personne'];
-                        $placeDispo = $covoitDetail['nb_place'];
-                        $creditsUtilisateur = $creditsUtilisateur ?? 0;
-                        $passager = $user ? (int) ($user['passager'] ?? 0) : 0;
-                        if ($idUtilisateur && $creditsUtilisateur >= $prixCovoit && $placeDispo > 0 && $passager === 1): ?>
+                        <?php if ($idUtilisateur && $infosUtilisateur->getCredits() >= $covoitDetail['prix_personne'] && $covoitDetail['nb_place'] > 0 && (int)$infosUtilisateur->getPassager()): ?>
                             <button id="btnParticipe" class="button" type="button">Participer</button>
                         <?php elseif (!$idUtilisateur): ?>
                             <a href="/connexion/" class="button" id="btnConnexion">Se connecter</a>
@@ -134,23 +119,19 @@
                         <?php endif; ?>
                     </section>
 
-                    <form class="valid" action="" method="POST">
+                    <form class="valid" action="/covoiturage/detail/?id=<?= urlencode($covoitDetail['covoiturage_id'] ?? '') ?>" method="POST">
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                         <p id="valid-size">
                             Souhaitez-vous utiliser <?= htmlspecialchars($covoitDetail['prix_personne'] ?? 0) ?> crédits pour réserver votre place sur ce voyage ?
                         </p>
                         <section id="notif-valid">
-                            <a href="/detail/?id=<?= urlencode($covoitDetail['covoiturage_id'] ?? '') ?>">Retour</a>
+                            <a href="/covoiturage/detail/?id=<?= urlencode($covoitDetail['covoiturage_id'] ?? '') ?>">Retour</a>
                             <button id="btnValid" class="button" type="submit" name="action" value="oui">Oui</button>
                         </section>
                     </form>
                 <?php endif; ?>
                 <!-- Message de succès / erreur -->
-                <?php if (!empty($messageCovoit)): ?>
-                    <p style="color: <?= ($covoitValide ?? false) ? 'green' : 'red' ?>; text-align:center;">
-                        <?= htmlspecialchars($messageCovoit) ?>
-                    </p>
-                <?php endif; ?>
+                <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
             </section>
         </section>
     </main>

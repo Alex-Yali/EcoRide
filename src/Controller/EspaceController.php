@@ -24,6 +24,13 @@ class EspaceController extends Controller
         $messageSusp = '';
         $compteSusp = false;
         $graphiques = false;
+        $totalCovoitUtilisateur = null;
+        $totalTrajetUtilisateur = null;
+        $totalVoitureUtilisateur = null;
+        $totalCovoitActif = null;
+        $totalCovoitInactif = null;
+        $totalAvisActif = null;
+        $totalAvisInactif = null;
         $csrf = generate_csrf_token();
 
         if (!$idUtilisateur) {
@@ -112,6 +119,21 @@ class EspaceController extends Controller
                     $espaceServices = new EspaceServices();
                     $graphiques = $espaceServices->graphique(Mysql::getInstance()->getPDO());
                     $message = $espaceServices->message;
+
+                    // Récupérer nombre covoit participe
+                    $totalCovoitUtilisateur = $espaceRepository->totalCovoitPassager($idUtilisateur);
+                    $totalTrajetUtilisateur = $espaceRepository->totalTrajetChauffeur($idUtilisateur);
+
+                    // Récupérer nombre de voitures
+                    $totalVoitureUtilisateur = $espaceRepository->totalVoiture($idUtilisateur);
+
+                    // Récupérer nombre de covoit participe
+                    $totalCovoitActif = $espaceRepository->totalCovoitActif($idUtilisateur);
+                    $totalCovoitInactif = $espaceRepository->totalCovoitInactif($idUtilisateur);
+
+                    // Récupérer nombre avis 
+                    $totalAvisActif = $espaceRepository->totalAvisActif();
+                    $totalAvisInactif = $espaceRepository->totalAvisInactif($idUtilisateur);
                 }
             } catch (\Exception $e) {
                 $message = "Une erreur est survenue : " . $e->getMessage();
@@ -132,6 +154,13 @@ class EspaceController extends Controller
             'messageSusp' => $messageSusp,
             'compteSusp' => $compteSusp,
             'comptes' => $comptes,
+            'totalCovoitUtilisateur' => $totalCovoitUtilisateur,
+            'totalTrajetUtilisateur' => $totalTrajetUtilisateur,
+            'totalVoitureUtilisateur' => $totalVoitureUtilisateur,
+            'totalCovoitActif' => $totalCovoitActif,
+            'totalCovoitInactif' => $totalCovoitInactif,
+            'totalAvisActif' => $totalAvisActif,
+            'totalAvisInactif' => $totalAvisInactif,
         ]);
     }
 }

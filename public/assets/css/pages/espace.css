@@ -1,25 +1,89 @@
-/* Liste puce */
-.user-espace {
-    font-size: 1rem;
-    width: 100%;
-    padding: 0;
-    margin-top: 17.5rem;
+/* Section titre */
+
+.titre {
+    font-size: clamp(0.8rem, 5vw, 1.5rem);
+    color: #267240;
+    margin: 0;
+}
+
+.sous-titre {
+    font-size: clamp(0.6rem, 5vw, 1rem);
+    color: #83898e;
+    margin: 0;
+    font-weight:normal;
+}
+
+.box-titre {
     display: flex;
+    flex-direction:column;
+    align-items: center;
+    gap: 4px;
+}
+
+.box-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(38, 114, 65, 0.75);
+    box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.15);
+}
+
+#btn-trajet {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Box infos utilisateur */
+
+.box-espace {
+    display: flex;
+    flex-direction: column;
     gap: 3rem;
-    list-style-type: none;
-    justify-content: center;
+    margin: 4rem auto;
+    max-width: 1024px;
+    padding: 0 1rem;
 }
 
-.user-espace li.active {
-    color: black;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 0.12rem;
-    text-underline-offset: 0.62rem;
+.user-infos {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
 }
 
-.user-box {
-    margin-top: 5rem;
+#credits {
+    display: flex;
+    justify-content: space-around;
+}
+
+.box-user-infos {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    align-items: center;
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    border: 1px solid rgba(38, 114, 65, 0.75);
+    box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.15);
+}
+
+h3 {
+    font-size: 1.6rem;
+    color: #267240;
+    margin: 10px 0 0;
+}
+
+.user-infos p {
+    margin: 0;
+    color: #83898e;
 }
 
 .user-box p {
@@ -31,8 +95,7 @@
 #user-type {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 1.25rem;
+    flex-direction: column;
 }
 
 #user-type legend {
@@ -40,12 +103,16 @@
 }
 
 #user-type fieldset {
-    border: none;       
+    border: none;  
+    display: flex;  
+    padding: 0 0 10px 0;   
 }
 
 #user-type label {      
     cursor: pointer;
     padding-right: 2.5rem;
+    display: flex;
+    align-items: center;
 }
 
 #user-type input[type="radio"] {
@@ -61,79 +128,19 @@
 
 /* Section id + section differents onglet */
 .user-menu {
-    margin-top: 3rem;
     display: flex;
     justify-content: center;
-    width: 100%;
-    gap: 5rem;
-}
-
-#credit {
-    text-align: center;
-    margin: 3rem 0 0;
-}
-
-/* Section id utilisateur */
-.user-id {
-    align-content: center;
-    background-color: white;
-    border-radius: 1.25rem;
-    padding: 1.87rem;
-    border: 1px solid #ccc;
-    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-}
-
-.user-name img {
-    width: 3rem;
-}
-
-.user-name {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.note {
-    display: flex;
-    gap: 0.5rem;
-    
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-    margin-left: 0.62rem;
-}
-
-.user-info img {
-    width: 1.56rem;
-}
-
-.user-info span {
-    font-size: 0.87rem;
-    font-family: Arial, sans-serif;
 }
 
 /* Section choix onglet profil */
-.passagerLink {
-    border: 1px solid #ccc;
-    background-color: white;
-    border-radius: 1.25rem;
-    padding: 1.87rem;
-    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-    height: 20%;
-}
 
-.chauffeurLink {
-    border: 1px solid #ccc;
+.passagerLink, .chauffeurLink {
+    border: 1px solid rgba(38, 114, 65, 0.75);
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.87rem;
+    padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    width: 100%;
 }
 
 .passagerLink a, .chauffeurLink a {
@@ -142,21 +149,19 @@
 }
 
 ul {
-    padding: 0;
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    gap: 3rem;
+    justify-content: space-evenly;
 }
 
 .passagerLink li, .chauffeurLink li {
-    margin-top: 1rem;
     display: flex;
 }
 
 .passagerLink li :hover, .chauffeurLink li :hover {
     transform: scale(1.05);
-}
-
-#caret-right {
-    width: 1.25rem;
-    transform: rotate(-90deg);
 }
 
 /* Choix chauffeur */
@@ -172,10 +177,9 @@ h2 {
     background-color: white;
     border-radius: 1.25rem;
     padding: 1rem;
-    flex-direction: column;
-    width: 40%;
-    margin: 1.25rem auto 1rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
 }
 
 #chauffeur-info label {
@@ -231,6 +235,10 @@ h2 {
 input {
     border: 0.125rem solid;
     border-radius: 0.4rem;
+}
+
+#total-credit {
+    text-align: center;
 }
 
 /* Bouton */
@@ -417,14 +425,13 @@ input {
 /* --- Graphique --- */
 
 .graphique {
-    margin: 3rem auto 1rem;
     display: flex;
     justify-content: center;
     gap: 5rem;
 }
 
 #graphique1, #graphique2 {
-    width: 40%;
+    width: 80% !important;
 }
 
 /* --- Liste compte --- */
@@ -445,12 +452,6 @@ input {
 }
 
 /* --- Responsive --- */
-@media (max-width: 1440px) {
-    /* --- Box infos chauffeur --- */
-    #chauffeur-info {
-        width: 60%;
-    }
-}
 
 @media (max-width: 1024px) {
     /* --- Box lien passager / employé / admin --- */
@@ -465,7 +466,7 @@ input {
         align-items: center;
     }
     #graphique1, #graphique2 {
-            width: 60%;
+            width: 60% !important;
         }
 }
 
@@ -474,28 +475,29 @@ input {
     .passagerLink li {
         gap: 1.87rem;
     }
-
-    /* --- Box infos chauffeur --- */
-    #chauffeur-info {
-        width: 80%;
+    #btn-trajet, #user-type label, #btnRole {
+        font-size: 0.8rem;
+    }
+    #user-type label{
+        padding-right: 4px;
     }
 }
 
 @media (max-width: 480px) {
 
-    #user-type label {
-        padding: 0;
+    #credits {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    /* --- Section card utilisateur / section liens --- */
-    .user-id {
-        margin: 0 auto;
-        font-size: 0.87rem;
-        display: flex;
-        justify-content: space-evenly;
-        padding: 0.5rem;
-        width: 80%;
+    .box-user {
+        flex-direction: column;
+        gap: 2rem;
     }
+
+
+    /* --- Section card utilisateur / section liens --- */
     .user-menu {
         flex-direction: column;
     }
@@ -519,16 +521,23 @@ input {
     }
     .passagerLink, .chauffeurLink {
         padding: 1rem;
-        width: 80%;
-        margin: 0 auto 1rem;
+        width: 90%;
     }
     .passagerLink li, .chauffeurLink li {
         justify-content: center;
     }
+    .passagerLink a, .chauffeurLink a{
+        font-size: 0.8rem;
+    }
+
+    ul {
+        gap: 1rem;
+    }
 
     /* --- Radio --- */
     #user-type label {
-        font-size: 0.87rem;
+        font-size: 0.8rem;
+        padding-right: 20px;
     }
     #user-type {
         flex-direction: column;
@@ -536,7 +545,7 @@ input {
 
     /* --- Section card voiture / pref --- */
     .voitureInfo label {
-        font-size: 0.87rem;
+        font-size: 0.8rem;
         white-space: nowrap;
         flex-direction: column;
     }
@@ -554,6 +563,6 @@ input {
 
     /* --- Graphique --- */
     #graphique1, #graphique2 {
-        width: 98%;
+        width: 98% !important;
     }
 }

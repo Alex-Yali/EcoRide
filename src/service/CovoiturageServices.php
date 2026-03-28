@@ -4,12 +4,23 @@ namespace App\Service;
 
 use App\Repository\CovoiturageRepository;
 use App\db\Mysql;
+use App\Repository\UtilisateurRepository;
+use PDO;
+use DateTime;
 
 class CovoiturageServices
 {
     public string $message = '';
     public string $messageCovoit = '';
     public bool $covoitValide = false;
+    private PDO $pdo;
+    private $collectionPreferences;
+
+    public function __construct($pdo, $collectionPreferences)
+    {
+        $this->pdo = $pdo;
+        $this->collectionPreferences = $collectionPreferences;
+    }
 
     /* ============================================ Recherche covoits ============================================= */
 
@@ -301,6 +312,139 @@ class CovoiturageServices
                 $pdo->rollBack();
                 $this->message = "Erreur lors de l'ajout";
             }
+        }
+    }
+
+    /* ============================================ Detail covoit participe ============================================= */
+
+    public function covoitDetail($idCovoit)
+    {
+        $covoiturageRepository = new CovoiturageRepository();
+        // Récupérer les infos du detail du covoiturage
+        $covoitDetail = $covoiturageRepository->detailCovoit($idCovoit);
+
+        if (empty($covoitDetail)) {
+            $this->messageCovoit = "Covoiturage introuvable.";
+            return false;
+        }
+
+        // On prend la première ligne pour les infos générales
+        $covoitDetail = $covoitDetail[0];
+
+        // Gerer les preferences
+        $preferences = [];
+        $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
+        if ($idChauffeur) {
+            $doc = $this->collectionPreferences->findOne([
+                'utilisateur_id' => (int)$idChauffeur
+            ]);
+
+            if ($doc && !empty($doc['preferences'])) {
+                foreach ($doc['preferences'] as $key => $value) {
+                    if (!empty($value)) {
+                        $preferences[] = "$key : $value";
+                    }
+                }
+            }
+        }
+
+        // Fonction date covoiturage (en français)
+        $dateDetail = new \DateTime($covoitDetail['date_depart']);
+        $fmt = new \IntlDateFormatter(
+            'fr_FR',
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::NONE
+        );
+        $dateDetailCovoit = mb_convert_case($fmt->format($dateDetail), MB_CASE_TITLE, "UTF-8");
+
+        // Création des DateTime complètes
+        $depart = new DateTime($covoitDetail['date_depart'] . ' ' . $covoitDetail['heure_depart']);
+        $arrivee = new DateTime($covoitDetail['date_arrivee'] . ' ' . $covoitDetail['heure_arrivee']);
+
+        // Calcul durée totale en minutes
+        $totalMinutes = ($arrivee->getTimestamp() - $depart->getTimestamp()) / 60;
+
+        // Convertir en heures et minutes
+        $heures = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
+        $dureeCovoit = $heures . 'h' . str_pad($minutes, 2, '0', STR_PAD_LEFT);
+
+        // Choix de l’image selon le type d’énergie
+        $energie = strtolower(trim($covoitDetail['energie'] ?? ''));
+        $imageVoiture = ($energie === 'essence' || $energie === 'diesel')
+            ? '/assets/images/voiture-noir.png'
+            : '/assets/images/voiture-electrique.png';
+
+
+        return [
+            'covoitDetail' => $covoitDetail,
+            'dateDetailCovoit' => $dateDetailCovoit,
+            'preferences' => $preferences,
+            'imageVoiture' => $imageVoiture,
+            'dureeCovoit' => $dureeCovoit,
+        ];
+    }
+
+    public function participerCovoit($idCovoit, $idUtilisateur)
+    {
+        $covoiturageRepository = new CovoiturageRepository();
+        $utilisateurRepository = new UtilisateurRepository();
+
+        $covoitDetail = $covoiturageRepository->detailCovoit($idCovoit);
+        if (empty($covoitDetail)) {
+            $this->messageCovoit = "Covoiturage introuvable.";
+            return false;
+        }
+        $covoitDetail = $covoitDetail[0];
+
+        try {
+            // Commencer transaction
+            $this->pdo->beginTransaction();
+
+            // Vérifier places restantes
+            if ($covoitDetail['nb_place'] <= 0) {
+                $this->pdo->rollBack();
+                $this->messageCovoit = "Plus de places disponibles.";
+                return false;
+            }
+
+            // Vérifier si utilisateur a assez de credits
+            $infosUtilisateur = $utilisateurRepository->infosUtilisateur($idUtilisateur);
+            $credits = $infosUtilisateur->getCredits();
+            if ($credits < $covoitDetail['prix_personne']) {
+                $this->pdo->rollBack();
+                $this->messageCovoit = "Crédits insuffisants.";
+                return false;
+            }
+
+            // Récupérer la fonction check si participe deja au covoiturage
+            $participeDeja = $covoiturageRepository->participeDeja($this->pdo, $idUtilisateur, $idCovoit);
+
+            // Vérifier si participe déjà
+            if ($participeDeja) {
+                $this->messageCovoit = "Vous participez déjà à ce covoiturage.";
+                $this->covoitValide = false;
+                return;
+            }
+
+            // Enlever crédits à l'utilisateur
+            $prixCovoit = $covoitDetail['prix_personne'];
+            $covoiturageRepository->removeCredits($prixCovoit, $idUtilisateur);
+
+            // Ajouter utilisateur au covoiturage
+            $covoiturageRepository->participerCovoit($idUtilisateur, $idCovoit);
+
+            // Enlever place dispo au covoiturage
+            $covoiturageRepository->removePlace($idCovoit);
+
+            $this->pdo->commit();
+
+            $this->covoitValide = true;
+            return true;
+        } catch (\PDOException $e) {
+            $this->pdo->rollBack();
+            $this->messageCovoit = "Erreur lors de l'ajout : " . $e->getMessage();
+            return false;
         }
     }
 }

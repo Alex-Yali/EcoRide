@@ -362,4 +362,106 @@ class CovoiturageRepository extends Repository
             ':id' => $conducteur_id
         ]);
     }
+
+    /* ============================================ Detail covoit participe ============================================= */
+
+    // Fonction check si participe deja au covoiturage
+    function participeDeja($pdo, $idUtilisateur, $idCovoit)
+    {
+        $sqlCheck = "SELECT COUNT(*) FROM participe p
+                JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id 
+                WHERE c.covoiturage_id = :covoiturage
+                AND p.utilisateur_utilisateur_id = :utilisateur
+                AND p.passager = :passager";
+        $stmtCheck = $pdo->prepare($sqlCheck);
+        $stmtCheck->execute([
+            ':utilisateur' => $idUtilisateur,
+            ':covoiturage' => $idCovoit,
+            ':passager' => 1
+        ]);
+        return $stmtCheck->fetchColumn() > 0;
+    }
+
+    // Récupérer les infos du detail du covoiturage
+    public function detailCovoit($idCovoit)
+    {
+        $sqlDetail = "SELECT 
+                        u.utilisateur_id,
+                        u.pseudo,
+                        u.credits,
+                        a.note,
+                        (
+                            SELECT AVG(a2.note)
+                            FROM avis a2
+                            WHERE a2.chauffeur_id = u.utilisateur_id
+                            AND a2.statut = 'valider'
+                        ) AS moyenne,
+                        c.covoiturage_id,
+                        c.lieu_depart,
+                        c.date_depart,
+                        c.heure_depart,
+                        c.lieu_arrivee,
+                        c.date_arrivee,
+                        c.heure_arrivee,
+                        c.nb_place,
+                        c.prix_personne,
+                        v.voiture_id,
+                        v.modele,
+                        v.energie,
+                        m.marque_id,
+                        m.libelle AS marqueVoiture,
+                        a.commentaire
+                    FROM utilisateur u
+                    LEFT JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
+                    JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
+                    LEFT JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id
+                    LEFT JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id
+                    LEFT JOIN depose d ON u.utilisateur_id = d.utilisateur_utilisateur_id
+                    LEFT JOIN avis a ON d.avis_avis_id = a.avis_id
+                    LEFT JOIN detient de ON de.voiture_voiture_id = v.voiture_id
+                    LEFT JOIN marque m ON m.marque_id = de.marque_marque_id
+                    WHERE c.covoiturage_id = :idCovoit
+                    AND pa.chauffeur = 1
+                    ";
+
+        $stmtDetail = $this->pdo->prepare($sqlDetail);
+        $stmtDetail->execute([':idCovoit' => $idCovoit]);
+        return $stmtDetail->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Enlever crédits a l'utilisateur
+    public function removeCredits($prixCovoit, $idUtilisateur)
+    {
+        $sqlRemoveCredits = "UPDATE utilisateur 
+                            SET credits = credits - :credits 
+                            WHERE utilisateur_id = :idUtilisateur";
+        $stmtRemoveCredits = $this->pdo->prepare($sqlRemoveCredits);
+        $stmtRemoveCredits->execute([
+            'credits' => $prixCovoit,
+            'idUtilisateur' => $idUtilisateur
+        ]);
+    }
+
+    // Ajouter utilisateur au covoiturage
+    public function participerCovoit($idUtilisateur, $idCovoit)
+    {
+        $sqlAddUtilisateur = "INSERT INTO participe (utilisateur_utilisateur_id, covoiturage_covoiturage_id, passager)
+                              VALUES (:utilisateur, :covoiturage, :passager)";
+        $stmtAddUtilisateur = $this->pdo->prepare($sqlAddUtilisateur);
+        $stmtAddUtilisateur->execute([
+            ':utilisateur' => $idUtilisateur,
+            ':covoiturage' => $idCovoit,
+            ':passager' => 1
+        ]);
+    }
+
+    // Enlever place dispo au covoiturage
+    public function removePlace($idCovoit)
+    {
+        $sqlRemovePlace = " UPDATE covoiturage
+                            SET nb_place = nb_place - 1
+                            WHERE covoiturage_id = :idCovoit";
+        $stmtRemovePlace = $this->pdo->prepare($sqlRemovePlace);
+        $stmtRemovePlace->execute([':idCovoit' => $idCovoit]);
+    }
 }

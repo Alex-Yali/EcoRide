@@ -107,11 +107,12 @@ table tbody tr:hover {
 @media (max-width: 480px) {
   .user-id {
     margin: 0 auto;
-      font-size: 0.87rem;
-      display: flex;
-      padding: 0;
-      width: 95%;
-      align-items: center;
+    font-size: 0.87rem;
+    display: flex;
+    width: auto;
+    align-items: center;
+    padding: 0.8rem;
+    flex-direction: column;
     }
   table thead th, table tbody td {
     font-size: 0.65rem;
@@ -119,5 +120,6 @@ table tbody tr:hover {
   }
   table {
     margin: 0.5rem;
+    width: 96%;
   }
 }

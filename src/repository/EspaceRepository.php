@@ -162,4 +162,87 @@ class EspaceRepository
             'totalCredits' => $totalCredits
         ];
     }
+
+    /* ============================================ Infos covoit espace ============================================= */
+
+    public function totalCovoitPassager($idUtilisateur)
+    {
+        $sqlTotalCovoit = " SELECT count(*) as total
+                            FROM participe p
+                            JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id
+                            WHERE p.utilisateur_utilisateur_id = :idUtilisateur
+                            AND (c.statut IS NULL OR c.statut NOT IN ('Terminer'))
+                            AND p.passager = 1";
+        $stmtTotalCovoit = $this->pdo->prepare($sqlTotalCovoit);
+        $stmtTotalCovoit->execute([':idUtilisateur' => $idUtilisateur]);
+        $totalCovoit = $stmtTotalCovoit->fetch(PDO::FETCH_ASSOC);
+        return $totalCovoit;
+    }
+
+    public function totalTrajetChauffeur($idUtilisateur)
+    {
+        $sqlTotalTrajet = "SELECT count(*) as total
+                           FROM participe p
+                           WHERE p.utilisateur_utilisateur_id = :idUtilisateur
+                           AND p.chauffeur = 1";
+        $stmtTotalTrajet = $this->pdo->prepare($sqlTotalTrajet);
+        $stmtTotalTrajet->execute([':idUtilisateur' => $idUtilisateur]);
+        $totalTrajet = $stmtTotalTrajet->fetch(PDO::FETCH_ASSOC);
+        return $totalTrajet;
+    }
+
+    public function totalVoiture($idUtilisateur)
+    {
+        $sqlTotalVoiture = "SELECT count(*) as total
+                            FROM gere g
+                            WHERE g.utilisateur_utilisateur_id = :idUtilisateur";
+        $stmtTotalVoiture = $this->pdo->prepare($sqlTotalVoiture);
+        $stmtTotalVoiture->execute([':idUtilisateur' => $idUtilisateur]);
+        return $stmtTotalVoiture->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function totalCovoitActif($idUtilisateur)
+    {
+        $sqlTotalCovoitActif = " SELECT count(*) as total
+                                 FROM participe p
+                                 JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id
+                                 WHERE p.utilisateur_utilisateur_id = :idUtilisateur
+                                 AND (c.statut IS NULL OR c.statut NOT IN ('Terminer','Annuler','Valider'))";
+        $stmtTotalCovoitActif = $this->pdo->prepare($sqlTotalCovoitActif);
+        $stmtTotalCovoitActif->execute([':idUtilisateur' => $idUtilisateur]);
+        return $stmtTotalCovoitActif->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function totalCovoitInactif($idUtilisateur)
+    {
+        $sqlTotalCovoitInactif = " SELECT count(*) as total
+                                   FROM participe p
+                                   JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id
+                                   WHERE p.utilisateur_utilisateur_id = :idUtilisateur
+                                   AND c.statut IN ('Terminer','Annuler','Valider')";
+        $stmtTotalCovoitInactif = $this->pdo->prepare($sqlTotalCovoitInactif);
+        $stmtTotalCovoitInactif->execute([':idUtilisateur' => $idUtilisateur]);
+        return $stmtTotalCovoitInactif->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function totalAvisActif()
+    {
+        $sqlTotalAvisActif = " SELECT count(*) as total
+                               FROM avis
+                               WHERE statut = 'en attente' ";
+        $stmtTotalAvisActif = $this->pdo->prepare($sqlTotalAvisActif);
+        $stmtTotalAvisActif->execute();
+        return $stmtTotalAvisActif->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function totalAvisInactif($idUtilisateur)
+    {
+        $sqlTotalAvisInactif = " SELECT count(*) as total
+                                 FROM avis
+                                 WHERE statut IN ('valider','refuser')
+                                 AND employe_id = :idEmploye";
+        $stmtTotalAvisInactif = $this->pdo->prepare($sqlTotalAvisInactif);
+        $stmtTotalAvisInactif->execute([':idEmploye' => $idUtilisateur]);
+        return $stmtTotalAvisInactif->fetch(PDO::FETCH_ASSOC);
+    }
 }

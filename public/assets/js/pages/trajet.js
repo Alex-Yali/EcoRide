@@ -58,6 +58,13 @@ function validatePlaceTrajet(input){
     const error = input.parentElement.querySelector(".error");
     const value = parseInt(input.value, 10);
 
+    
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
     if(isNaN(value) || value < 1 || value > 4){
         input.classList.remove("is-valid","is-invalid");
         input.classList.add("is-invalid");
@@ -75,6 +82,12 @@ function validatePlaceTrajet(input){
 function validatePrix(input){
     const error = input.parentElement.querySelector(".error");
     const value = parseInt(input.value, 10);
+    
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
 
     if(isNaN(value) || value < 1 || value > 20){
         input.classList.remove("is-valid","is-invalid");
@@ -265,6 +278,12 @@ function validatePlace(input){
     const error = input.parentElement.querySelector(".error");
     const value = parseInt(input.value, 10);
 
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
     if(isNaN(value) || value < 1 || value > 4){
         input.classList.remove("is-valid","is-invalid");
         input.classList.add("is-invalid");
@@ -282,6 +301,12 @@ function validatePlace(input){
 function validateEnergie(input){
     const error = input.parentElement.querySelector(".error");
     const validOptions = ["Essence","Diesel","Électrique"];
+
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
 
     if(!validOptions.includes(input.value)){
         input.classList.remove("is-valid","is-invalid");

@@ -4,15 +4,28 @@ namespace App\Controller;
 
 use App\Service\CovoiturageServices;
 use App\Repository\CovoiturageRepository;
+use App\db\Mysql;
+use App\db\MongoDB;
+use PDO;
 
 class CovoiturageController extends Controller
+
 {
+
+    private PDO $pdo;
+    private $collectionPreferences;
+
+    public function __construct()
+    {
+        $this->pdo = Mysql::getInstance()->getPDO();
+        $this->collectionPreferences = MongoDB::getInstance()->getCollection('preferences');
+    }
     /* ============================================ Recherche covoits ============================================= */
 
     public function covoiturage(): void
     {
         try {
-            $covoiturageService = new CovoiturageServices();
+            $covoiturageService = new CovoiturageServices($this->pdo, $this->collectionPreferences);
 
             $covoits = [];
             $message = '';
@@ -65,7 +78,7 @@ class CovoiturageController extends Controller
             $mesCovoits = [];
             $csrf = generate_csrf_token();
 
-            $covoituraServices = new CovoiturageServices();
+            $covoituraServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
 
             // Récupérer les covoiturages actifs
             $mesCovoits = $covoituraServices->mesCovoiturages($idUtilisateur);
@@ -108,7 +121,7 @@ class CovoiturageController extends Controller
             $mesCovoitsHistorique = [];
             $csrf = generate_csrf_token();
 
-            $covoiturageServices = new CovoiturageServices();
+            $covoiturageServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
 
             // Récupérer les historiques des covoits où l'utilisateur à participé
             $mesCovoitsHistorique = $covoiturageServices->mesCovoituragesHistorique($idUtilisateur);
@@ -147,6 +160,74 @@ class CovoiturageController extends Controller
         $this->render('pages/historique', [
             'mesCovoitsHistorique' => $mesCovoitsHistorique,
             'message' => $message,
+            'csrf' => $csrf ?? '',
+        ]);
+    }
+
+    /* ============================================ Detail covoit participe ============================================= */
+
+    public function participerCovoit()
+    {
+        try {
+            $pdo = Mysql::getInstance()->getPDO();
+            $collectionPreferences = MongoDB::getInstance()->getCollection('preferences');
+
+            $covoiturageService = new CovoiturageServices($pdo, $collectionPreferences);
+
+            $idUtilisateur = $_SESSION['user_id'] ?? 0;
+            $message = "";
+            $messageCovoit = "";
+            $participeCovoit = false;
+            $csrf = generate_csrf_token();
+
+            // Récupération de l’ID dans l’URL
+            $idCovoit = $_GET['id'] ?? '';
+            if (!ctype_digit($idCovoit)) {
+                header('Location: /covoiturage/');
+                exit;
+            }
+
+            $result = $covoiturageService->covoitDetail($idCovoit);
+            if ($result) {
+                $covoitDetail = $result['covoitDetail'];
+                $dateDetailCovoit = $result['dateDetailCovoit'];
+                $preferences = $result['preferences'];
+                $imageVoiture = $result['imageVoiture'];
+                $dureeCovoit = $result['dureeCovoit'];
+            } else {
+                $covoitDetail = null;
+                $dateDetailCovoit = '';
+                $preferences = [];
+                $imageVoiture = [];
+                $dureeCovoit = "";
+            }
+
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'oui') {
+
+                // Vérification CSRF
+                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+                    $message = "Erreur CSRF : requête invalide.";
+                } else {
+
+                    // Participer au covoit
+                    $participeCovoit = $covoiturageService->participerCovoit($idCovoit, $idUtilisateur);
+                    $messageCovoit = $covoiturageService->messageCovoit ?? "";
+                }
+            }
+        } catch (\Exception $e) {
+            $message = "Une erreur est survenue : " . $e->getMessage();
+        }
+        $this->render('pages/detail', [
+            'participeCovoit' => $participeCovoit,
+            'dateDetailCovoit' => $dateDetailCovoit,
+            'covoitDetail' => $covoitDetail,
+            'preferences' => $preferences,
+            'imageVoiture' => $imageVoiture,
+            'dureeCovoit' => $dureeCovoit,
+            'message' => $message,
+            'messageCovoit' => $messageCovoit,
+            'idUtilisateur' => $idUtilisateur,
             'csrf' => $csrf ?? '',
         ]);
     }

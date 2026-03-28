@@ -12,7 +12,7 @@ return [
 
     // Espace covoiturage
     "/covoiturage/" => ["controller" => "App\Controller\CovoiturageController", "action" => "covoiturage"],
-    "/detail/" => ["controller" => "App\Controller\CovoiturageController", "action" => "detail"],
+    "/covoiturage/detail/" => ["controller" => "App\Controller\CovoiturageController", "action" => "participerCovoit"],
     "/mesCovoiturages/" => ["controller" => "App\Controller\CovoiturageController", "action" => "mesCovoiturages"],
     "/historique/" => ["controller" => "App\Controller\CovoiturageController", "action" => "mesCovoituragesHistorique"],
 
