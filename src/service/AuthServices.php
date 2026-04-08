@@ -9,12 +9,8 @@ class AuthServices
 {
     public string $message = '';
 
-    public function connexionUtilisateur()
+    public function connexionUtilisateur($email, $password)
     {
-
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
-
         // Vérifier si un champ est vide
         if ($email === '' || $password === '') {
             $this->message = "Veuillez renseigner l'email et le mot de passe.";
@@ -81,15 +77,9 @@ class AuthServices
         }
     }
 
-    public function inscriptionUtilisateur()
+    public function inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm)
     {
         $startCredit = 20;
-
-        // Recherche principale
-        $pseudo = trim($_POST['pseudo'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $password = trim($_POST['password'] ?? '');
-        $passwordConfirm = trim($_POST['password_confirm'] ?? '');
 
         // Vérifier si un champ est vide
         if ($pseudo === '' || $email === '' || $password === '' || $passwordConfirm === '') {

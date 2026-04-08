@@ -13,6 +13,8 @@ class AuthController extends Controller
         try {
             $message = '';
             $csrf = generate_csrf_token();
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -23,7 +25,7 @@ class AuthController extends Controller
 
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
-                    $user = $authService->connexionUtilisateur();
+                    $user = $authService->connexionUtilisateur($email, $password);
 
                     // Redirige à l'espace utilisateur
                     if ($user) {
@@ -54,6 +56,10 @@ class AuthController extends Controller
         try {
             $message = '';
             $csrf = generate_csrf_token();
+            $pseudo = trim($_POST['pseudo'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
+            $passwordConfirm = trim($_POST['password_confirm'] ?? '');
 
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -65,7 +71,7 @@ class AuthController extends Controller
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
 
-                    if ($authService->inscriptionUtilisateur()) {
+                    if ($authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm)) {
                         header('Location: /espace/');
                         exit;
                     }

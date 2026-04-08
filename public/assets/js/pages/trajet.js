@@ -4,6 +4,7 @@ const inputDepart = document.getElementById("depart2");
 const inputDestination = document.getElementById("destination2")
 const inputPlaceTrajet = document.getElementById("places2");
 const inputPrix = document.getElementById("prix2");
+const btnValidTrajet = document.getElementById("btnTrajet");
 
 inputDepart.addEventListener("keyup", validateTrajet); 
 inputDestination.addEventListener("keyup", validateTrajet); 
@@ -110,10 +111,10 @@ function validateTrajet(){
     const prixOk = validatePrix(inputPrix);
 
     if(departOk && destinationOk && placeTrajetOk && prixOk){
-        btnValidation.disabled = false;
+        btnValidTrajet.disabled = false;
     }
     else{
-        btnValidation.disabled = true;
+        btnValidTrajet.disabled = true;
     }
 }
  
@@ -152,7 +153,7 @@ const inputModele = document.getElementById("modele");
 const inputCouleur = document.getElementById("couleur");
 const inputPlace = document.getElementById("place");
 const inputEnergie = document.getElementById("energie");
-const btnValidation = document.getElementById("btnInfo");
+const btnValidVoiture = document.getElementById("btnInfo");
 
 inputImmat.addEventListener("keyup", validateForm); 
 inputDateImmat.addEventListener("keyup", validateForm); 
@@ -333,10 +334,10 @@ function validateForm(){
     const energieOk = validateEnergie (inputEnergie);
 
     if(immatOk && dateImmatOk && marquedOk && modeleOk && couleurOk && placeOk && energieOk){
-        btnValidation.disabled = false;
+        btnValidVoiture.disabled = false;
     }
     else{
-        btnValidation.disabled = true;
+        btnValidVoiture.disabled = true;
     }
 }
 

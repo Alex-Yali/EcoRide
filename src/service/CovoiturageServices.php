@@ -259,15 +259,9 @@ class CovoiturageServices
         return $mesCovoitsHistorique;
     }
 
-    public function traiterAvis($post, $idUtilisateur): void
+    public function traiterAvis($post, $idUtilisateur, $covoiturage_id, $avis, $commentaire, $rating): void
     {
         $covoiturageRepository = new CovoiturageRepository();
-
-        // Récupération des données du formulaire
-        $avis = $_POST['avis'] ?? '';
-        $rating = $_POST['rating'] ?? '';
-        $commentaire = trim($_POST['commentaire'] ?? '');
-        $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
 
         // Récupérer les historiques des covoiturages où l'utilisateur a participer
         $mesCovoitsHistorique = $covoiturageRepository->mesCovoituragesHistorique($idUtilisateur);

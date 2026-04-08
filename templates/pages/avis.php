@@ -1,8 +1,3 @@
-<?php
-// require_once __DIR__ . '/../src/service/init.php';
-// require_once __DIR__ . '/../src/repository/detailAvis.php';
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -31,29 +26,40 @@
         <!-- Box filtres -->
         <h1 class="gros-titre">Avis du conducteur :</h1>
 
-        <!-- Messages d'erreur -->
-        <?php require '../src/service/messagesErreur.php'; ?>
+        <!-- Message de succès / erreur -->
+        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
 
         <section class="detail">
             <!-- Infos utilisateur -->
-            <?php if (!empty($avis)): ?>
+            <?php if (!empty($avisChauffeur)): ?>
 
                 <!-- Commentaire -->
                 <section class="commentaire">
-                    <?php foreach ($avis as $index => $a): ?>
-                        <section id="utilisateur">
-                            <img id="photo" src="./assets/images/homme.png" alt="photo de l'utilisateur">
+                    <?php foreach ($avisChauffeur as $index => $a): ?>
+                        <section class="utilisateur">
+                            <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
                             <?= htmlspecialchars(ucfirst($a['auteur_pseudo'] ?? 'N/A')) ?>
+                            <section class="note">
+                                <section class="stars">
+                                    <?php for ($i = 1; $i <= 5; $i++):
+                                        if ($i <= $a['note']): ?>
+                                            <span class="star filled">★</span>
+                                        <?php else: ?>
+                                            <span class="star">☆</span>
+                                    <?php endif;
+                                    endfor; ?>
+                                </section>
+                            </section>
                         </section>
                         <section class="box-avis">
-                            <section>
-                                Note : <?= htmlspecialchars(ucfirst($a['note'] ?? 'N/A')) ?>
-                            </section>
                             <section class="com">
                                 <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?>
                             </section>
+                            <section class="date_avis">
+                                <?= htmlspecialchars($a['date_formattee'] ?? 'N/A') ?>
+                            </section>
                         </section>
-                        <?php if ($index < count($avis) - 1): ?>
+                        <?php if ($index < count($avisChauffeur) - 1): ?>
                             <section class="separateurFiltres"></section>
                         <?php endif; ?>
                     <?php endforeach; ?>

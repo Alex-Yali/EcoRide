@@ -3,13 +3,28 @@
 namespace App\Controller;
 
 use App\Repository\EspaceRepository;
-use App\Service\EspaceServices;
-use App\db\Mysql;
+use App\Repository\CovoiturageRepository;
 use App\Repository\UtilisateurRepository;
+use App\Service\EspaceServices;
 use App\Service\UtilisateurServices;
+use App\Service\CovoiturageServices;
+use App\Service\VoitureServices;
+use App\Service\AvisServices;
+use PDO;
+use App\db\Mysql;
+use App\db\MongoDB;
 
 class EspaceController extends Controller
 {
+    private PDO $pdo;
+    private $collectionPreferences;
+
+    public function __construct()
+    {
+        $this->pdo = Mysql::getInstance()->getPDO();
+        $this->collectionPreferences = MongoDB::getInstance()->getCollection('preferences');
+    }
+
     public function espace(): void
     {
         $idUtilisateur = $_SESSION['user_id'] ?? null;
@@ -31,6 +46,14 @@ class EspaceController extends Controller
         $totalCovoitInactif = null;
         $totalAvisActif = null;
         $totalAvisInactif = null;
+        $mesCovoits = [];
+        $mesCovoitsHistorique = [];
+        $voituresUtilisateur = false;
+        $avis = [];
+        $infosCovoitAvis = [];
+        $avisCheck = false;
+        $totalCompteActif = null;
+        $totalCompteSuspendu = null;
         $csrf = generate_csrf_token();
 
         if (!$idUtilisateur) {
@@ -39,11 +62,16 @@ class EspaceController extends Controller
             try {
                 // Repository
                 $espaceRepository = new EspaceRepository(Mysql::getInstance()->getPDO());
-                $espaceServices = new EspaceServices();
+                $covoiturageRepository = new CovoiturageRepository();
                 $utilisateurRepository = new UtilisateurRepository();
-                $utilisateurServices = new UtilisateurServices();
 
-                // Gérer le switch de statut + ajout voiture
+                // Services
+                $espaceServices = new EspaceServices();
+                $covoiturageServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
+                $utilisateurServices = new UtilisateurServices();
+                $voitureServices = new VoitureServices();
+                $avisServices = new AvisServices;
+
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     // Vérification CSRF
@@ -88,6 +116,54 @@ class EspaceController extends Controller
                             $compteSusp = $utilisateurServices->suspendreCompte($idCompte);
                             $messageSusp = $utilisateurServices->messageSusp;
                         }
+
+                        // Ajouter avis
+                        if ($_POST['action'] ?? '' === 'envoyer') {
+                            // Récupération des données du formulaire
+                            $avis = $_POST['avis'] ?? '';
+                            $rating = $_POST['rating'] ?? '';
+                            $commentaire = trim($_POST['commentaire'] ?? '');
+                            $covoiturage_id = intval($_POST['covoiturage_id'] ?? 0);
+
+                            $covoiturageServices->traiterAvis($_POST, $idUtilisateur, $covoiturage_id, $avis, $commentaire, $rating);
+
+                            // Rafraîchissement
+                            header("Location: /espace/");
+                            exit();
+                        }
+
+                        // Gestion Démarrer / Terminer / Annuler covoiturage
+                        if (!empty($_POST['covoiturage_id']) && !empty($_POST['action'])) {
+                            $covoiturage_id = $_POST['covoiturage_id'];
+                            $action = $_POST['action'] ?? '';
+
+                            $covoiturageServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
+
+                            header("Location: /espace/");
+                            exit();
+                        }
+
+                        // Valider avis
+                        if (isset($_POST['valider'])) {
+
+                            $idAvis = $_POST['valider'];
+
+                            $avisServices->validerAvis($idAvis, $idUtilisateur);
+
+                            header("Location: /espace/");
+                            exit;
+                        }
+
+                        // Refuser l'avis
+                        if (isset($_POST['refuser'])) {
+
+                            $idAvis = $_POST['refuser'];
+
+                            $avisServices->refuserAvis($idAvis, $idUtilisateur);
+
+                            header("Location: /espace/");
+                            exit;
+                        }
                     }
                 }
 
@@ -115,25 +191,72 @@ class EspaceController extends Controller
                         $voitureExiste = $espaceServices->voitureExiste($idUtilisateur, Mysql::getInstance()->getPDO());
                     }
 
+                    /* ============================================ Graphiques ============================================= */
+
                     //  Afficher les graphiques
-                    $espaceServices = new EspaceServices();
                     $graphiques = $espaceServices->graphique(Mysql::getInstance()->getPDO());
                     $message = $espaceServices->message;
+
+                    /* ============================================ Gestion des covoits ============================================= */
 
                     // Récupérer nombre covoit participe
                     $totalCovoitUtilisateur = $espaceRepository->totalCovoitPassager($idUtilisateur);
                     $totalTrajetUtilisateur = $espaceRepository->totalTrajetChauffeur($idUtilisateur);
 
-                    // Récupérer nombre de voitures
-                    $totalVoitureUtilisateur = $espaceRepository->totalVoiture($idUtilisateur);
-
                     // Récupérer nombre de covoit participe
                     $totalCovoitActif = $espaceRepository->totalCovoitActif($idUtilisateur);
                     $totalCovoitInactif = $espaceRepository->totalCovoitInactif($idUtilisateur);
 
+                    // Récupérer les covoiturages actifs de l'utilisateur
+                    $mesCovoits = $covoiturageServices->mesCovoiturages($idUtilisateur);
+
+                    // Récupérer les historiques des covoits où l'utilisateur à participé
+                    $mesCovoitsHistorique = $covoiturageServices->mesCovoituragesHistorique($idUtilisateur);
+
+                    // Calculer pour chaque covoiturage si l'avis a déjà été donné
+                    foreach ($mesCovoitsHistorique as $c) {
+                        $conducteurId = $c->getConducteurId();
+                        $covoitId = $c->getCovoiturageId();
+
+                        // Ajouter une propriété à l'objet
+                        $dejaAvis = $covoiturageRepository->avisDejaDonne($idUtilisateur, $covoitId, $conducteurId);
+                        $c->setDejaAvis($dejaAvis);
+                    }
+
+                    /* ============================================ Gestion des voitures ============================================= */
+
+                    // Récupérer nombre de voitures
+                    $totalVoitureUtilisateur = $espaceRepository->totalVoiture($idUtilisateur);
+
+                    //  Afficher les voitures
+                    $voituresUtilisateur = $voitureServices->voitureUtilisateur(Mysql::getInstance()->getPDO(), $idUtilisateur);
+
+                    /* ============================================ Gestion des avis ============================================= */
+
                     // Récupérer nombre avis 
                     $totalAvisActif = $espaceRepository->totalAvisActif();
                     $totalAvisInactif = $espaceRepository->totalAvisInactif($idUtilisateur);
+
+                    // Récupération des avis
+                    $avis = $avisServices->avis();
+                    if (empty($avis)) {
+                        $message = "Aucun avis à gérer.";
+                    }
+
+                    // Récupérer les infos du voyage de l'avis à traiter
+                    $idAvis = $_GET['avis_id'] ?? null;
+                    if ($idAvis) {
+                        $infosCovoitAvis = $avisServices->infosCovoitAvis($idAvis);
+                    }
+
+                    // Récupération historique des avis
+                    $avisCheck = $avisServices->historiqueAvis($idUtilisateur);
+
+                    /* ============================================ Gestion des utilisateurs ============================================= */
+
+                    // Récupération total utilisateur
+                    $totalCompteActif = $utilisateurRepository->totalCompteActif();
+                    $totalCompteSuspendu = $utilisateurRepository->totalCompteSuspendu();
                 }
             } catch (\Exception $e) {
                 $message = "Une erreur est survenue : " . $e->getMessage();
@@ -161,6 +284,14 @@ class EspaceController extends Controller
             'totalCovoitInactif' => $totalCovoitInactif,
             'totalAvisActif' => $totalAvisActif,
             'totalAvisInactif' => $totalAvisInactif,
+            'mesCovoits' => $mesCovoits,
+            'mesCovoitsHistorique' => $mesCovoitsHistorique,
+            'voituresUtilisateur' => $voituresUtilisateur,
+            'avis' => $avis,
+            'infosCovoitAvis' => $infosCovoitAvis,
+            'avisCheck' => $avisCheck,
+            'totalCompteActif' => $totalCompteActif,
+            'totalCompteSuspendu' => $totalCompteSuspendu,
         ]);
     }
 }

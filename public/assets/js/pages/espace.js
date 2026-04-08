@@ -1,14 +1,25 @@
- /*Implémenter le JS de ma page*/
+/* ============================= Dynamiser les formulaires ============================= */
 const inputPseudo = document.getElementById("pseudo");
 const inputMail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
 const inputPasswordConfirm = document.getElementById("password_confirm");
-const btnValidation = document.getElementById("btnCompte");
+const btnValidInscri = document.getElementById("btnCompte");
 
-inputPseudo.addEventListener("keyup", validateForm); 
-inputMail.addEventListener("keyup", validateForm);
-inputPassword.addEventListener("keyup", validateForm);
-inputPasswordConfirm.addEventListener("keyup", validateForm);
+if (inputPseudo) {
+    inputPseudo.addEventListener("keyup", validateForm);
+}
+
+if (inputMail) {
+    inputMail.addEventListener("keyup", validateForm);
+}
+
+if (inputPassword) {
+    inputPassword.addEventListener("keyup", validateForm);
+}
+
+if (inputPasswordConfirm) {
+    inputPasswordConfirm.addEventListener("keyup", validateForm);
+}
 
 function validatePseudo(input){
     const error = input.parentElement.querySelector(".error");
@@ -110,105 +121,335 @@ function validateForm(){
     const passwordConfirmOk = validateConfirmationPassword (inputPassword, inputPasswordConfirm);
 
     if(pseudoOk && mailOk && passwordOk && passwordConfirmOk){
-        btnValidation.disabled = false;
+        btnValidInscri.disabled = false;
     }
     else{
-        btnValidation.disabled = true;
+        btnValidInscri.disabled = true;
     }
 }
 
- /* Affichage mot de passe en clair */
+/* ============================= Affichage mot de passe en clair ============================= */
 const togglePassword = document.getElementById("togglePassword");
 const togglePasswordConfirm = document.getElementById("togglePasswordConfirm");
 
-togglePassword.addEventListener('click', function () {
-    // On bascule le type entre 'password' et 'text'
-    const type = inputPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-    inputPassword.setAttribute('type', type);
-    
-    // Changer l'image
-        const img = this.querySelector('img');
-        img.src = type === 'password' ? '/assets/images/oeil-ouvert.png' : '/assets/images/oeil-ferme.png';
-});
+if (togglePassword) {
+    togglePassword.addEventListener('click', function () {
+        // On bascule le type entre 'password' et 'text'
+        const type = inputPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        inputPassword.setAttribute('type', type);
+        
+        // Changer l'image
+            const img = this.querySelector('img');
+            img.src = type === 'password' ? '/assets/images/oeil-ouvert.png' : '/assets/images/oeil-ferme.png';
+    });
+}
 
-togglePasswordConfirm.addEventListener('click', function () {
-    // On bascule le type entre 'password' et 'text'
-    const type = inputPasswordConfirm.getAttribute('type') === 'password' ? 'text' : 'password';
-    inputPasswordConfirm.setAttribute('type', type);
-    
-    // Changer l'image
-        const img = this.querySelector('img');
-        img.src = type === 'password' ? '/assets/images/oeil-ouvert.png' : '/assets/images/oeil-ferme.png';
-});
+if (togglePasswordConfirm) {
+    togglePasswordConfirm.addEventListener('click', function () {
+        // On bascule le type entre 'password' et 'text'
+        const type = inputPasswordConfirm.getAttribute('type') === 'password' ? 'text' : 'password';
+        inputPasswordConfirm.setAttribute('type', type);
+        
+        // Changer l'image
+            const img = this.querySelector('img');
+            img.src = type === 'password' ? '/assets/images/oeil-ouvert.png' : '/assets/images/oeil-ferme.png';
+    });
+}
 
- /* Barre check mot de passe */
+/* ============================= Barre check mot de passe ============================= */
 const strengthBar = document.getElementById('strength-bar');
 const strengthText = document.getElementById('strength-text');
 
- inputPassword.addEventListener('input', () => {
-    const val =  inputPassword.value;
-    let score = 0;
+if (inputPassword) {
+    inputPassword.addEventListener('input', () => {
+        const val =  inputPassword.value;
+        let score = 0;
 
-    if (val.length >= 9) score++; 
-    if (/[a-z]/.test(val)) score++;
-    if (/[A-Z]/.test(val)) score++; 
-    if (/[0-9]/.test(val)) score++; 
-    if (/[^A-Za-z0-9]/.test(val)) score++; 
+        if (val.length >= 9) score++; 
+        if (/[a-z]/.test(val)) score++;
+        if (/[A-Z]/.test(val)) score++; 
+        if (/[0-9]/.test(val)) score++; 
+        if (/[^A-Za-z0-9]/.test(val)) score++; 
 
-    strengthBar.className = "strength-bar"; 
-    
-if (val.length === 0) {
-        strengthText.textContent = "";
-        strengthBar.style.width = "0%";
-    } else if (score <= 2) {
-        strengthBar.classList.add('weak');
-        strengthText.textContent = "Faible 🔴";
-        strengthBar.style.width = "33%";
-    } else if (score <= 4) {
-        strengthBar.classList.add('medium');
-        strengthText.textContent = "Moyen 🟠";
-        strengthBar.style.width = "66%";
-    } else {
-        strengthBar.classList.add('strong');
-        strengthText.textContent = "Fort 🟢";
-        strengthBar.style.width = "100%";
+        strengthBar.className = "strength-bar"; 
+        
+    if (val.length === 0) {
+            strengthText.textContent = "";
+            strengthBar.style.width = "0%";
+        } else if (score <= 2) {
+            strengthBar.classList.add('weak');
+            strengthText.textContent = "Faible 🔴";
+            strengthBar.style.width = "33%";
+        } else if (score <= 4) {
+            strengthBar.classList.add('medium');
+            strengthText.textContent = "Moyen 🟠";
+            strengthBar.style.width = "66%";
+        } else {
+            strengthBar.classList.add('strong');
+            strengthText.textContent = "Fort 🟢";
+            strengthBar.style.width = "100%";
+        }
+    })
+}
+
+/* ============================= Gestion Modal ============================= */
+const modal = document.getElementById('modal');
+
+if (modal) {
+
+    const btnClose = modal.querySelector('.close');
+
+    // Ouvrir modal
+    if (window.location.hash === '#modal') {
+        modal.classList.add('active');
     }
-})
 
- /* Gestion Modal */
+    // Fermer bouton
+    if (btnClose) {
+        btnClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeModal();
+        });
+    }
 
-const ajoutModal = document.getElementById('ajoutCompte');
-const suspModal = document.getElementById('suspCompte');
-
-const openAjoutBtn = document.getElementById('openAjoutModal');
-const openSuspBtn = document.getElementById('openSuspModal');
-
-const closeButtons = document.querySelectorAll('.close');
-
-// Ouvrir modal ajout
-openAjoutBtn.addEventListener('click', () => {
-    ajoutModal.classList.add('active');
-});
-
-// Ouvrir modal suspension
-openSuspBtn.addEventListener('click', () => {
-    suspModal.classList.add('active');
-});
-
-// Fermer
-closeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const modalId = btn.getAttribute('data-modal');
-        document.getElementById(modalId).classList.remove('active');
+    // Fermer en dehors
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
+
+    // Retirer #modal de l'URL après fermeture
+    function closeModal() {
+        modal.classList.remove('active');
+        history.replaceState(null, null, window.location.pathname);
+    }
+}
+
+/* ============================= Gestion clic ============================= */
+document.addEventListener('DOMContentLoaded', () => {
+
+    const menus = document.querySelectorAll('.user-menu');
+
+    menus.forEach(menu => {
+        const menuBtns = menu.querySelectorAll('.menu-btn');
+        const tabContents = menu.querySelectorAll('.content-tab');
+
+        if (!menuBtns.length || !tabContents.length) return;
+
+        menuBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+
+                menuBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                tabContents.forEach(content => {
+                    content.style.display =
+                        content.dataset.tabContent === target ? 'block' : 'none';
+                });
+            });
+        });
+
+        const firstBtn = menu.querySelector('.menu-btn');
+        if (firstBtn) firstBtn.click();
+    });
+
 });
 
-// Fermer en cliquant dehors
-window.addEventListener('click', (e) => {
-    if (e.target === ajoutModal) {
-        ajoutModal.classList.remove('active');
+/* ============================= Dynamiser Modal Voiture ============================= */
+
+const inputImmat = document.getElementById("immatriculation");
+const inputDateImmat = document.getElementById("dateImmat");
+const inputMarque = document.getElementById("marque");
+const inputModele = document.getElementById("modele");
+const inputCouleur = document.getElementById("couleur");
+const inputPlace = document.getElementById("place");
+const inputEnergie = document.getElementById("energie");
+const btnValidVoiture = document.getElementById("btnInfo");
+
+inputImmat.addEventListener("keyup", validateVoiture); 
+inputDateImmat.addEventListener("keyup", validateVoiture); 
+inputMarque.addEventListener("keyup", validateVoiture); 
+inputModele.addEventListener("keyup", validateVoiture); 
+inputCouleur.addEventListener("keyup", validateVoiture); 
+inputPlace.addEventListener("input", validateVoiture); 
+inputEnergie.addEventListener("input", validateVoiture); 
+
+function validateImmat(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
     }
-    if (e.target === suspModal) {
-        suspModal.classList.remove('active');
+    const immatRegex = /^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/;
+    if(immatRegex.test(input.value)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
     }
-});
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+function validateDateImmat(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    const dateImmatRegex = /^(0?[1-9]|[12][0-9]|3[01]) (janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) [0-9]{4}$/;
+    if(dateImmatRegex.test(input.value)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+function validateMarque(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 15){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateModele(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 20){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateCouleur(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 15){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validatePlace(input){
+    const error = input.parentElement.querySelector(".error");
+    const value = parseInt(input.value, 10);
+
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(isNaN(value) || value < 1 || value > 4){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateEnergie(input){
+    const error = input.parentElement.querySelector(".error");
+    const validOptions = ["Essence","Diesel","Électrique"];
+
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(!validOptions.includes(input.value)){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+//Function permettant de valider tout le formulaire
+function validateVoiture(){
+    const immatOk = validateImmat(inputImmat);
+    const dateImmatOk = validateDateImmat(inputDateImmat);
+    const marquedOk = validateMarque(inputMarque);
+    const modeleOk = validateModele (inputModele);
+    const couleurOk = validateCouleur (inputCouleur);
+    const placeOk = validatePlace (inputPlace);
+    const energieOk = validateEnergie (inputEnergie);
+
+    if(immatOk && dateImmatOk && marquedOk && modeleOk && couleurOk && placeOk && energieOk){
+        btnValidVoiture.disabled = false;
+    }
+    else{
+        btnValidVoiture.disabled = true;
+    }
+}

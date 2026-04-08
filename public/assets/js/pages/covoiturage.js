@@ -6,6 +6,6 @@ btnsDetail.forEach((btn) => {
   btn.addEventListener("click", (event) => {
     event.preventDefault();
     const idCovoit = btn.dataset.id;
-    window.open(`/covoiturage/detail?id=${idCovoit}`, "_blank");
+    window.location.href = `/covoiturage/detail?id=${idCovoit}`;
   });
 });

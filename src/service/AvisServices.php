@@ -14,7 +14,7 @@ class AvisServices
 
     public function avis(): array
     {
-        $avisRepository = new AvisRepository;
+        $avisRepository = new AvisRepository();
 
         // Récupération des avis
         $avis = $avisRepository->avis();
@@ -24,7 +24,7 @@ class AvisServices
     /* ============================================ Afficher infos covoit avis ============================================= */
     public function infosCovoitAvis($idAvis)
     {
-        $avisRepository = new AvisRepository;
+        $avisRepository = new AvisRepository();
 
         // Récupérer les infos du voyage de l'avis à traiter
         $infosCovoitAvis = $avisRepository->infosCovoitAvis($idAvis);
@@ -34,7 +34,7 @@ class AvisServices
     /* ============================================ Valider avis ============================================= */
     public function validerAvis($idAvis, $idUtilisateur): void
     {
-        $avisRepository = new AvisRepository;
+        $avisRepository = new AvisRepository();
 
         // Récupérer les infos de l'avis en cours de validation
         $infosAvis = $avisRepository->infosAvisValide($idAvis);
@@ -70,7 +70,7 @@ class AvisServices
     /* ============================================ Refuser avis ============================================= */
     public function refuserAvis($idAvis, $idUtilisateur): void
     {
-        $avisRepository = new AvisRepository;
+        $avisRepository = new AvisRepository();
 
         $avisRepository->refuserAvis($idAvis, $idUtilisateur);
     }
@@ -78,8 +78,27 @@ class AvisServices
     /* ============================================ Historique avis ============================================= */
     public function historiqueAvis($idUtilisateur)
     {
-        $avisRepository = new AvisRepository;
+        $avisRepository = new AvisRepository();
         $avisCheck = $avisRepository->historiqueAvis($idUtilisateur);
         return $avisCheck;
+    }
+
+
+    /* ============================================ Afficher avis chauffeur ============================================= */
+    public function afficherAvis($idCovoit)
+    {
+        $avisRepository = new AvisRepository();
+        $avisChauffeur = $avisRepository->afficherAvis($idCovoit);
+
+        foreach ($avisChauffeur as &$avis) {
+            if (!empty($avis['date_avis'])) {
+                $date = new \DateTime($avis['date_avis']);
+                $avis['date_formattee'] = $date->format('d/m/Y');
+            } else {
+                $avis['date_formattee'] = 'Date inconnue';
+            }
+        }
+
+        return $avisChauffeur;
     }
 }

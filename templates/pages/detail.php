@@ -32,8 +32,9 @@
                     <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
                     <p>
                         <?= htmlspecialchars(ucfirst($covoitDetail['pseudo'] ?? 'N/A')) ?><br>
-                        <a href="#" class="note" data-id="<?= htmlspecialchars($covoitDetail['covoiturage_id'] ?? '') ?>">
+                        <a href="#" class="moyenne" data-id="<?= htmlspecialchars($covoitDetail['covoiturage_id'] ?? '') ?>">
                             <?= $covoitDetail['moyenne'] ? round($covoitDetail['moyenne'], 1) . ' ★' : 'Non noté' ?>
+                            (<?= htmlspecialchars($totalAvis['total']) ?>)
                         </a>
                     </p>
                 </section>

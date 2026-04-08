@@ -9,6 +9,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/pages/espace.css">
+    <link rel="stylesheet" href="/assets/css/pages/mescovoiturages.css">
+    <link rel="stylesheet" href="/assets/css/pages/mesVehicules.css">
+    <link rel="stylesheet" href="/assets/css/pages/avisEnCours.css">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +27,21 @@
 
     <main>
         <section class="box-espace">
-            <section class="box-user">
+            <section class="box-user role-<?= htmlspecialchars($roleUtilisateur[0] ?? 'utilisateur') ?>">
                 <section class="box-titre">
-                    <h1 class="titre">Bonjour, <?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></h1>
-                    <p class="sous-titre">Bienvenue sur votre espace EcoRide</p>
+                    <section>
+                        <h1 class="titre">Bonjour, <?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></h1>
+                        <p class="sous-titre">Bienvenue sur votre espace EcoRide</p>
+                    </section>
+                    <section>
+                        <?php if (($radio === 'chauffeur' || $radio === 'lesDeux') && $voitureExiste): ?>
+                            <a class="button" id="btn-trajet" href="/trajet/">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-plus ">
+                                    <path d="M12 5l0 14"></path>
+                                    <path d="M5 12l14 0"></path>
+                                </svg> Saisir un voyage</a>
+                        <?php endif ?>
+                    </section>
                 </section>
                 <!-- Section Radio Utilisateur -->
                 <?php foreach ($roleUtilisateur as $role): ?>
@@ -47,12 +61,6 @@
                                 <button id="btnRole" class="button" type="submit">Valider</button>
                             </form>
                         </section>
-                        <?php if (($radio === 'chauffeur' || $radio === 'lesDeux') && $voitureExiste): ?>
-                            <a class="button" id="btn-trajet" href="/trajet/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-plus ">
-                                    <path d="M12 5l0 14"></path>
-                                    <path d="M5 12l14 0"></path>
-                                </svg> Saisir un voyage</a>
-                        <?php endif ?>
             </section>
             <!-- Message de succès / erreur -->
             <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
@@ -90,46 +98,71 @@
                     <h3><?= htmlspecialchars($totalCovoitUtilisateur['total']) ?></h3>
                     <p>Réservations actives</p>
                 </section>
-
             </section>
             <!-- Section Chauffeur -->
             <?php if ($radio === 'chauffeur' || $radio === 'lesDeux'): ?>
                 <?php if (!$voitureExiste): ?>
                     <section id="chauffeur-info">
                         <h2>Informations chauffeur</h2>
-                        <form action="/espace/" method="POST" id="form">
+                        <form action="/espace/" method="POST" id="form" class="modal-content">
 
                             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
                             <input type="hidden" name="formType" value="ajoutVoiture">
 
-                            <section class="voitureInfo">
-                                <label>Plaque d’immatriculation :
-                                    <input type="text" id="immat" name="immatriculation" required>
-                                </label>
-                                <label>Date de 1ère immatriculation :
-                                    <input type="text" id="dateImmat" name="dateImmat" required>
-                                </label>
-                                <label>Marque :
-                                    <input type="text" id="marque" name="marque" required>
-                                </label>
-                                <label>Modèle :
-                                    <input type="text" id="modele" name="modele" required>
-                                </label>
-                                <label>Couleur :
-                                    <input type="text" id="couleur" name="couleur" required>
-                                </label>
-                                <label>Places dispo :
-                                    <input type="number" id="place" name="place" min="1" max="4" required>
-                                </label>
-                                <section class="energie">
-                                    <label for="energie">Énergie utilisée :</label>
-                                    <input list="typeEnergie" id="energie" name="energie" placeholder="Choisir énergie" required>
-                                    <datalist id="typeEnergie">
-                                        <option value="Essence">
-                                        <option value="Diesel">
-                                        <option value="Électrique">
-                                    </datalist>
-                                </section>
+                            <label>Plaque d’immatriculation : </label>
+                            <section class="modal-group">
+                                <input type="text" name="immatriculation" id="immatriculation" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Format attendu : AA-123-AA</span>
+                            </section>
+
+
+                            <label>Date de 1ère immatriculation : </label>
+                            <section class="modal-group">
+                                <input type="text" name="dateImmat" id="dateImmat" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Format attendu : 12 mars 2026</span>
+                            </section>
+
+                            <label>Marque : </label>
+                            <section class="modal-group">
+                                <input type="text" name="marque" id="marque" required>
+                                <span class="iconModal"></span>
+                                <span class="error">La marque doit être inférieur à 15 caractères</span>
+                            </section>
+
+                            <label>Modèle : </label>
+                            <section class="modal-group">
+                                <input type="text" name="modele" id="modele" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Le modele doit être inférieur à 20 caractères</span>
+                            </section>
+
+
+                            <label>Couleur : </label>
+                            <section class="modal-group">
+                                <input type="text" name="couleur" id="couleur" required>
+                                <span class="iconModal"></span>
+                                <span class="error">La couleur doit être inférieur à 15 caractères</span>
+                            </section>
+
+                            <label>Places dispo : </label>
+                            <section class="modal-group">
+                                <input type="number" name="place" id="place" min="1" max="4" required>
+                                <span class="iconModal"></span>
+                                <span class="error">Veuillez sélectionner min 1 et max 4 places</span>
+                            </section>
+
+                            <label for="energie">Énergie utilisée :</label>
+                            <section class="modal-group">
+                                <input list="typeEnergie" id="energie" name="energie" required>
+                                <datalist id="typeEnergie">
+                                    <option value="Essence">
+                                    <option value="Diesel">
+                                    <option value="Électrique">
+                                </datalist>
+                                <span class="iconModal"></span>
+                                <span class="error">Veuillez sélectionner un type d'énergie</span>
                             </section>
 
                             <section class="separateurFiltres"></section>
@@ -157,134 +190,75 @@
                 <?php else: ?>
                     <!-- Profil Chauffeur -->
                     <section class="user-menu">
-                        <nav class="chauffeurLink">
-                            <ul>
-                                <li><a href="/mesCovoiturages/">Covoiturages en cours (<?= htmlspecialchars($totalCovoitActif['total']) ?>)</a></li>
-                                <li><a href="/historique/">Historique covoiturages (<?= htmlspecialchars($totalCovoitInactif['total']) ?>)</a></li>
-                                <li><a href="/vehicule/">Mes véhicules (<?= htmlspecialchars($totalVoitureUtilisateur['total']) ?>)</a></li>
-                            </ul>
-                        </nav>
+                        <section class="chauffeurLink">
+                            <button class="menu-btn active" type="button" data-tab="cours">
+                                <span>Covoiturages en cours (<?= htmlspecialchars($totalCovoitActif['total']) ?>)</span>
+                                <section class="souligne"></section>
+                            </button>
+                            <button class="menu-btn" type="button" data-tab="historique">
+                                <span>Historique covoiturages (<?= htmlspecialchars($totalCovoitInactif['total']) ?>)</span>
+                                <section class="souligne"></section>
+                            </button>
+                            <button class="menu-btn" type="button" data-tab="vehicules">
+                                <span>Mes véhicules (<?= htmlspecialchars($totalVoitureUtilisateur['total']) ?>)</span>
+                                <section class="souligne"></section>
+                            </button>
+                        </section>
+                        <section class="userCovoit">
+                            <section class="box content-tab" data-tab-content="cours">
+                                <?php require APP_ROOT . "/templates/pages/includes/mesCovoiturages.php" ?>
+                            </section>
+                            <section class="box content-tab" data-tab-content="historique">
+                                <?php require APP_ROOT . "/templates/pages/includes/historique.php" ?>
+                            </section>
+                            <section class="box content-tab" data-tab-content="vehicules">
+                                <?php require APP_ROOT . "/templates/pages/includes/vehicule.php" ?>
+                            </section>
+                        </section>
                     </section>
                 <?php endif; ?>
             <?php endif; ?>
             <?php if ($radio === 'passager'): ?>
                 <!-- Profil Passager -->
                 <section class="user-menu">
-                    <nav class="passagerLink">
-                        <ul>
-                            <li><a href="/mesCovoiturages/">Covoiturages en cours (<?= htmlspecialchars($totalCovoitActif['total']) ?>)</a></li>
-                            <li><a href="/historique/">Historique covoiturages (<?= htmlspecialchars($totalCovoitInactif['total']) ?>)</a></li>
-                        </ul>
-                    </nav>
+                    <section class="chauffeurLink">
+                        <button class="menu-btn active" type="button" data-tab="covoitEnCours">
+                            <span>Covoiturages en cours (<?= htmlspecialchars($totalCovoitActif['total']) ?>)</span>
+                            <section class="souligne"></section>
+                        </button>
+                        <button class="menu-btn" type="button" data-tab="historiqueCovoits">
+                            <span>Historique covoiturages (<?= htmlspecialchars($totalCovoitInactif['total']) ?>)</span>
+                            <section class="souligne"></section>
+                        </button>
+                    </section>
+                    <section class="userCovoit">
+                        <section class="box content-tab" data-tab-content="covoitEnCours">
+                            <?php require APP_ROOT . "/templates/pages/includes/mesCovoiturages.php" ?>
+                        </section>
+                        <section class="box content-tab" data-tab-content="historiqueCovoits">
+                            <?php require APP_ROOT . "/templates/pages/includes/historique.php" ?>
+                        </section>
+                    </section>
                 </section>
             <?php endif ?>
-        </section>
 
-        <!-- Section Employe -->
-    <?php elseif ($role === 'employe'): ?>
-        <section class="user-menu">
-            <nav class="passagerLink">
-                <ul>
-                    <li><a href="/avisEnCours/">Avis en cours (<?= htmlspecialchars($totalAvisActif['total']) ?>)</a></li>
-                    <li><a href="/historiqueAvis/">Historique avis (<?= htmlspecialchars($totalAvisInactif['total']) ?>)</a></li>
-                </ul>
-            </nav>
-        </section>
+            <!-- Section Employe -->
+        <?php elseif ($role === 'employe'): ?>
+            <!-- Message de succès / erreur -->
+            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/templates/pages/includes/employe.php" ?>
 
-        <!-- Section Admin -->
-    <?php elseif ($role === 'admin'): ?>
-        <section class="user-menu">
-            <nav class="passagerLink">
-                <ul>
-                    <li><button class="modal-open-btn" id="openAjoutModal">Créer compte employé</button></li>
-                    <li><button class="modal-open-btn" id="openSuspModal">Suspendre un compte</button></li>
-                </ul>
-            </nav>
-        </section>
-
-        <p id="total-credit">Total des crédits gagné par la plateforme : <?= htmlspecialchars($graphiques['totalCredits']['totalCredits'] ?? 0) ?></p>
-
-
-        <!-- Graphiques -->
-        <section class="graphique">
-            <canvas id="graphique1"></canvas>
-            <canvas id="graphique2"></canvas>
-        </section>
-
-        <!-- Modal création compte employé -->
-        <section id="ajoutCompte" class="modal">
-            <section class="compte">
-                <button class="close" data-modal="ajoutCompte">x</button>
-                <h2>Création compte employé</h2>
-
-                <form method="POST" class="modal-content" action="">
-
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-                    <input type="hidden" name="formType" value="ajoutCompte">
-
-                    <section class="modal-group">
-                        <label>Pseudo : </label>
-                        <input type="text" name="pseudo" id="pseudo" value="<?= htmlspecialchars($pseudo ?? '') ?>" required>
-                        <span class="iconModal"></span>
-                        <span class="error">Le pseudo doit être inférieur à 10 caractères</span>
-                    </section>
-
-                    <section class="modal-group">
-                        <label>Email : </label>
-                        <input type="email" id="email" name="email" value="<?= htmlspecialchars($email ?? '') ?>" required>
-                        <span class="iconModal"></span>
-                        <span class="error">Le mail n'est pas au bon format</span>
-                    </section>
-
-                    <section class="modal-group">
-                        <label>Mot de passe : </label>
-                        <input type="password" name="password" id="password" required>
-                        <span id="togglePassword" class="eye-icon"><img src="/assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
-                    </section>
-
-                    <section class="progression">
-                        <section class="strength-meter">
-                            <section id="strength-bar" class="strength-bar"></section>
-                        </section>
-                        <small id="strength-text"></small>
-                    </section>
-
-                    <section class="modal-group">
-                        <label>Confirmer mot de passe : </label>
-                        <input type="password" name="password_confirm" id="password_confirm" required>
-                        <span id="togglePasswordConfirm" class="eye-icon"><img src="/assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
-                        <span class="error">Les mots de passe ne sont pas identiques</span>
-                    </section>
-
-                    <button class="button" id="btnCompte" type="submit">Créer</button>
-                </form>
+            <!-- Section Admin -->
+        <?php elseif ($role === 'admin'): ?>
+            <!-- Message de succès / erreur -->
+            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/templates/pages/includes/admin.php" ?>
+            <!-- Graphiques -->
+            <section class="graphique">
+                <canvas id="graphique1"></canvas>
+                <canvas id="graphique2"></canvas>
             </section>
-        </section>
 
-        <!-- Modal suppression compte -->
-        <section id="suspCompte" class="modal">
-            <section class="compte">
-                <button class="close" data-modal="suspCompte">x</button>
-                <h2>Suspension compte</h2>
-
-                <form class="compteListe" action="" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-                    <select id="liste" name="compte" required>
-                        <option value="" disabled selected hidden>Compte à suspendre</option>
-
-                        <?php if (!empty($comptes)) : ?>
-                            <?php foreach ($comptes as $c): ?>
-                                <option value="<?= htmlspecialchars($c->getUtilisateurId()) ?>">
-                                    <?= htmlspecialchars(ucfirst($c->getPseudo() ?? 'N/A')) ?>
-                                    - <?= htmlspecialchars(ucfirst($c->getEmail() ?? '')) ?>
-                                    - <?= htmlspecialchars(ucfirst($c->getLibelle() ?? '')) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
-                    <button class="button" id="btnSupCompte" type="submit">Suspendre</button>
-                </form>
-            </section>
         </section>
     <?php endif; ?>
 <?php endforeach; ?>
@@ -304,6 +278,7 @@
     <!-- JS -->
     <script src="/assets/js/main.js" type="module"></script>
     <script src="/assets/js/pages/espace.js" type="module"></script>
+    <script src="/assets/js/pages/historique.js" type="module"></script>
 
     <!-- Script graphique -->
     <script>

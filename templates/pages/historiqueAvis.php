@@ -24,13 +24,6 @@
     <main>
         <h1 class="gros-titre">Historique des avis :</h1>
         <section class="user-menu">
-            <!-- Info employe -->
-            <section class="user-id">
-                <section class="user-name">
-                    <img src="/assets/images/compte noir.png" alt="image compte noir">
-                    <span id="first-name"><?= htmlspecialchars($infosUtilisateur->getPseudo()) ?></span>
-                </section>
-            </section>
             <!-- Avis -->
             <section class="boxAvis">
                 <?php if (empty($avisCheck)): ?>
@@ -41,11 +34,19 @@
                             <section class="utilisateur">
                                 <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
                                 <?= htmlspecialchars(ucfirst($a->getAuteurPseudo() ?? 'N/A')) ?>
+                                <section class="note">
+                                    <section class="stars">
+                                        <?php for ($i = 1; $i <= 5; $i++):
+                                            if ($i <= $a->getNote()): ?>
+                                                <span class="star filled">★</span>
+                                            <?php else: ?>
+                                                <span class="star">☆</span>
+                                        <?php endif;
+                                        endfor; ?>
+                                    </section>
+                                </section>
                             </section>
                             <section class="avis">
-                                <section class="note">
-                                    Note : <?= htmlspecialchars(ucfirst($a->getNote() ?? 'N/A')) ?>
-                                </section>
                                 <section class="com">
                                     <?= htmlspecialchars(ucfirst($a->getCommentaire() ?? 'N/A')) ?>
                                 </section>

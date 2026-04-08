@@ -14,6 +14,7 @@ class Avis
     protected ?int $auteur_id = null;
     protected ?string $auteur_pseudo = null;
     protected ?float $moyenne = null;
+    protected ?string $date_avis = null;
 
     // avis_id
     public function getAvisId(): ?int
@@ -65,6 +66,13 @@ class Avis
     {
         return $this->moyenne;
     }
+
+    // date
+    public function getDate(): ?string
+    {
+        return $this->date_avis;
+    }
+
 
     /* ==================== Utilisateur ==================== */
     protected ?int $utilisateur_id = null;

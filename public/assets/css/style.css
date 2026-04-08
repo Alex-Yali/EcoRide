@@ -280,6 +280,11 @@ input.is-invalid ~ .error {
     color: red;
 }
 
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Message Erreur */
 .errorMessage { 
     color:red; 
@@ -297,6 +302,25 @@ input.is-invalid ~ .error {
 .successMessageCovoit { 
     color:green;  
     text-align:center;
+}
+
+/* --- Notes --- */
+.note {
+    position: absolute;
+    right: 2rem;
+} 
+
+.stars {
+    display: flex;
+}
+
+.star {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.star.filled {
+    color: gold;
 }
 
 /* --- Responsive --- */

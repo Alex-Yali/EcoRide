@@ -100,4 +100,26 @@ class UtilisateurRepository extends Repository
             ':statut' => "suspendu"
         ]);
     }
+
+    /* ============================================ Total compte ============================================= */
+
+    public function totalCompteActif()
+    {
+        $sqlTotalCompteActif = " SELECT count(*) as total
+                                 FROM utilisateur
+                                 WHERE statut = 'actif' ";
+        $stmtTotalCompteActif = $this->pdo->prepare($sqlTotalCompteActif);
+        $stmtTotalCompteActif->execute();
+        return $stmtTotalCompteActif->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function totalCompteSuspendu()
+    {
+        $sqlTotalCompteSuspendu = " SELECT count(*) as total
+                                    FROM utilisateur
+                                    WHERE statut = 'suspendu' ";
+        $stmtTotalCompteSuspendu = $this->pdo->prepare($sqlTotalCompteSuspendu);
+        $stmtTotalCompteSuspendu->execute();
+        return $stmtTotalCompteSuspendu->fetch(PDO::FETCH_ASSOC);
+    }
 }

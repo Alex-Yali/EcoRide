@@ -13,22 +13,29 @@
     font-weight:normal;
 }
 
-.box-titre {
+.box-user .box-titre {
     display: flex;
-    flex-direction:column;
     align-items: center;
-    gap: 4px;
+    width: 100%;
+}
+
+/* Si utilisateur */
+.box-user.role-utilisateur .box-titre {
+    justify-content: space-between;
+}
+
+/* Si employé ou admin */
+.box-user.role-employe .box-titre,
+.box-user.role-admin .box-titre {
+    justify-content: center;
 }
 
 .box-user {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 1.25rem;
-    border: 1px solid rgba(38, 114, 65, 0.75);
-    box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    gap: 3rem;
 }
 
 #btn-trajet {
@@ -56,11 +63,7 @@
     display: flex;
     justify-content: space-between;
     gap: 18px;
-}
-
-#credits {
-    display: flex;
-    justify-content: space-around;
+    width: 100%;
 }
 
 .box-user-infos {
@@ -84,11 +87,17 @@ h3 {
 .user-infos p {
     margin: 0;
     color: #83898e;
+    white-space: nowrap;
 }
 
 .user-box p {
     margin-top: 18.75rem;
     font-size: 1.5rem;
+}
+
+.image {
+    width: 36px;
+    color: #267240;
 }
 
 /* Styliser les checkboxes choix chauffeur */
@@ -105,7 +114,8 @@ h3 {
 #user-type fieldset {
     border: none;  
     display: flex;  
-    padding: 0 0 10px 0;   
+    padding: 0 0 10px 0; 
+    flex-direction: row;  
 }
 
 #user-type label {      
@@ -126,26 +136,39 @@ h3 {
     width: 6rem;
 }
 
-/* Section id + section differents onglet */
-.user-menu {
-    display: flex;
-    justify-content: center;
-}
-
 /* Section choix onglet profil */
-
-.passagerLink, .chauffeurLink {
+.user-menu {
+    position: relative;
     border: 1px solid rgba(38, 114, 65, 0.75);
     background-color: white;
     border-radius: 1.25rem;
     padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.passagerLink {
+    border: 1px solid rgba(38, 114, 65, 0.75);
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    display: flex;
+    gap: 10px;
 }
 
 .passagerLink a, .chauffeurLink a {
     text-decoration: none;
     color: black;
+}
+
+.passagerLink button, .chauffeurLink button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 ul {
@@ -156,12 +179,43 @@ ul {
     justify-content: space-evenly;
 }
 
-.passagerLink li, .chauffeurLink li {
+.passagerLink li {
     display: flex;
 }
 
-.passagerLink li :hover, .chauffeurLink li :hover {
+.passagerLink li :hover {
     transform: scale(1.05);
+}
+
+.chauffeurLink {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #b1b8be;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-btn .souligne {
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    height: 2px;
+    background-color: #267240;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 2;
+}
+
+.menu-btn.active .souligne {
+    transform: scaleX(1);
 }
 
 /* Choix chauffeur */
@@ -187,13 +241,9 @@ h2 {
     align-items: center;
     gap: 0.65rem;
     padding: 0.3rem;
+    justify-content: center;
 }
 
-#form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 .user-pref fieldset {
     border: none;      
 }
@@ -257,6 +307,7 @@ input {
     background: rgba(0,0,0,0.5);
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .modal.active {
@@ -281,6 +332,7 @@ input {
     width: 90%;
     border-radius: 8px;
     margin: 0 auto;
+    align-items: center;
 }
 
 .close {
@@ -293,6 +345,7 @@ input {
     right: 0.6rem;
     border: none;
     background-color: white;
+    cursor: pointer;
 }
 
 .modal h2 {
@@ -303,15 +356,13 @@ input {
 }
 
 .compte {
-    position: relative;
-    margin: 15rem auto;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
+    background-color:#F0F0F0;
     border-radius: 1rem;
-    gap: 0.5rem;
     padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
 .compte label {
@@ -319,6 +370,12 @@ input {
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
+}
+ .compteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
 }
 
 #btnCompte {
@@ -365,22 +422,25 @@ input {
 .strong { width: 100%; background-color: #2ecc71; }
 
 .modal-group {
-    position: relative;     
-    text-align: center;
-    margin-bottom: 0.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.modal-group:has(input.is-invalid) {
+    margin-bottom: 25px;
 }
 
 .modal-group input {
-    width: 70%;
-    height: 1.3rem;
-    background-color: #D9D9D9;
-    padding-right: 2.5rem;  
+    width: 100%;
+    height: 1.8rem;
+    text-align: center;
 }
 
 .eye-icon {
     position: absolute;
-    right: 30px;             
-    top: 50%;               
+    right: 20px;                           
     cursor: pointer;
     user-select: none;
     display: flex;
@@ -388,16 +448,24 @@ input {
 }
 
 .iconModal {
-  position: absolute;
-  right: 35px;
-  font-size: 18px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .error {
+    position: absolute;
+    top: 100%;
     color: red;
     font-size: 0.8rem;
     display: none;
-    margin: 2px 0 0 2px;
+    width: 100%;
+    text-align: center;
 }
 
 .modal.is-invalid ~ .error {
@@ -408,7 +476,7 @@ input {
     border: 2px solid #267240;
 }
 
-.modal-group input.is-valid + .iconModal::before {
+.modal-group input.is-valid ~ .iconModal::before {
     content: "✔";
     color: #267240;
 }
@@ -417,7 +485,7 @@ input {
     border: 2px solid #ff0000;
 }
 
-.modal-group input.is-invalid + .iconModal::before {
+.modal-group input.is-invalid ~ .iconModal::before {
     content: "✖";
     color: red;
 }
@@ -432,6 +500,7 @@ input {
 
 #graphique1, #graphique2 {
     width: 80% !important;
+    height: 80% !important;
 }
 
 /* --- Liste compte --- */
@@ -481,6 +550,15 @@ input {
     #user-type label{
         padding-right: 4px;
     }
+    .compteForm {
+        width: 100%;
+    }
+    .compte {
+        padding: 2rem 1rem;
+    }
+    .modal-group {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -499,7 +577,7 @@ input {
 
     /* --- Section card utilisateur / section liens --- */
     .user-menu {
-        flex-direction: column;
+        padding: 10px;
     }
     .note{
         flex-direction: column;
@@ -564,5 +642,9 @@ input {
     /* --- Graphique --- */
     #graphique1, #graphique2 {
         width: 98% !important;
+    }
+
+    .iconModal, .eye-icon {
+        right: 10px;
     }
 }

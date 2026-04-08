@@ -369,10 +369,10 @@ class CovoiturageRepository extends Repository
     function participeDeja($pdo, $idUtilisateur, $idCovoit)
     {
         $sqlCheck = "SELECT COUNT(*) FROM participe p
-                JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id 
-                WHERE c.covoiturage_id = :covoiturage
-                AND p.utilisateur_utilisateur_id = :utilisateur
-                AND p.passager = :passager";
+                     JOIN covoiturage c ON c.covoiturage_id = p.covoiturage_covoiturage_id 
+                     WHERE c.covoiturage_id = :covoiturage
+                     AND p.utilisateur_utilisateur_id = :utilisateur
+                     AND p.passager = :passager";
         $stmtCheck = $pdo->prepare($sqlCheck);
         $stmtCheck->execute([
             ':utilisateur' => $idUtilisateur,

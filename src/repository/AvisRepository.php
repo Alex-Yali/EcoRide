@@ -61,16 +61,20 @@ class AvisRepository extends Repository
     // Valider l'avis
     public function validerAvis($idAvis, $idUtilisateur): bool
     {
-        $sqlValider = "UPDATE avis SET statut = 'valider', employe_id = :idEmploye 
-                       WHERE avis_id = :idAvis 
-                       AND statut = 'en attente'";
+        $sqlValider = "UPDATE avis 
+                   SET statut = 'valider', 
+                       employe_id = :idEmploye, 
+                       date_avis = :dateAvis
+                   WHERE avis_id = :idAvis 
+                   AND statut = 'en attente'";
+
         $stmtValider = $this->pdo->prepare($sqlValider);
         $stmtValider->execute([
             ':idAvis' => $idAvis,
-            ':idEmploye' => $idUtilisateur
+            ':idEmploye' => $idUtilisateur,
+            ':dateAvis' => date('Y-m-d')
         ]);
-        $validerAvis = $stmtValider->rowCount() > 0;
-        return $validerAvis;
+        return $stmtValider->rowCount() > 0;
     }
 
     // Ajouter credits
@@ -85,6 +89,8 @@ class AvisRepository extends Repository
             ':idChauffeur' => $idChauffeur
         ]);
     }
+
+    /* ============================================ Refuser avis ============================================= */
 
     // Refuser l'avis
     public function refuserAvis($idAvis, $idUtilisateur)
@@ -103,6 +109,7 @@ class AvisRepository extends Repository
     {
         $sqlInfosCovoitAvis = "SELECT 
                     a.covoiturage_id,
+                    a.note,
                     ua.pseudo AS passager_pseudo,
                     ua.email AS passager_email,
                     u.pseudo AS chauffeur_pseudo,
@@ -126,6 +133,8 @@ class AvisRepository extends Repository
         return $infosCovoitAvis;
     }
 
+    /* ============================================ Historique avis ============================================= */
+
     // Historique des avis traités par employé
     public function historiqueAvis($idUtilisateur)
     {
@@ -148,5 +157,53 @@ class AvisRepository extends Repository
         ]);
         $avisCheck = $stmtAvisCheck->fetchAll(PDO::FETCH_CLASS, Avis::class);
         return $avisCheck;
+    }
+
+    /* ============================================ Afficher avis chauffeur ============================================= */
+
+    public function afficherAvis($idCovoit)
+    {
+        $sqlAvis = "SELECT 
+                u.utilisateur_id AS chauffeur_id,
+                u.pseudo AS chauffeur_pseudo,
+                ua.utilisateur_id AS auteur_id,
+                ua.pseudo AS auteur_pseudo,
+                a.commentaire,
+                a.date_avis,
+                a.note,
+                (
+                    SELECT AVG(a2.note)
+                    FROM avis a2
+                    WHERE a2.chauffeur_id = u.utilisateur_id
+                    AND a2.statut = 'valider'
+                ) AS moyenne
+            FROM utilisateur u
+            JOIN avis a ON a.chauffeur_id = u.utilisateur_id
+            JOIN depose d ON d.avis_avis_id = a.avis_id
+            JOIN utilisateur ua ON ua.utilisateur_id = d.utilisateur_utilisateur_id  
+            JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
+            JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
+            WHERE a.statut = 'valider'
+            AND c.covoiturage_id = :idCovoit
+            AND pa.chauffeur = 1
+            ORDER BY a.date_avis DESC
+            ";
+        $stmtAvis = $this->pdo->prepare($sqlAvis);
+        $stmtAvis->execute(['idCovoit' => $idCovoit]);
+        return $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function totalAvis($idCovoit)
+    {
+        $sqlTotalAvis = "SELECT count(*) AS total 
+                         FROM avis a
+                         JOIN participe pa ON pa.utilisateur_utilisateur_id = a.chauffeur_id
+                         JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
+                         WHERE c.covoiturage_id = :idCovoit
+                         AND pa.chauffeur = 1
+                         AND a.statut = 'valider'";
+        $stmtTotalAvis = $this->pdo->prepare($sqlTotalAvis);
+        $stmtTotalAvis->execute(['idCovoit' => $idCovoit]);
+        return $stmtTotalAvis->fetch(PDO::FETCH_ASSOC);;
     }
 }

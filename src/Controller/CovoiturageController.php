@@ -6,6 +6,7 @@ use App\Service\CovoiturageServices;
 use App\Repository\CovoiturageRepository;
 use App\db\Mysql;
 use App\db\MongoDB;
+use App\Repository\AvisRepository;
 use PDO;
 
 class CovoiturageController extends Controller
@@ -67,103 +68,6 @@ class CovoiturageController extends Controller
         ]);
     }
 
-    /* ============================================ Covoit utilisateur participe ============================================= */
-
-    public function mesCovoiturages(): void
-    {
-        try {
-            $idUtilisateur = $_SESSION['user_id'] ?? 0;
-            $covoiturage_id = $_POST['covoiturage_id'] ?? 0;
-            $message = "";
-            $mesCovoits = [];
-            $csrf = generate_csrf_token();
-
-            $covoituraServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
-
-            // Récupérer les covoiturages actifs
-            $mesCovoits = $covoituraServices->mesCovoiturages($idUtilisateur);
-
-            if (empty($mesCovoits)) {
-                $message = "Aucun covoiturage en cours.";
-            }
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && $covoiturage_id > 0) {
-
-                // Vérification CSRF
-                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-                    $message = "Erreur CSRF : requête invalide.";
-                } else {
-                    $action = $_POST['action'] ?? '';
-                    $covoituraServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
-
-                    // Rafraîchissement
-                    header("Location: /mesCovoiturages");
-                    exit();
-                }
-            }
-        } catch (\Exception $e) {
-            $message = "Une erreur est survenue : " . $e->getMessage();
-        }
-        $this->render('pages/mesCovoiturages', [
-            'mesCovoits' => $mesCovoits,
-            'message' => $message,
-            'csrf' => $csrf ?? '',
-        ]);
-    }
-
-    /* ============================================ Historique covoit utilisateur participe ============================================= */
-
-    public function mesCovoituragesHistorique(): void
-    {
-        try {
-            $idUtilisateur = $_SESSION['user_id'] ?? 0;
-            $message = "";
-            $mesCovoitsHistorique = [];
-            $csrf = generate_csrf_token();
-
-            $covoiturageServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
-
-            // Récupérer les historiques des covoits où l'utilisateur à participé
-            $mesCovoitsHistorique = $covoiturageServices->mesCovoituragesHistorique($idUtilisateur);
-
-            if (empty($mesCovoitsHistorique)) {
-                $message = "Aucun historique de covoiturage.";
-            }
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'envoyer') {
-
-                // Vérification CSRF
-                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-                    $message = "Erreur CSRF : requête invalide.";
-                } else {
-                    $covoiturageServices->traiterAvis($_POST, $idUtilisateur);
-
-                    // Rafraîchissement
-                    header("Location: /historique");
-                    exit();
-                }
-            }
-            // Calculer pour chaque covoiturage si l'avis a déjà été donné
-            $covoiturageRepository = new CovoiturageRepository();
-
-            foreach ($mesCovoitsHistorique as $c) {
-                $conducteurId = $c->getConducteurId();
-                $covoitId = $c->getCovoiturageId();
-
-                // Ajouter une propriété à l'objet
-                $dejaAvis = $covoiturageRepository->avisDejaDonne($idUtilisateur, $covoitId, $conducteurId);
-                $c->setDejaAvis($dejaAvis);
-            }
-        } catch (\Exception $e) {
-            $message = "Une erreur est survenue : " . $e->getMessage();
-        }
-        $this->render('pages/historique', [
-            'mesCovoitsHistorique' => $mesCovoitsHistorique,
-            'message' => $message,
-            'csrf' => $csrf ?? '',
-        ]);
-    }
-
     /* ============================================ Detail covoit participe ============================================= */
 
     public function participerCovoit()
@@ -178,6 +82,7 @@ class CovoiturageController extends Controller
             $message = "";
             $messageCovoit = "";
             $participeCovoit = false;
+            $totalAvis = null;
             $csrf = generate_csrf_token();
 
             // Récupération de l’ID dans l’URL
@@ -186,6 +91,10 @@ class CovoiturageController extends Controller
                 header('Location: /covoiturage/');
                 exit;
             }
+
+            // Récupérer nombre avis 
+            $avisRepository = new AvisRepository();
+            $totalAvis = $avisRepository->totalAvis($idCovoit);
 
             $result = $covoiturageService->covoitDetail($idCovoit);
             if ($result) {
@@ -228,7 +137,22 @@ class CovoiturageController extends Controller
             'message' => $message,
             'messageCovoit' => $messageCovoit,
             'idUtilisateur' => $idUtilisateur,
+            'totalAvis' => $totalAvis,
             'csrf' => $csrf ?? '',
         ]);
+    }
+
+    public function covoitsActifsUtilisateur(int $idUtilisateur): array
+    {
+        $covoiturageServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
+        $mesCovoits = $covoiturageServices->mesCovoiturages($idUtilisateur) ?? [];
+        return $mesCovoits;
+    }
+
+    public function covoitsHistoriqueUtilisateur(int $idUtilisateur): array
+    {
+        $covoiturageServices = new CovoiturageServices($this->pdo, $this->collectionPreferences);
+        $mesCovoitsHistorique = $covoiturageServices->mesCovoituragesHistorique($idUtilisateur) ?? [];
+        return $mesCovoitsHistorique;
     }
 }

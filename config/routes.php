@@ -7,9 +7,6 @@ return [
     "/inscription/" => ["controller" => "App\Controller\AuthController", "action" => "inscription"],
     "/deconnexion/" => ["controller" => "App\Controller\AuthController", "action" => "deconnexion"],
 
-    "/avis/" => ["controller" => "App\Controller\PageController", "action" => "avis"],
-    "/contact/" => ["controller" => "App\Controller\PageController", "action" => "contact"],
-
     // Espace covoiturage
     "/covoiturage/" => ["controller" => "App\Controller\CovoiturageController", "action" => "covoiturage"],
     "/covoiturage/detail/" => ["controller" => "App\Controller\CovoiturageController", "action" => "participerCovoit"],
@@ -23,14 +20,18 @@ return [
     // Espace avis
     "/avisEnCours/" => ["controller" => "App\Controller\AvisController", "action" => "avis"],
     "/historiqueAvis/" => ["controller" => "App\Controller\AvisController", "action" => "historiqueAvis"],
-
-    "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],
-    "/rechercher/" => ["controller" => "App\Controller\PageController", "action" => "rechercher"],
+    "/covoiturage/avis/" => ["controller" => "App\Controller\AvisController", "action" => "afficherAvis"],
 
     // Espace voitures
     "/vehicule/" => ["controller" => "App\Controller\VoitureController", "action" => "vehicule"],
 
     // Espace trajet
     "/trajet/" => ["controller" => "App\Controller\TrajetController", "action" => "trajet"],
+
+    // Autres
+    "/rechercher/" => ["controller" => "App\Controller\PageController", "action" => "rechercher"],
+    "/contact/" => ["controller" => "App\Controller\PageController", "action" => "contact"],
+    "/mention/" => ["controller" => "App\Controller\PageController", "action" => "mention"],
+
 
 ];
