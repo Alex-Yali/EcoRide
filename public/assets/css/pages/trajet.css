@@ -19,20 +19,14 @@
     gap: 0.5rem;
 }
 
-.nav-cat {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-}
-
-.nav-cat select,
+.trajet-group select,
 #date {
     width: 100%;
     border-color: black;
     font-family: "Open Sans", sans-serif;
     font-size: 1rem;
     padding: 0.5rem;
-    border-width: 0.1rem;
+    border: 0.125rem solid;
     border-radius: 0.6rem;
 }
 
@@ -65,9 +59,9 @@ input::placeholder {
 }
 
 .info-icon {
-    margin: 0;
     font-size: 0.6rem;
     text-align: center;
+    margin: 0;
 }
 
 #prix {
@@ -111,28 +105,28 @@ label {
     gap: 0.7rem;
 }
 
-.trajet-group:has(input.is-invalid) {
-    margin-bottom: 30px;
+.trajet-group:has(input.is-invalid, select.is-invalid) {
+    margin-bottom: 20px;
 }
 
-.trajet-group input.is-invalid ~ .error {
+.trajet-group input.is-invalid ~ .error,.trajet-group select.is-invalid ~ .error {
     display: block;
 }
 
-.trajet-group input.is-valid {
+.trajet-group input.is-valid, .trajet-group select.is-valid {
     border: 2px solid #267240;
 }
 
-.trajet-group input.is-valid + .iconTrajet::before {
+.trajet-group input.is-valid + .iconTrajet::before, .trajet-group select.is-valid + .iconTrajet::before {
     content: "✔";
     color: #267240;
 }
 
-.trajet-group input.is-invalid {
+.trajet-group input.is-invalid, .trajet-group select.is-invalid {
     border: 2px solid #ff0000;
 }
 
-.trajet-group input.is-invalid + .iconTrajet::before {
+.trajet-group input.is-invalid + .iconTrajet::before, .trajet-group select.is-invalid + .iconTrajet::before  {
     content: "✖";
     color: red;
 }

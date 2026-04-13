@@ -1,15 +1,25 @@
  /* ============================= Dynamiser Ajout Trajet ============================= */
 
 const inputDepart = document.getElementById("depart2");
-const inputDestination = document.getElementById("destination2")
+const inputDateDepart = document.getElementById("dateDepart");
+const inputHeureDepart = document.getElementById("heureDepart");
+const inputDestination = document.getElementById("destination2");
+const inputDateArrivee = document.getElementById("dateArrivee");
+const inputHeureArrivee = document.getElementById("heureArrivee");
 const inputPlaceTrajet = document.getElementById("places2");
 const inputPrix = document.getElementById("prix2");
+const selectVoiture = document.getElementById("cars2");
 const btnValidTrajet = document.getElementById("btnTrajet");
 
 inputDepart.addEventListener("keyup", validateTrajet); 
+inputDateDepart.addEventListener("input", validateTrajet); 
+inputHeureDepart.addEventListener("input", validateTrajet); 
 inputDestination.addEventListener("keyup", validateTrajet); 
+inputDateArrivee.addEventListener("input", validateTrajet); 
+inputHeureArrivee.addEventListener("input", validateTrajet);
 inputPlaceTrajet.addEventListener("input", validateTrajet); 
 inputPrix.addEventListener("input", validateTrajet); 
+selectVoiture.addEventListener("change", validateTrajet); 
 
 function validateDepart(input){
     const error = input.parentElement.querySelector(".error");
@@ -33,6 +43,38 @@ function validateDepart(input){
     }
 }
 
+function validateDateHeureDepart(inputDateDepart, inputHeureDepart) {
+    const error = inputDateDepart.parentElement.querySelector(".error");
+
+    if (inputDateDepart.value === '' && inputHeureDepart.value === '') {
+        inputDateDepart.classList.remove("is-valid");
+        inputHeureDepart.classList.remove("is-valid");
+
+        if (error) error.style.display = "none";
+        return false;
+    } 
+    if (inputDateDepart.value === '' || inputHeureDepart.value === '') {
+        inputDateDepart.classList.add("is-invalid");
+        inputHeureDepart.classList.add("is-invalid");
+
+        inputDateDepart.classList.remove("is-valid");
+        inputHeureDepart.classList.remove("is-valid");
+
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        inputDateDepart.classList.remove("is-invalid");
+        inputHeureDepart.classList.remove("is-invalid");
+
+        inputDateDepart.classList.add("is-valid");
+        inputHeureDepart.classList.add("is-valid");
+
+        if (error) error.style.display = "none";
+        return true;
+    }
+}
+
 function validateDestination(input){
     const error = input.parentElement.querySelector(".error");
 
@@ -51,6 +93,38 @@ function validateDestination(input){
         input.classList.add("is-valid");
         input.classList.remove("is-invalid");
         if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateDateHeureArrivee(inputDateArrivee, inputHeureArrivee) {
+    const error = inputDateArrivee.parentElement.querySelector(".error");
+
+      if (inputDateArrivee.value === '' && inputHeureArrivee.value === '') {
+        inputDateArrivee.classList.remove("is-valid");
+        inputHeureArrivee.classList.remove("is-valid");
+
+        if (error) error.style.display = "none";
+        return false;
+    } 
+    if (inputDateArrivee.value === '' || inputHeureArrivee.value === '') {
+        inputDateArrivee.classList.add("is-invalid");
+        inputHeureArrivee.classList.add("is-invalid");
+
+        inputDateArrivee.classList.remove("is-valid");
+        inputHeureArrivee.classList.remove("is-valid");
+
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        inputDateArrivee.classList.remove("is-invalid");
+        inputHeureArrivee.classList.remove("is-invalid");
+
+        inputDateArrivee.classList.add("is-valid");
+        inputHeureArrivee.classList.add("is-valid");
+
+        if (error) error.style.display = "none";
         return true;
     }
 }
@@ -104,13 +178,34 @@ function validatePrix(input){
     }
 }
 
+function validateVoiture(select) {
+    const error = select.parentElement.querySelector(".error");
+    const selectedOption = select.options[select.selectedIndex];
+
+    if (!selectedOption || selectedOption.disabled || !select.value) {
+        select.classList.remove("is-valid");
+        select.classList.add("is-invalid");
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        select.classList.remove("is-invalid");
+        select.classList.add("is-valid");
+        if (error) error.style.display = "none";
+        return true;
+    }
+}
+
 function validateTrajet(){
     const departOk = validateDepart(inputDepart);
+    const dateHeureDepartOk = validateDateHeureDepart(inputDateDepart, inputHeureDepart);
     const destinationOk = validateDestination(inputDestination);
+    const dateHeureArriveeOk = validateDateHeureArrivee(inputDateArrivee, inputHeureArrivee);
     const placeTrajetOk = validatePlaceTrajet(inputPlaceTrajet);
     const prixOk = validatePrix(inputPrix);
+    const voitureOk = validateVoiture(selectVoiture);
 
-    if(departOk && destinationOk && placeTrajetOk && prixOk){
+    if(departOk && dateHeureDepartOk && destinationOk && dateHeureArriveeOk && placeTrajetOk && prixOk && voitureOk){
         btnValidTrajet.disabled = false;
     }
     else{

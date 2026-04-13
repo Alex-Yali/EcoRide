@@ -46,8 +46,9 @@
                     <!-- Date & heure départ -->
                     <section class="trajet-group">
                         <img src="/assets/images/calendrier gris.png" class="icon" alt="">
-                        <input type="date" name="dateDepart" required>
-                        <input type="time" name="heureDepart" required>
+                        <input id="dateDepart" type="date" name="dateDepart" min="<?= date('Y-m-d') ?>" required>
+                        <input id="heureDepart" type="time" name="heureDepart" required>
+                        <span class="error">Une date et heure sont requises</span>
                     </section>
 
                     <section class="separateurFiltres"></section>
@@ -63,8 +64,9 @@
                     <!-- Date & heure arrivée -->
                     <section class="trajet-group">
                         <img src="/assets/images/calendrier gris.png" class="icon" alt="">
-                        <input type="date" name="dateArrivee" required>
-                        <input type="time" name="heureArrivee" required>
+                        <input id="dateArrivee" type="date" name="dateArrivee" min="<?= date('Y-m-d') ?>" required>
+                        <input id="heureArrivee" type="time" name="heureArrivee" required>
+                        <span class="error">Une date et heure sont requises</span>
                     </section>
 
                     <section class="separateurFiltres"></section>
@@ -86,14 +88,13 @@
                     </section>
 
                     <!-- Véhicule -->
-                    <section class="nav-cat">
+                    <section class="trajet-group">
                         <img src="/assets/images/ajouter voiture gris.png" class="icon" alt="">
-
                         <select id="cars2" name="voiture" required>
                             <option value="" disabled selected hidden>Véhicules</option>
 
                             <?php if (empty($voituresUtilisateur)) : ?>
-                                <p>Vous n'avez aucun véhicule associé à votre compte.</p>
+                                <option value="" disabled>Vous n'avez aucun véhicule associé à votre compte.</option>
                             <?php else: ?>
                                 <?php foreach ($voituresUtilisateur as $voiture): ?>
                                     <option value="<?= htmlspecialchars($voiture->getVoitureId() ?? 'N/A') ?>">
@@ -106,6 +107,7 @@
                         <button class="modal-open-btn" id="openAjoutModal" title="Ajouter un véhicule">
                             <img src="/assets/images/icon plus.png" id="icon-plus" alt="Ajouter">
                         </button>
+                        <span class="error">Veuillez sélectionner un véhicule</span>
                     </section>
                     <p class="info-icon">ℹ️: 2 crédits seront déduits de votre solde </p>
 
