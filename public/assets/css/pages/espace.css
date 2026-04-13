@@ -1,25 +1,93 @@
-/* Liste puce */
-.user-espace {
-    font-size: 1rem;
-    width: 100%;
-    padding: 0;
-    margin-top: 17.5rem;
+/* Section titre */
+
+.titre {
+    font-size: clamp(0.8rem, 5vw, 1.5rem);
+    color: #267240;
+    margin: 0;
+}
+
+.sous-titre {
+    font-size: clamp(0.6rem, 5vw, 1rem);
+    color: #83898e;
+    margin: 0;
+    font-weight:normal;
+}
+
+.box-user .box-titre {
     display: flex;
-    gap: 3rem;
-    list-style-type: none;
+    align-items: center;
+    width: 100%;
+}
+
+/* Si utilisateur */
+.box-user.role-utilisateur .box-titre {
+    justify-content: space-between;
+}
+
+/* Si employé ou admin */
+.box-user.role-employe .box-titre,
+.box-user.role-admin .box-titre {
     justify-content: center;
 }
 
-.user-espace li.active {
-    color: black;
-    text-decoration: underline;
-    text-decoration-color: #267240;
-    text-decoration-thickness: 0.12rem;
-    text-underline-offset: 0.62rem;
+.box-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: 3rem;
 }
 
-.user-box {
-    margin-top: 5rem;
+#btn-trajet {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Box infos utilisateur */
+
+.box-espace {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin: 4rem auto;
+    max-width: 1024px;
+    padding: 0 1rem;
+}
+
+.user-infos {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
+.box-user-infos {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    align-items: center;
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    border: 1px solid rgba(38, 114, 65, 0.75);
+    box-shadow: 0 0.25rem 0.62rem rgba(0, 0, 0, 0.15);
+}
+
+h3 {
+    font-size: 1.6rem;
+    color: #267240;
+    margin: 10px 0 0;
+}
+
+.user-infos p {
+    margin: 0;
+    color: #83898e;
+    white-space: nowrap;
 }
 
 .user-box p {
@@ -27,12 +95,16 @@
     font-size: 1.5rem;
 }
 
+.image {
+    width: 36px;
+    color: #267240;
+}
+
 /* Styliser les checkboxes choix chauffeur */
 #user-type {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 1.25rem;
+    flex-direction: column;
 }
 
 #user-type legend {
@@ -40,12 +112,17 @@
 }
 
 #user-type fieldset {
-    border: none;       
+    border: none;  
+    display: flex;  
+    padding: 0 0 10px 0; 
+    flex-direction: row;  
 }
 
 #user-type label {      
     cursor: pointer;
     padding-right: 2.5rem;
+    display: flex;
+    align-items: center;
 }
 
 #user-type input[type="radio"] {
@@ -59,81 +136,27 @@
     width: 6rem;
 }
 
-/* Section id + section differents onglet */
+/* Section choix onglet profil */
 .user-menu {
-    margin-top: 3rem;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 5rem;
-}
-
-#credit {
-    text-align: center;
-    margin: 3rem 0 0;
-}
-
-/* Section id utilisateur */
-.user-id {
-    align-content: center;
+    position: relative;
+    border: 1px solid rgba(38, 114, 65, 0.75);
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.87rem;
-    border: 1px solid #ccc;
+    padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-}
-
-.user-name img {
-    width: 3rem;
-}
-
-.user-name {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
-.note {
-    display: flex;
-    gap: 0.5rem;
-    
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    margin-top: 1.25rem;
-    margin-left: 0.62rem;
-}
-
-.user-info img {
-    width: 1.56rem;
-}
-
-.user-info span {
-    font-size: 0.87rem;
-    font-family: Arial, sans-serif;
-}
-
-/* Section choix onglet profil */
 .passagerLink {
-    border: 1px solid #ccc;
+    border: 1px solid rgba(38, 114, 65, 0.75);
     background-color: white;
     border-radius: 1.25rem;
-    padding: 1.87rem;
+    padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-    height: 20%;
-}
-
-.chauffeurLink {
-    border: 1px solid #ccc;
-    background-color: white;
-    border-radius: 1.25rem;
-    padding: 1.87rem;
-    box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    display: flex;
+    gap: 10px;
 }
 
 .passagerLink a, .chauffeurLink a {
@@ -141,22 +164,58 @@
     color: black;
 }
 
-ul {
-    padding: 0;
+.passagerLink button, .chauffeurLink button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.passagerLink li, .chauffeurLink li {
-    margin-top: 1rem;
+ul {
+    padding: 10px;
+    margin: 0;
+    display: flex;
+    gap: 3rem;
+    justify-content: space-evenly;
+}
+
+.passagerLink li {
     display: flex;
 }
 
-.passagerLink li :hover, .chauffeurLink li :hover {
+.passagerLink li :hover {
     transform: scale(1.05);
 }
 
-#caret-right {
-    width: 1.25rem;
-    transform: rotate(-90deg);
+.chauffeurLink {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #b1b8be;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-btn .souligne {
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    height: 2px;
+    background-color: #267240;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 2;
+}
+
+.menu-btn.active .souligne {
+    transform: scaleX(1);
 }
 
 /* Choix chauffeur */
@@ -172,10 +231,9 @@ h2 {
     background-color: white;
     border-radius: 1.25rem;
     padding: 1rem;
-    flex-direction: column;
-    width: 40%;
-    margin: 1.25rem auto 1rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
 }
 
 #chauffeur-info label {
@@ -183,13 +241,9 @@ h2 {
     align-items: center;
     gap: 0.65rem;
     padding: 0.3rem;
+    justify-content: center;
 }
 
-#form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 .user-pref fieldset {
     border: none;      
 }
@@ -233,26 +287,41 @@ input {
     border-radius: 0.4rem;
 }
 
+#total-credit {
+    text-align: center;
+}
+
 /* Bouton */
 #btnInfo {
     margin-top: 1.25rem;
 }
 
-/* Section ajout compte employé */
+/* Modal */
 .modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.6);
-    opacity: 0;
-    pointer-events: none;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.modal:target {
-    opacity: 1;
-    pointer-events: auto;
+.modal.active {
+    display: flex;
+}
+
+.modal-open-btn {
+    text-decoration: none;
+    color: black;
+    cursor: pointer; 
+    background: none;
+    border: none;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
 }
 
 .modal-content {
@@ -263,15 +332,20 @@ input {
     width: 90%;
     border-radius: 8px;
     margin: 0 auto;
+    align-items: center;
 }
 
 .close {
     position: absolute;
     text-decoration: none;
+    font-weight: bold;
     font-size: 1.2rem;
     color: #267240;
     top: 0.2rem;
     right: 0.6rem;
+    border: none;
+    background-color: white;
+    cursor: pointer;
 }
 
 .modal h2 {
@@ -282,22 +356,13 @@ input {
 }
 
 .compte {
-    position: relative;
-    width: 25%;
-    margin: 15rem auto;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
+    background-color:#F0F0F0;
     border-radius: 1rem;
-    gap: 0.5rem;
-    padding: 1rem;
+    padding: 2rem;
     box-shadow: 0 0.25rem 0.62rem rgba(0,0,0,0.15);
-}
-
-.compte input {
-    width: 70%;
-    height: 1.3rem;
-    text-align: center;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
 }
 
 .compte label {
@@ -305,6 +370,12 @@ input {
     flex-direction: column;
     align-items: center;
     gap: 0.3rem;
+}
+ .compteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
 }
 
 #btnCompte {
@@ -318,17 +389,118 @@ input {
     height: 1.7rem;
 }
 
+.oeil {
+    height: 20px;
+}
+
+.progression {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+
+.strength-meter {
+    height: 5px;
+    width: 10rem;
+    background-color: #eee;
+    margin-top: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Couleurs des états */
+.weak { width: 33%; background-color: #ff4d4d; }
+.medium { width: 66%; background-color: #ffa500; }
+.strong { width: 100%; background-color: #2ecc71; }
+
+.modal-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 70%;
+}
+
+.modal-group:has(input.is-invalid) {
+    margin-bottom: 25px;
+}
+
+.modal-group input {
+    width: 100%;
+    height: 1.8rem;
+    text-align: center;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 20px;                           
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.iconModal {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.error {
+    position: absolute;
+    top: 100%;
+    color: red;
+    font-size: 0.8rem;
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.modal.is-invalid ~ .error {
+    display: block;
+}
+
+.modal-group input.is-valid {
+    border: 2px solid #267240;
+}
+
+.modal-group input.is-valid ~ .iconModal::before {
+    content: "✔";
+    color: #267240;
+}
+
+.modal-group input.is-invalid {
+    border: 2px solid #ff0000;
+}
+
+.modal-group input.is-invalid ~ .iconModal::before {
+    content: "✖";
+    color: red;
+}
+
 /* --- Graphique --- */
 
 .graphique {
-    margin: 3rem auto 1rem;
     display: flex;
     justify-content: center;
     gap: 5rem;
 }
 
 #graphique1, #graphique2 {
-    width: 40%;
+    width: 80% !important;
+    height: 80% !important;
 }
 
 /* --- Liste compte --- */
@@ -349,12 +521,6 @@ input {
 }
 
 /* --- Responsive --- */
-@media (max-width: 1440px) {
-    /* --- Box infos chauffeur --- */
-    #chauffeur-info {
-        width: 60%;
-    }
-}
 
 @media (max-width: 1024px) {
     /* --- Box lien passager / employé / admin --- */
@@ -369,13 +535,8 @@ input {
         align-items: center;
     }
     #graphique1, #graphique2 {
-            width: 60%;
+            width: 60% !important;
         }
-
-    /* --- Modal création / suppression compte --- */
-    .compte {
-        width: 50%;
-    }
 }
 
 @media (max-width: 768px) {
@@ -383,30 +544,40 @@ input {
     .passagerLink li {
         gap: 1.87rem;
     }
-
-    /* --- Box infos chauffeur --- */
-    #chauffeur-info {
-        width: 80%;
+    #btn-trajet, #user-type label, #btnRole {
+        font-size: 0.8rem;
+    }
+    #user-type label{
+        padding-right: 4px;
+    }
+    .compteForm {
+        width: 100%;
+    }
+    .compte {
+        padding: 2rem 1rem;
+    }
+    .modal-group {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
 
-    #user-type label {
-        padding: 0;
+    #credits {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
-    /* --- Section card utilisateur / section liens --- */
-    .user-id {
-        margin: 0 auto;
-        font-size: 0.87rem;
-        display: flex;
-        justify-content: space-evenly;
-        padding: 0.5rem;
-        width: 80%;
-    }
-    .user-menu {
+    .box-user {
         flex-direction: column;
+        gap: 2rem;
+    }
+
+
+    /* --- Section card utilisateur / section liens --- */
+    .user-menu {
+        padding: 10px;
     }
     .note{
         flex-direction: column;
@@ -428,16 +599,23 @@ input {
     }
     .passagerLink, .chauffeurLink {
         padding: 1rem;
-        width: 80%;
-        margin: 0 auto 1rem;
+        width: 90%;
     }
     .passagerLink li, .chauffeurLink li {
         justify-content: center;
     }
+    .passagerLink a, .chauffeurLink a{
+        font-size: 0.8rem;
+    }
+
+    ul {
+        gap: 1rem;
+    }
 
     /* --- Radio --- */
     #user-type label {
-        font-size: 0.87rem;
+        font-size: 0.8rem;
+        padding-right: 20px;
     }
     #user-type {
         flex-direction: column;
@@ -445,7 +623,7 @@ input {
 
     /* --- Section card voiture / pref --- */
     .voitureInfo label {
-        font-size: 0.87rem;
+        font-size: 0.8rem;
         white-space: nowrap;
         flex-direction: column;
     }
@@ -463,11 +641,10 @@ input {
 
     /* --- Graphique --- */
     #graphique1, #graphique2 {
-        width: 98%;
+        width: 98% !important;
     }
 
-    /* --- Modal création / suppression compte --- */
-    .compte {
-        width: 80%;
+    .iconModal, .eye-icon {
+        right: 10px;
     }
 }

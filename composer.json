@@ -2,7 +2,7 @@
     "name": "alxdu/eco-ride",
     "autoload": {
         "psr-4": {
-            "Alxdu\\EcoRide\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [

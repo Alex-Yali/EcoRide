@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRide - Avis conducteur</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/pages/avis.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,700;1,75..100,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <?php require APP_ROOT . "/templates/pages/includes/header.php" ?>
+
+    <main>
+        <!-- Box filtres -->
+        <h1 class="gros-titre">Avis du conducteur :</h1>
+
+        <!-- Message de succès / erreur -->
+        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+
+        <section class="detail">
+            <!-- Infos utilisateur -->
+            <?php if (!empty($avisChauffeur)): ?>
+
+                <!-- Commentaire -->
+                <section class="commentaire">
+                    <?php foreach ($avisChauffeur as $index => $a): ?>
+                        <section class="utilisateur">
+                            <img id="photo" src="/assets/images/homme.png" alt="photo de l'utilisateur">
+                            <?= htmlspecialchars(ucfirst($a['auteur_pseudo'] ?? 'N/A')) ?>
+                            <section class="note">
+                                <section class="stars">
+                                    <?php for ($i = 1; $i <= 5; $i++):
+                                        if ($i <= $a['note']): ?>
+                                            <span class="star filled">★</span>
+                                        <?php else: ?>
+                                            <span class="star">☆</span>
+                                    <?php endif;
+                                    endfor; ?>
+                                </section>
+                            </section>
+                        </section>
+                        <section class="box-avis">
+                            <section class="com">
+                                <?= htmlspecialchars(ucfirst($a['commentaire'] ?? 'N/A')) ?>
+                            </section>
+                            <section class="date_avis">
+                                <?= htmlspecialchars($a['date_formattee'] ?? 'N/A') ?>
+                            </section>
+                        </section>
+                        <?php if ($index < count($avisChauffeur) - 1): ?>
+                            <section class="separateurFiltres"></section>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </section>
+
+            <?php else: ?>
+                <p class="message-vide">Ce conducteur n'a pas encore d'avis</p>
+            <?php endif; ?>
+        </section>
+
+
+    </main>
+    <!-- Footer -->
+    <?php require APP_ROOT . "/templates/pages/includes/footer.php" ?>
+
+    <!-- JS  -->
+    <script src="/assets/js/main.js" type="module"></script>
+</body>
+
+</html>

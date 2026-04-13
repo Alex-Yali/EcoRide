@@ -8,10 +8,10 @@
   if (btnParticipe) {
     btnParticipe.addEventListener("click",() =>{
       if(roleUtilisateur != "utilisateur" && roleUtilisateur != "admin" && roleUtilisateur != "employe") {
-        window.location.href = "./connexion.php"
+        window.location.href = "/connexion/"
       } else {
-          participe.style.display = "none";  // Cache section 1
-          valid.style.display = "block"; // Affiche section 2
+          participe.style.display = "none";  
+          valid.style.display = "block";
       }
     }
   )
@@ -19,11 +19,11 @@
 
 /* Acces page avis conducteur */
 
-const btnAvis = document.querySelectorAll(".note");
+const btnAvis = document.querySelectorAll(".moyenne");
 btnAvis.forEach((avis) => {
   avis.addEventListener("click", (event) => {
     event.preventDefault();
     const idAvis = avis.dataset.id;
-    window.location.href = `./avis.php?id=${idAvis}`;
+    window.location.href = `/covoiturage/avis?id=${idAvis}`;
   });
 });

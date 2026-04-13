@@ -227,7 +227,7 @@ main {
     text-underline-offset: 1rem;
 }
 
-/* Formulaire inscription et connexion */
+/* Formulaire inscription, connexion */
 .input-group {
   position: relative;
 }
@@ -278,6 +278,49 @@ input.is-invalid ~ .error {
 .input-group input.is-invalid + .iconForm::before {
     content: "✖";
     color: red;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Message Erreur */
+.errorMessage { 
+    color:red; 
+    font-size:0.8rem; 
+    margin:0; 
+    text-align:center;
+    padding-top:1rem; 
+}
+
+.errorMessageCovoit { 
+    color:red; 
+    text-align:center;
+}
+
+.successMessageCovoit { 
+    color:green;  
+    text-align:center;
+}
+
+/* --- Notes --- */
+.note {
+    position: absolute;
+    right: 2rem;
+} 
+
+.stars {
+    display: flex;
+}
+
+.star {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.star.filled {
+    color: gold;
 }
 
 /* --- Responsive --- */
