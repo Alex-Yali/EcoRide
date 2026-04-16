@@ -8,8 +8,8 @@ define('APP_ROOT', dirname(__DIR__));
 define('APP_ENV', ".env");
 
 // Charger les services
-require APP_ROOT . "/src/Service/Csrf.php";
-require APP_ROOT . "/src/Service/Init.php";
+require APP_ROOT . "/src/Service/csrf.php";
+require APP_ROOT . "/src/Service/init.php";
 
 use App\Db\Mysql;
 use App\Routing\Router;
