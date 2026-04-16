@@ -13,6 +13,7 @@ class InfosCovoitAvis
     protected ?string $lieu_depart = null;
     protected ?string $date_arrivee = null;
     protected ?string $lieu_arrivee = null;
+    protected ?float $note = null;
 
     public function getCovoiturageId(): ?int
     {
@@ -49,5 +50,9 @@ class InfosCovoitAvis
     public function getLieuArrivee(): ?string
     {
         return $this->lieu_arrivee;
+    }
+    public function getNote(): ?float
+    {
+        return $this->note;
     }
 }

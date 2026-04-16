@@ -18,17 +18,11 @@ class Mysql
 
     private function __construct()
     {
-        $dbConf = parse_ini_file(APP_ROOT . "/" . APP_ENV);
-
-        if ($dbConf === false) {
-            throw new \Exception("Erreur lecture fichier .env");
-        }
-
-        $this->dbHost = $dbConf["db_host"];
-        $this->dbName = $dbConf["db_name"];
-        $this->dbUser = $dbConf["db_user"];
-        $this->dbPassword = $dbConf["db_password"];
-        $this->dbPort = $dbConf["db_port"];
+        $this->dbHost = $_ENV['DB_HOST'] ?? getenv('DB_HOST');
+        $this->dbName = $_ENV['DB_NAME'] ?? getenv('DB_NAME');
+        $this->dbUser = $_ENV['DB_USER'] ?? getenv('DB_USER');
+        $this->dbPassword = $_ENV['DB_PASS'] ?? getenv('DB_PASS');
+        $this->dbPort = $_ENV['DB_PORT'] ?? getenv('DB_PORT');
     }
 
     public static function getInstance(): self
@@ -42,7 +36,15 @@ class Mysql
     public function getPDO(): PDO
     {
         if (is_null($this->pdo)) {
-            $this->pdo = new PDO("mysql:host={$this->dbHost};port={$this->dbPort};dbname={$this->dbName};charset=utf8", $this->dbUser, $this->dbPassword);
+            $this->pdo = new PDO(
+                "mysql:host={$this->dbHost};port={$this->dbPort};dbname={$this->dbName};charset=utf8mb4",
+                $this->dbUser,
+                $this->dbPassword,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                ]
+            );
         }
         return $this->pdo;
     }

@@ -55,8 +55,9 @@
 
             <!-- Affichage du message d'erreur -->
             <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <p class="errorMessage"></p>
 
-            <button id="btnInscri" class="button" type="submit">S'inscrire</button>
+            <button id="btnInscri" class="button" type="button">S'inscrire</button>
             <a title="Deja inscrit ?" href="/connexion/" class="lien-membre">Vous êtes déja membre ?</a>
         </form>
         <div id="user-data" data-pseudo="<?php echo htmlspecialchars($pseudo); ?>"></div>

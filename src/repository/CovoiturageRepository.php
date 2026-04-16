@@ -50,7 +50,7 @@ class CovoiturageRepository extends Repository
                         FROM participe
                         WHERE utilisateur_utilisateur_id = :idUtilisateur
                     )
-                    ";
+                    ORDER BY c.date_depart ASC, c.heure_depart ASC";
         $stmtDateExacte = $this->pdo->prepare($sqlDateExacte);
         $params = [
             ':depart'  => $depart,
@@ -411,9 +411,9 @@ class CovoiturageRepository extends Repository
                         m.marque_id,
                         m.libelle AS marqueVoiture,
                         a.commentaire
-                    FROM utilisateur u
-                    LEFT JOIN participe pa ON pa.utilisateur_utilisateur_id = u.utilisateur_id
-                    JOIN covoiturage c ON c.covoiturage_id = pa.covoiturage_covoiturage_id
+                    FROM covoiturage c
+                    JOIN participe pa ON pa.covoiturage_covoiturage_id = c.covoiturage_id AND pa.chauffeur = 1
+                    JOIN utilisateur u ON u.utilisateur_id = pa.utilisateur_utilisateur_id
                     LEFT JOIN utilise ut ON ut.covoiturage_covoiturage_id = c.covoiturage_id
                     LEFT JOIN voiture v ON v.voiture_id = ut.voiture_voiture_id
                     LEFT JOIN depose d ON u.utilisateur_id = d.utilisateur_utilisateur_id
@@ -426,7 +426,7 @@ class CovoiturageRepository extends Repository
 
         $stmtDetail = $this->pdo->prepare($sqlDetail);
         $stmtDetail->execute([':idCovoit' => $idCovoit]);
-        return $stmtDetail->fetchAll(PDO::FETCH_ASSOC);
+        return $stmtDetail->fetch(PDO::FETCH_ASSOC);
     }
 
     // Enlever crédits a l'utilisateur

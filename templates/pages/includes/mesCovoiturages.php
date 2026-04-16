@@ -2,6 +2,7 @@
     <?php foreach ($mesCovoits as $c): ?>
         <form class="box-covoit" action="/espace/" method="POST">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
+            <input type="hidden" name="action_type" value="gestion_covoit">
             <p id="date-covoit"><?= htmlspecialchars($c->getDateFormatted()) ?></p>
             <section class="info-covoit">
                 <section class="time-covoit">

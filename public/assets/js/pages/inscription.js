@@ -1,4 +1,5 @@
- /*Implémenter le JS de ma page*/
+ /* ============================= Dynamiser Inscription ============================= */
+
 const inputPseudo = document.getElementById("pseudo");
 const inputMail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
@@ -102,7 +103,6 @@ function validateConfirmationPassword(inputPassword, inputPasswordConfirm){
     }
 }
 
-//Function permettant de valider tout le formulaire
 function validateForm(){
     const pseudoOk = validatePseudo(inputPseudo);
     const mailOk = validateMail(inputMail);
@@ -117,7 +117,8 @@ function validateForm(){
     }
 }
 
- /* Affichage mot de passe en clair */
+ /* ============================= Affichage mot de passe en clair ============================= */
+
 const togglePassword = document.getElementById("togglePassword");
 const togglePasswordConfirm = document.getElementById("togglePasswordConfirm");
 
@@ -141,7 +142,8 @@ togglePasswordConfirm.addEventListener('click', function () {
         img.src = type === 'password' ? '/assets/images/oeil-ouvert.png' : '/assets/images/oeil-ferme.png';
 });
 
- /* Barre check mot de passe */
+ /* ============================= Barre check mot de passe ============================= */
+
 const strengthBar = document.getElementById('strength-bar');
 const strengthText = document.getElementById('strength-text');
 
@@ -174,3 +176,42 @@ if (val.length === 0) {
         strengthBar.style.width = "100%";
     }
 })
+
+/* ============================= Fonction Async ============================= */
+
+btnValidation.addEventListener("click", InscrireUtlisateur);
+
+async function InscrireUtlisateur() {
+    const pseudo = inputPseudo.value;
+    const email = inputMail.value;
+    const password = inputPassword.value;
+    const passwordConfirm = inputPasswordConfirm.value;
+    const csrf = document.querySelector('input[name="csrf_token"]').value;
+
+    try {
+        const response = await fetch("/inscription/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: JSON.stringify({ pseudo, email, password, passwordConfirm, csrf_token: csrf })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            window.location.href = "/espace/";
+        } else {
+            let erreur = document.querySelector(".errorMessage");
+            if (!erreur) {
+                erreur = document.createElement("p");
+                erreur.className = "errorMessage";
+                document.getElementById("formulaire").appendChild(erreur);
+            }
+            erreur.textContent = result.message;
+        }
+    } catch (error) {
+        console.error("Erreur réseau :", error);
+    }
+}

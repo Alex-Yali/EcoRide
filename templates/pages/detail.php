@@ -33,7 +33,7 @@
                     <p>
                         <?= htmlspecialchars(ucfirst($covoitDetail['pseudo'] ?? 'N/A')) ?><br>
                         <a href="#" class="moyenne" data-id="<?= htmlspecialchars($covoitDetail['covoiturage_id'] ?? '') ?>">
-                            <?= $covoitDetail['moyenne'] ? round($covoitDetail['moyenne'], 1) . ' ★' : 'Non noté' ?>
+                            <?= !empty($covoitDetail['moyenne']) ? round($covoitDetail['moyenne'], 1) . ' ★' : 'Non noté' ?>
                             (<?= htmlspecialchars($totalAvis['total']) ?>)
                         </a>
                     </p>

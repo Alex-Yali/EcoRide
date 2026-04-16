@@ -94,27 +94,17 @@ class EspaceController extends Controller
                             $messageVoiture = $espaceServices->messageVoiture;
                         }
 
-                        // Ajouter compte employé
-                        if (($_POST['formType'] ?? '') === 'ajoutCompte') {
+                        // Gestion Démarrer / Terminer / Annuler covoiturage
+                        $action = $_POST['action'] ?? '';
 
-                            // Recherche principale
-                            $pseudo = trim($_POST['pseudo'] ?? '');
-                            $email = trim($_POST['email'] ?? '');
-                            $password = trim($_POST['password'] ?? '');
-                            $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+                        if ($_POST['action_type'] ?? '' === 'gestion_covoit') {
 
-                            $compteValide = $utilisateurServices->ajouterEmploye($pseudo, $email, $password, $passwordConfirm);
-                            $message = $utilisateurServices->message;
-                            $messageCompte = $utilisateurServices->messageCompte;
-                        }
+                            $covoiturage_id = $_POST['covoiturage_id'];
 
-                        // Suspendre compte utilisateur/employé
-                        if (isset($_POST['compte'])) {
+                            $covoiturageServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
 
-                            $idCompte = intval($_POST['compte']);
-
-                            $compteSusp = $utilisateurServices->suspendreCompte($idCompte);
-                            $messageSusp = $utilisateurServices->messageSusp;
+                            header("Location: /espace/");
+                            exit();
                         }
 
                         // Ajouter avis
@@ -128,17 +118,6 @@ class EspaceController extends Controller
                             $covoiturageServices->traiterAvis($_POST, $idUtilisateur, $covoiturage_id, $avis, $commentaire, $rating);
 
                             // Rafraîchissement
-                            header("Location: /espace/");
-                            exit();
-                        }
-
-                        // Gestion Démarrer / Terminer / Annuler covoiturage
-                        if (!empty($_POST['covoiturage_id']) && !empty($_POST['action'])) {
-                            $covoiturage_id = $_POST['covoiturage_id'];
-                            $action = $_POST['action'] ?? '';
-
-                            $covoiturageServices->gestionStatutCovoit($idUtilisateur, $covoiturage_id, $action);
-
                             header("Location: /espace/");
                             exit();
                         }
@@ -163,6 +142,29 @@ class EspaceController extends Controller
 
                             header("Location: /espace/");
                             exit;
+                        }
+
+                        // Ajouter compte employé
+                        if (($_POST['formType'] ?? '') === 'ajoutCompte') {
+
+                            // Recherche principale
+                            $pseudo = trim($_POST['pseudo'] ?? '');
+                            $email = trim($_POST['email'] ?? '');
+                            $password = trim($_POST['password'] ?? '');
+                            $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+
+                            $compteValide = $utilisateurServices->ajouterEmploye($pseudo, $email, $password, $passwordConfirm);
+                            $message = $utilisateurServices->message;
+                            $messageCompte = $utilisateurServices->messageCompte;
+                        }
+
+                        // Suspendre compte utilisateur/employé
+                        if (isset($_POST['compte'])) {
+
+                            $idCompte = intval($_POST['compte']);
+
+                            $compteSusp = $utilisateurServices->suspendreCompte($idCompte);
+                            $messageSusp = $utilisateurServices->messageSusp;
                         }
                     }
                 }

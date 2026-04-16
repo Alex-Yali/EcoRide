@@ -12,17 +12,11 @@ class MongoDB
 
     private function __construct()
     {
-        $dbConf = parse_ini_file(APP_ROOT . "/" . APP_ENV);
-
-        if ($dbConf === false) {
-            throw new \Exception("Erreur lecture fichier .env");
-        }
-
-        $host = $dbConf['MONGO_HOST'];
-        $port = $dbConf['MONGO_PORT'];
-        $dbName = $dbConf['MONGO_NAME'];
-        $user = $dbConf['MONGO_USER'];
-        $pass = $dbConf['MONGO_PASS'];
+        $host = $_ENV['MONGO_HOST'] ?? getenv('MONGO_HOST');
+        $port = $_ENV['MONGO_PORT'] ?? getenv('MONGO_PORT');
+        $dbName = $_ENV['MONGO_DB'] ?? getenv('MONGO_DB');
+        $user = $_ENV['MONGO_USER'] ?? getenv('MONGO_USER');
+        $pass = $_ENV['MONGO_PASS'] ?? getenv('MONGO_PASS');
 
         $uri = "mongodb://$user:$pass@$host:$port/?authSource=$dbName";
 
