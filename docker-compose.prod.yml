@@ -2,6 +2,7 @@ services:
   # Service PHP
   php:
     build: .
+    image: ecoride-php
     container_name: ecoride-php
     ports:
       - "8000:80"
