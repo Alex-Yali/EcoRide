@@ -1,19 +1,439 @@
-/* Fermeture après ajout voiture */
+ /* ============================= Dynamiser Ajout Trajet ============================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-    const close = document.querySelector(".close");
+const inputDepart = document.getElementById("depart2");
+const inputDateDepart = document.getElementById("dateDepart");
+const inputHeureDepart = document.getElementById("heureDepart");
+const inputDestination = document.getElementById("destination2");
+const inputDateArrivee = document.getElementById("dateArrivee");
+const inputHeureArrivee = document.getElementById("heureArrivee");
+const inputPlaceTrajet = document.getElementById("places2");
+const inputPrix = document.getElementById("prix2");
+const selectVoiture = document.getElementById("cars2");
+const btnValidTrajet = document.getElementById("btnTrajet");
 
-    if (close) {
-        close.addEventListener("click", (e) => {
-            e.preventDefault();
+inputDepart.addEventListener("keyup", validateTrajet); 
+inputDateDepart.addEventListener("input", validateTrajet); 
+inputHeureDepart.addEventListener("input", validateTrajet); 
+inputDestination.addEventListener("keyup", validateTrajet); 
+inputDateArrivee.addEventListener("input", validateTrajet); 
+inputHeureArrivee.addEventListener("input", validateTrajet);
+inputPlaceTrajet.addEventListener("input", validateTrajet); 
+inputPrix.addEventListener("input", validateTrajet); 
+selectVoiture.addEventListener("change", validateTrajet); 
 
-            // 1) Fermer le modal 
-            window.location.hash = "";
+function validateDepart(input){
+    const error = input.parentElement.querySelector(".error");
 
-            // 2) Recharger la page
-            setTimeout(() => {
-                window.location.reload();
-            }, 10);
-        });
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 20){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateDateHeureDepart(inputDateDepart, inputHeureDepart) {
+    const error = inputDateDepart.parentElement.querySelector(".error");
+
+    if (inputDateDepart.value === '' && inputHeureDepart.value === '') {
+        inputDateDepart.classList.remove("is-valid");
+        inputHeureDepart.classList.remove("is-valid");
+
+        if (error) error.style.display = "none";
+        return false;
+    } 
+    if (inputDateDepart.value === '' || inputHeureDepart.value === '') {
+        inputDateDepart.classList.add("is-invalid");
+        inputHeureDepart.classList.add("is-invalid");
+
+        inputDateDepart.classList.remove("is-valid");
+        inputHeureDepart.classList.remove("is-valid");
+
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        inputDateDepart.classList.remove("is-invalid");
+        inputHeureDepart.classList.remove("is-invalid");
+
+        inputDateDepart.classList.add("is-valid");
+        inputHeureDepart.classList.add("is-valid");
+
+        if (error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateDestination(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 20){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateDateHeureArrivee(inputDateArrivee, inputHeureArrivee) {
+    const error = inputDateArrivee.parentElement.querySelector(".error");
+
+      if (inputDateArrivee.value === '' && inputHeureArrivee.value === '') {
+        inputDateArrivee.classList.remove("is-valid");
+        inputHeureArrivee.classList.remove("is-valid");
+
+        if (error) error.style.display = "none";
+        return false;
+    } 
+    if (inputDateArrivee.value === '' || inputHeureArrivee.value === '') {
+        inputDateArrivee.classList.add("is-invalid");
+        inputHeureArrivee.classList.add("is-invalid");
+
+        inputDateArrivee.classList.remove("is-valid");
+        inputHeureArrivee.classList.remove("is-valid");
+
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        inputDateArrivee.classList.remove("is-invalid");
+        inputHeureArrivee.classList.remove("is-invalid");
+
+        inputDateArrivee.classList.add("is-valid");
+        inputHeureArrivee.classList.add("is-valid");
+
+        if (error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validatePlaceTrajet(input){
+    const error = input.parentElement.querySelector(".error");
+    const value = parseInt(input.value, 10);
+
+    
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(isNaN(value) || value < 1 || value > 4){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validatePrix(input){
+    const error = input.parentElement.querySelector(".error");
+    const value = parseInt(input.value, 10);
+    
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(isNaN(value) || value < 1 || value > 20){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateVoiture(select) {
+    const error = select.parentElement.querySelector(".error");
+    const selectedOption = select.options[select.selectedIndex];
+
+    if (!selectedOption || selectedOption.disabled || !select.value) {
+        select.classList.remove("is-valid");
+        select.classList.add("is-invalid");
+        if (error) error.style.display = "block";
+        return false;
+    } 
+    else {
+        select.classList.remove("is-invalid");
+        select.classList.add("is-valid");
+        if (error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateTrajet(){
+    const departOk = validateDepart(inputDepart);
+    const dateHeureDepartOk = validateDateHeureDepart(inputDateDepart, inputHeureDepart);
+    const destinationOk = validateDestination(inputDestination);
+    const dateHeureArriveeOk = validateDateHeureArrivee(inputDateArrivee, inputHeureArrivee);
+    const placeTrajetOk = validatePlaceTrajet(inputPlaceTrajet);
+    const prixOk = validatePrix(inputPrix);
+    const voitureOk = validateVoiture(selectVoiture);
+
+    if(departOk && dateHeureDepartOk && destinationOk && dateHeureArriveeOk && placeTrajetOk && prixOk && voitureOk){
+        btnValidTrajet.disabled = false;
+    }
+    else{
+        btnValidTrajet.disabled = true;
+    }
+}
+ 
+ /* ============================= Modal Voiture ============================= */
+
+const ajoutModal = document.getElementById('ajoutVoiture');
+const openAjoutBtn = document.getElementById('openAjoutModal');
+const closeButtons = document.querySelectorAll('.close');
+
+// Ouvrir modal ajout
+openAjoutBtn.addEventListener('click', () => {
+    ajoutModal.classList.add('active');
+});
+
+// Fermer
+closeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modalId = btn.getAttribute('data-modal');
+        document.getElementById(modalId).classList.remove('active');
+    });
+});
+
+// Fermer en cliquant dehors
+window.addEventListener('click', (e) => {
+    if (e.target === ajoutModal) {
+        ajoutModal.classList.remove('active');
     }
 });
+
+ /* ============================= Dynamiser Modal Voiture ============================= */
+
+const inputImmat = document.getElementById("immatriculation");
+const inputDateImmat = document.getElementById("dateImmat");
+const inputMarque = document.getElementById("marque");
+const inputModele = document.getElementById("modele");
+const inputCouleur = document.getElementById("couleur");
+const inputPlace = document.getElementById("place");
+const inputEnergie = document.getElementById("energie");
+const btnValidVoiture = document.getElementById("btnInfo");
+
+inputImmat.addEventListener("keyup", validateForm); 
+inputDateImmat.addEventListener("keyup", validateForm); 
+inputMarque.addEventListener("keyup", validateForm); 
+inputModele.addEventListener("keyup", validateForm); 
+inputCouleur.addEventListener("keyup", validateForm); 
+inputPlace.addEventListener("input", validateForm); 
+inputEnergie.addEventListener("input", validateForm); 
+
+function validateImmat(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    const immatRegex = /^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$/;
+    if(immatRegex.test(input.value)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+function validateDateImmat(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    const dateImmatRegex = /^(0?[1-9]|[12][0-9]|3[01]) (janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) [0-9]{4}$/;
+    if(dateImmatRegex.test(input.value)){
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+    else {
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+}
+
+function validateMarque(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 15){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateModele(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 20){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateCouleur(input){
+    const error = input.parentElement.querySelector(".error");
+
+    if(input.value.trim() === ''){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+    if(input.value.length > 15){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validatePlace(input){
+    const error = input.parentElement.querySelector(".error");
+    const value = parseInt(input.value, 10);
+
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(isNaN(value) || value < 1 || value > 4){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+function validateEnergie(input){
+    const error = input.parentElement.querySelector(".error");
+    const validOptions = ["Essence","Diesel","Électrique"];
+
+    if(input.value.trim() === ""){
+        input.classList.remove("is-valid","is-invalid");
+        if(error) error.style.display = "none";
+        return false;
+    }
+
+    if(!validOptions.includes(input.value)){
+        input.classList.remove("is-valid","is-invalid");
+        input.classList.add("is-invalid");
+        if(error) error.style.display = "block";
+        return false;
+    }
+    else {
+        input.classList.add("is-valid");
+        input.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
+//Function permettant de valider tout le formulaire
+function validateForm(){
+    const immatOk = validateImmat(inputImmat);
+    const dateImmatOk = validateDateImmat(inputDateImmat);
+    const marquedOk = validateMarque(inputMarque);
+    const modeleOk = validateModele (inputModele);
+    const couleurOk = validateCouleur (inputCouleur);
+    const placeOk = validatePlace (inputPlace);
+    const energieOk = validateEnergie (inputEnergie);
+
+    if(immatOk && dateImmatOk && marquedOk && modeleOk && couleurOk && placeOk && energieOk){
+        btnValidVoiture.disabled = false;
+    }
+    else{
+        btnValidVoiture.disabled = true;
+    }
+}
+
+ 

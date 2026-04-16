@@ -12,6 +12,7 @@ services:
     env_file:
       - ./.env
     volumes:
+      - .:/var/www/html
       - ./src:/var/www/html/src
       - ./public:/var/www/html/public
 
@@ -59,6 +60,7 @@ services:
     volumes:
       - mongo_data:/data/db
       - ./database:/tmp/database
+      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   #Service de visualisation de la base de données MongoDB
   mongo-express:

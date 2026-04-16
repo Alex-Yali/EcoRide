@@ -1,6 +1,6 @@
 <?php
 
-// Démarre la session si elle n'est pas déjà active
+// Démarre la session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
