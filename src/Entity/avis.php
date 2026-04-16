@@ -86,4 +86,12 @@ class Avis
     {
         return $this->pseudo;
     }
+
+    /* ==================== Utilisateur ==================== */
+    protected ?float $prix_personne = null;
+
+    public function getPrixPersonne(): ?float
+    {
+        return $this->prix_personne;
+    }
 }

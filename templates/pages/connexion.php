@@ -42,8 +42,9 @@
 
             <!-- Affichage du message d'erreur -->
             <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <p class="errorMessage"></p>
 
-            <button id="btnConect" class="button" type="submit">Se connecter</button>
+            <button id="btnConect" class="button" type="button">Se connecter</button>
 
             <a title="Mot de passe oublié ?" href="/mdp/" class="lien-membre">Mot de passe oublié ?</a>
             <a title="Vous n'êtes pas encore inscrit ?" href="/inscription/" class="lien-membre">Vous n'êtes pas encore inscrit ?</a>

@@ -11,7 +11,7 @@ class Utilisateur
     protected ?string $password = null;
     protected ?string $telephone = null;
     protected ?string $adresse = null;
-    protected ?string $dateNaissance = null;
+    protected ?string $date_naissance = null;
     protected ?string $photo = null;
     protected ?string $pseudo = null;
     protected ?int $credits = null;
@@ -64,7 +64,7 @@ class Utilisateur
     // date de naissance
     public function getDateNaissance(): ?string
     {
-        return $this->dateNaissance;
+        return $this->date_naissance;
     }
 
     // photo utilisateur

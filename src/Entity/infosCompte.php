@@ -8,6 +8,7 @@ class infosCompte
     protected ?string $pseudo = null;
     protected ?string $email = null;
     protected ?string $libelle = null;
+    protected ?string $statut = null;
 
     // utilisateur id
     public function getUtilisateurId(): ?int
@@ -31,5 +32,11 @@ class infosCompte
     public function getLibelle(): ?string
     {
         return $this->libelle;
+    }
+
+    // statut
+    public function getStatut(): string
+    {
+        return $this->statut;
     }
 }

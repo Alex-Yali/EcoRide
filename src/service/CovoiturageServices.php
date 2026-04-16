@@ -7,6 +7,7 @@ use App\db\Mysql;
 use App\Repository\UtilisateurRepository;
 use PDO;
 use DateTime;
+use Dom\Document;
 
 class CovoiturageServices
 {
@@ -70,7 +71,6 @@ class CovoiturageServices
         return $resultats ?? [];
     }
 
-    // Appliquer les filtres
     public function applyFilters(array $filtres): array
     {
 
@@ -319,11 +319,8 @@ class CovoiturageServices
 
         if (empty($covoitDetail)) {
             $this->messageCovoit = "Covoiturage introuvable.";
-            return false;
+            return null;
         }
-
-        // On prend la première ligne pour les infos générales
-        $covoitDetail = $covoitDetail[0];
 
         // Gerer les preferences
         $preferences = [];
@@ -369,7 +366,6 @@ class CovoiturageServices
             ? '/assets/images/voiture-noir.png'
             : '/assets/images/voiture-electrique.png';
 
-
         return [
             'covoitDetail' => $covoitDetail,
             'dateDetailCovoit' => $dateDetailCovoit,
@@ -389,7 +385,7 @@ class CovoiturageServices
             $this->messageCovoit = "Covoiturage introuvable.";
             return false;
         }
-        $covoitDetail = $covoitDetail[0];
+        // $covoitDetail = $covoitDetail[0];
 
         try {
             // Commencer transaction

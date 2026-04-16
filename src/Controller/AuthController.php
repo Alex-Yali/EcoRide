@@ -16,36 +16,62 @@ class AuthController extends Controller
             $email = trim($_POST['email'] ?? '');
             $password = $_POST['password'] ?? '';
 
+            $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+                || (($_SERVER['CONTENT_TYPE'] ?? '') === 'application/json');
+
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                // Vérification CSRF
-                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-                    $message = "Erreur CSRF : requête invalide.";
+                if ($isAjax) {
+                    $body = json_decode(file_get_contents('php://input'), true);
+                    $email = trim($body['email'] ?? '');
+                    $password = $body['password'] ?? '';
+                    $csrfToken = $body['csrf_token'] ?? '';
                 } else {
+                    $csrfToken = $_POST['csrf_token'] ?? '';
+                }
 
+                // Vérification CSRF
+                if (!verify_csrf_token($csrfToken)) {
+                    if ($isAjax) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Erreur CSRF"]);
+                        return;
+                    }
+                    $message = "Erreur CSRF";
+                } else {
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
                     $user = $authService->connexionUtilisateur($email, $password);
 
-                    // Redirige à l'espace utilisateur
                     if ($user) {
-
+                        if ($isAjax) {
+                            header('Content-Type: application/json');
+                            echo json_encode(["success" => true]);
+                            return;
+                        }
+                        // Redirige à l'espace utilisateur
                         header('Location: /espace/');
                         exit;
                     }
 
+                    if ($isAjax) {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            "success" => false,
+                            "message" => $authService->message
+                        ]);
+                        return;
+                    }
                     $message = $authService->message;
                 }
             }
         } catch (\Exception $e) {
-
             $message = "Une erreur est survenue : " . $e->getMessage();
         }
 
-        // Afficher la vue
         $this->render("pages/connexion", [
             'message' => $message,
-            'csrf' => $csrf ?? '',
+            'csrf'    => $csrf ?? '',
         ]);
     }
 
@@ -61,33 +87,63 @@ class AuthController extends Controller
             $password = trim($_POST['password'] ?? '');
             $passwordConfirm = trim($_POST['password_confirm'] ?? '');
 
+            $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+                || (($_SERVER['CONTENT_TYPE'] ?? '') === 'application/json');
+
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                // Vérification CSRF
-                if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-                    $message = "Erreur CSRF : requête invalide.";
+                if ($isAjax) {
+                    $body = json_decode(file_get_contents('php://input'), true);
+                    $pseudo = trim($body['pseudo'] ?? '');
+                    $email = trim($body['email'] ?? '');
+                    $password = $body['password'] ?? '';
+                    $passwordConfirm = $body['passwordConfirm'] ?? '';
+                    $csrfToken = $body['csrf_token'] ?? '';
                 } else {
+                    $csrfToken = $_POST['csrf_token'] ?? '';
+                }
 
+                // Vérification CSRF
+                if (!verify_csrf_token($csrfToken)) {
+                    if ($isAjax) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Erreur CSRF"]);
+                        return;
+                    }
+                    $message = "Erreur CSRF";
+                } else {
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
+                    $user = $authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm);
 
-                    if ($authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm)) {
+                    if ($user) {
+                        if ($isAjax) {
+                            header('Content-Type: application/json');
+                            echo json_encode(["success" => true]);
+                            return;
+                        }
+                        // Redirige à l'espace utilisateur
                         header('Location: /espace/');
                         exit;
                     }
-
+                    if ($isAjax) {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            "success" => false,
+                            "message" => $authService->message
+                        ]);
+                        return;
+                    }
                     $message = $authService->message;
                 }
             }
         } catch (\Exception $e) {
-
             $message = "Une erreur est survenue : " . $e->getMessage();
         }
 
-        // Afficher la vue
         $this->render("pages/inscription", [
             'message' => $message,
-            'csrf' => $csrf ?? '',
+            'csrf'    => $csrf ?? '',
         ]);
     }
 

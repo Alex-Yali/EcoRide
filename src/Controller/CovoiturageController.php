@@ -81,37 +81,35 @@ class CovoiturageController extends Controller
             $idUtilisateur = $_SESSION['user_id'] ?? 0;
             $message = "";
             $messageCovoit = "";
+            $covoitDetail =  [];
+            $dateDetailCovoit = '';
+            $preferences = [];
+            $imageVoiture = [];
+            $dureeCovoit = "";
             $participeCovoit = false;
             $totalAvis = null;
             $csrf = generate_csrf_token();
 
             // Récupération de l’ID dans l’URL
-            $idCovoit = $_GET['id'] ?? '';
-            if (!ctype_digit($idCovoit)) {
-                header('Location: /covoiturage/');
-                exit;
+            $idCovoit = $_GET['id'] ?? null;
+
+            if (!$idCovoit || !is_numeric($idCovoit)) {
+                die("ID invalide : " . var_dump($idCovoit));
             }
+
+            $idCovoit = (int) $idCovoit;
 
             // Récupérer nombre avis 
             $avisRepository = new AvisRepository();
             $totalAvis = $avisRepository->totalAvis($idCovoit);
 
-            $result = $covoiturageService->covoitDetail($idCovoit);
-            if ($result) {
-                $covoitDetail = $result['covoitDetail'];
-                $dateDetailCovoit = $result['dateDetailCovoit'];
-                $preferences = $result['preferences'];
-                $imageVoiture = $result['imageVoiture'];
-                $dureeCovoit = $result['dureeCovoit'];
-            } else {
-                $covoitDetail = null;
-                $dateDetailCovoit = '';
-                $preferences = [];
-                $imageVoiture = [];
-                $dureeCovoit = "";
-            }
+            $result = $covoiturageService->covoitDetail($idCovoit) ?? [];
 
-
+            $covoitDetail = $result['covoitDetail'] ?? [];
+            $dateDetailCovoit = $result['dateDetailCovoit'] ?? '';
+            $preferences = $result['preferences'] ?? [];
+            $imageVoiture = $result['imageVoiture'] ??  '';
+            $dureeCovoit = $result['dureeCovoit'] ?? '';
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'oui') {
 
                 // Vérification CSRF
