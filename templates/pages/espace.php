@@ -63,7 +63,7 @@
                         </section>
             </section>
             <!-- Message de succès / erreur -->
-            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
 
             <section class="user-infos" id="credits">
                 <section class="box-user-infos">
@@ -245,13 +245,13 @@
             <!-- Section Employe -->
         <?php elseif ($role === 'employe'): ?>
             <!-- Message de succès / erreur -->
-            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             <?php require APP_ROOT . "/templates/pages/includes/employe.php" ?>
 
             <!-- Section Admin -->
         <?php elseif ($role === 'admin'): ?>
             <!-- Message de succès / erreur -->
-            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             <?php require APP_ROOT . "/templates/pages/includes/admin.php" ?>
             <!-- Graphiques -->
             <section class="graphique">

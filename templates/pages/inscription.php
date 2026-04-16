@@ -54,7 +54,7 @@
             </section>
 
             <!-- Affichage du message d'erreur -->
-            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             <p class="errorMessage"></p>
 
             <button id="btnInscri" class="button" type="button">S'inscrire</button>

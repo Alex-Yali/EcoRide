@@ -27,7 +27,7 @@
         <h1 class="gros-titre">Avis du conducteur :</h1>
 
         <!-- Message de succès / erreur -->
-        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+        <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
 
         <section class="detail">
             <!-- Infos utilisateur -->

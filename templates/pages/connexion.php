@@ -41,7 +41,7 @@
             </section>
 
             <!-- Affichage du message d'erreur -->
-            <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+            <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             <p class="errorMessage"></p>
 
             <button id="btnConect" class="button" type="button">Se connecter</button>

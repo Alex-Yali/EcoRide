@@ -39,7 +39,7 @@ $filters = $filters ?? [
         <?php require APP_ROOT . "/templates/pages/includes/barreRecherche.php" ?>
 
         <!-- Messages d'erreur covoiturage -->
-        <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+        <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
 
         <section class="covoit">
             <!-- Filtres latéraux -->

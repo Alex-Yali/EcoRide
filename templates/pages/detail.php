@@ -132,7 +132,7 @@
                     </form>
                 <?php endif; ?>
                 <!-- Message de succès / erreur -->
-                <?php require APP_ROOT . "/src/Service/MessagesErreur.php" ?>
+                <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             </section>
         </section>
     </main>
