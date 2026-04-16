@@ -21,12 +21,21 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Activer mod_rewrite
 RUN a2enmod rewrite
 
-# Copier le projet
-COPY . /var/www/html/
+# Définir le dossier de travail
+WORKDIR /var/www/html
+
+# ============================================ Installation des dépendances PHP ============================================= #
+
+# Copier les fichiers composer
+COPY composer.json composer.lock ./
 
 # Installer les dépendances PHP
-WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Copier le reste du projet
+COPY . .
+
+# ============================================ Configuration Apache ============================================= #
 
 # Apache : DocumentRoot = public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' \
