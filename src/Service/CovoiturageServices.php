@@ -329,6 +329,8 @@ class CovoiturageServices
         $doc = $this->collectionPreferences->findOne([
             'utilisateur_id' => $idChauffeur
         ]);
+        var_dump($doc);
+        exit;
 
         if ($doc) {
 
