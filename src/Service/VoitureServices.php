@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Repository\VoitureRepository;
+use App\repository\VoitureRepository;
 use PDO;
 
 class VoitureServices

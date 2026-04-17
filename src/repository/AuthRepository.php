@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
 use PDO;
-use App\Entity\Utilisateur;
+use App\Entity\utilisateur;
 
 class AuthRepository extends Repository
 {

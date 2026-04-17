@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Service\CovoiturageServices;
-use App\Repository\CovoiturageRepository;
-use App\db\Mysql;
-use App\db\MongoDB;
-use App\Repository\AvisRepository;
+use App\Db\Mysql;
+use App\Db\MongoDB;
+use App\repository\AvisRepository;
 use PDO;
 
 class CovoiturageController extends Controller

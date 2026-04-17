@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
 use PDO;
-use App\Entity\Covoiturage;
+use App\Entity\covoiturage;
 
 class CovoiturageRepository extends Repository
 {

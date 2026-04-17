@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
 use PDO;
-use App\Entity\Avis;
-use App\Entity\InfosCovoitAvis;
+use App\Entity\avis;
+use App\Entity\infosCovoitAvis;
 
 class AvisRepository extends Repository
 {

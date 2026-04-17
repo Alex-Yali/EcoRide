@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use App\Repository\EspaceRepository;
-use App\Repository\CovoiturageRepository;
-use App\Repository\UtilisateurRepository;
+use App\repository\EspaceRepository;
+use App\repository\CovoiturageRepository;
+use App\repository\UtilisateurRepository;
 use App\Service\EspaceServices;
 use App\Service\UtilisateurServices;
 use App\Service\CovoiturageServices;
 use App\Service\VoitureServices;
 use App\Service\AvisServices;
 use PDO;
-use App\db\Mysql;
-use App\db\MongoDB;
+use App\Db\Mysql;
+use App\Db\MongoDB;
 
 class EspaceController extends Controller
 {

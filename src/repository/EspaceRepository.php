@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
-use App\Entity\Covoiturage;
-use App\Entity\Utilisateur;
-use App\Entity\Role;
+use App\Entity\utilisateur;
+use App\Entity\role;
 use PDO;
 
 class EspaceRepository

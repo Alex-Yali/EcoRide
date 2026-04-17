@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Repository\VoitureRepository;
-use App\db\Mysql;
+use App\repository\VoitureRepository;
+use App\Db\Mysql;
 use PDO;
 use DateTime;
 

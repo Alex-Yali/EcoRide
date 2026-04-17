@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Repository\AuthRepository;
-use App\db\Mysql;
+use App\repository\AuthRepository;
+use App\Db\Mysql;
 
 class AuthServices
 {

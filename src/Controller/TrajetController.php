@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\db\Mysql;
-use App\Repository\UtilisateurRepository;
+use App\Db\Mysql;
+use App\repository\UtilisateurRepository;
 use App\Service\TrajetServices;
 use App\Service\VoitureServices;
 

@@ -2,12 +2,11 @@
 
 namespace App\Service;
 
-use App\Repository\CovoiturageRepository;
-use App\db\Mysql;
-use App\Repository\UtilisateurRepository;
+use App\repository\CovoiturageRepository;
+use App\Db\Mysql;
+use App\repository\UtilisateurRepository;
 use PDO;
 use DateTime;
-use Dom\Document;
 
 class CovoiturageServices
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
 use App\Entity\infosCompte;
 use PDO;
-use App\Entity\Role;
-use App\Entity\Utilisateur;
+use App\Entity\role;
+use App\Entity\utilisateur;
 
 class UtilisateurRepository extends Repository
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\db;
+namespace App\Db;
 
 use MongoDB\Client;
 

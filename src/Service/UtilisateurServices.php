@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Repository\AuthRepository;
-use App\db\Mysql;
-use App\Repository\UtilisateurRepository;
+use App\repository\AuthRepository;
+use App\Db\Mysql;
+use App\repository\UtilisateurRepository;
 
 class UtilisateurServices
 {

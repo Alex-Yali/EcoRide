@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
-use App\db\Mysql;
+use App\Db\Mysql;
 use PDO;
 
 class Repository

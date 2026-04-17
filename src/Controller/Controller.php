@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\db\Mysql;
-use App\Repository\EspaceRepository;
-use App\Repository\UtilisateurRepository;
-use App\Service\CovoiturageServices;
+use App\Db\Mysql;
+use App\repository\EspaceRepository;
+use App\repository\UtilisateurRepository;
 
 class Controller
 {

@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\db\Mysql;
-use App\Repository\AvisRepository;
+use App\Db\Mysql;
+use App\repository\AvisRepository;
 
 class AvisServices
 {

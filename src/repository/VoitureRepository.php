@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\repository;
 
 use PDO;
-use App\db\MongoDB;
-use App\Entity\Covoiturage;
-use App\Entity\Voiture;
+use App\Db\MongoDB;
+use App\Entity\covoiturage;
+use App\Entity\voiture;
 
 class VoitureRepository extends Repository
 {
