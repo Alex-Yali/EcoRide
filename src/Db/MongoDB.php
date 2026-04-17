@@ -18,12 +18,15 @@ class MongoDB
         $user = $_ENV['MONGO_USER'] ?? getenv('MONGO_USER');
         $pass = $_ENV['MONGO_PASS'] ?? getenv('MONGO_PASS');
 
-        $uri = "mongodb://$user:$pass@$host:$port/?authSource=$dbName";
+        if (!empty($user) && !empty($pass)) {
+            $uri = "mongodb://$user:$pass@$host:$port/$dbName?authSource=admin";
+        } else {
+            $uri = "mongodb://$host:$port";
+        }
 
         $this->client = new Client($uri);
         $this->database = $this->client->selectDatabase($dbName);
     }
-
     public static function getInstance(): self
     {
         if (self::$_instance === null) {
