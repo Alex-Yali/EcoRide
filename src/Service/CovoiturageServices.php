@@ -324,19 +324,19 @@ class CovoiturageServices
         // Gerer les preferences
         $preferences = [];
         $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
-        if ($idChauffeur) {
-            $doc = $this->collectionPreferences->findOne([
-                'utilisateur_id' => (int)$idChauffeur
-            ]);
+        // if ($idChauffeur) {
+        //     $doc = $this->collectionPreferences->findOne([
+        //         'utilisateur_id' => (int)$idChauffeur
+        //     ]);
 
-            if ($doc && !empty($doc['preferences'])) {
-                foreach ($doc['preferences'] as $key => $value) {
-                    if (!empty($value)) {
-                        $preferences[] = "$key : $value";
-                    }
-                }
-            }
-        }
+        //     if ($doc && !empty($doc['preferences'])) {
+        //         foreach ($doc['preferences'] as $key => $value) {
+        //             if (!empty($value)) {
+        //                 $preferences[] = "$key : $value";
+        //             }
+        //         }
+        //     }
+        // }
 
         // Fonction date covoiturage (en français)
         $dateDetail = new \DateTime($covoitDetail['date_depart']);
