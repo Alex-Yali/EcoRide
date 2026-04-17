@@ -18,11 +18,11 @@ class MongoDB
         $user = $_ENV['MONGO_USER'] ?? getenv('MONGO_USER');
         $pass = $_ENV['MONGO_PASS'] ?? getenv('MONGO_PASS');
 
-        if (!empty($user) && !empty($pass)) {
-            $uri = "mongodb://$user:$pass@$host:$port/$dbName?authSource=admin";
-        } else {
-            $uri = "mongodb://$host:$port";
+        if (empty($user) || empty($pass)) {
+            throw new \Exception("Mongo credentials missing in .env");
         }
+
+        $uri = "mongodb://$user:$pass@$host:$port/$dbName?authSource=admin";
 
         $this->client = new Client($uri);
         $this->database = $this->client->selectDatabase($dbName);
