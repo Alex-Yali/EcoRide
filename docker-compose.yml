@@ -55,12 +55,14 @@ services:
     env_file:
       - ./.env
     environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
       MONGO_INITDB_DATABASE: ${MONGO_DB}
       TZ: Europe/Paris
     volumes:
       - mongo_data:/data/db
       - ./database:/tmp/database
-      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init-local.js:ro
 
   #Service de visualisation de la base de données MongoDB
   mongo-express:
