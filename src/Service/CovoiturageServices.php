@@ -8,6 +8,7 @@ use App\repository\UtilisateurRepository;
 use PDO;
 use DateTime;
 
+die("DEBUG VERSION 2");
 class CovoiturageServices
 {
     public string $message = '';
