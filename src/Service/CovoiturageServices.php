@@ -329,20 +329,14 @@ class CovoiturageServices
         $doc = $this->collectionPreferences->findOne([
             'utilisateur_id' => $idChauffeur
         ]);
-        var_dump($doc);
-        exit;
 
         if ($doc) {
 
-            $doc = $doc->getArrayCopy();
+            $prefs = (array) $doc['preferences'];
 
-            $prefs = $doc['preferences'] ?? [];
-
-            if (is_array($prefs)) {
-                foreach ($prefs as $key => $value) {
-                    if (!empty($value)) {
-                        $preferences[] = ucfirst($key) . " : " . $value;
-                    }
+            foreach ($prefs as $key => $value) {
+                if (!empty($value)) {
+                    $preferences[] = ucfirst($key) . " : " . $value;
                 }
             }
         }
