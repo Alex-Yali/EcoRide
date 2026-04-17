@@ -320,7 +320,9 @@ class CovoiturageServices
             $this->messageCovoit = "Covoiturage introuvable.";
             return null;
         }
-
+        var_dump($covoitDetail);
+        var_dump($covoitDetail['utilisateur_id'] ?? 'NO ID');
+        exit;
         // Gerer les preferences
         $preferences = [];
         $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
