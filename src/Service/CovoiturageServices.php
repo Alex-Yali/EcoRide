@@ -320,25 +320,34 @@ class CovoiturageServices
             $this->messageCovoit = "Covoiturage introuvable.";
             return null;
         }
-        var_dump($covoitDetail);
-        var_dump($covoitDetail['utilisateur_id'] ?? 'NO ID');
-        exit;
+
         // Gerer les preferences
         $preferences = [];
-        $idChauffeur = $covoitDetail['utilisateur_id'] ?? null;
-        if ($idChauffeur) {
-            $doc = $this->collectionPreferences->findOne([
-                'utilisateur_id' => (int)$idChauffeur
-            ]);
 
-            if ($doc && !empty($doc['preferences'])) {
-                foreach ($doc['preferences'] as $key => $value) {
+        $idChauffeur = (int)$covoitDetail['utilisateur_id'];
+
+        $doc = $this->collectionPreferences->findOne([
+            'utilisateur_id' => $idChauffeur
+        ]);
+
+        if ($doc) {
+
+            $doc = $doc->getArrayCopy();
+
+            $prefs = $doc['preferences'] ?? [];
+
+            if (is_array($prefs)) {
+                foreach ($prefs as $key => $value) {
                     if (!empty($value)) {
-                        $preferences[] = "$key : $value";
+                        $preferences[] = ucfirst($key) . " : " . $value;
                     }
                 }
             }
         }
+        var_dump($doc);
+        var_dump($doc['preferences'] ?? null);
+        var_dump($preferences);
+        exit;
 
         // Fonction date covoiturage (en français)
         $dateDetail = new \DateTime($covoitDetail['date_depart']);
