@@ -56,7 +56,7 @@ services:
       TZ: Europe/Paris
     volumes:
       - mongo_data:/data/db
-      - ./database:/tmp/database
+      - ./database:/docker-entrypoint-initdb.d
 
   #Service de visualisation de la base de données MongoDB
   mongo-express:
