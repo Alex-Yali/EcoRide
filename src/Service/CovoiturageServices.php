@@ -326,27 +326,18 @@ class CovoiturageServices
 
         $idChauffeur = (int)$covoitDetail['utilisateur_id'];
 
-        $doc = $this->collectionPreferences->findOne([
-            'utilisateur_id' => $idChauffeur
-        ]);
+        var_dump("ID:", $idChauffeur);
 
-        if ($doc) {
+        try {
+            $doc = $this->collectionPreferences->findOne([
+                'utilisateur_id' => $idChauffeur
+            ]);
 
-            $doc = $doc->getArrayCopy();
-
-            $prefs = $doc['preferences'] ?? [];
-
-            if (is_array($prefs)) {
-                foreach ($prefs as $key => $value) {
-                    if (!empty($value)) {
-                        $preferences[] = ucfirst($key) . " : " . $value;
-                    }
-                }
-            }
+            var_dump("DOC:", $doc);
+        } catch (\Throwable $e) {
+            var_dump("ERROR:", $e->getMessage());
         }
-        var_dump($doc);
-        var_dump($doc['preferences'] ?? null);
-        var_dump($preferences);
+
         exit;
 
         // Fonction date covoiturage (en français)
