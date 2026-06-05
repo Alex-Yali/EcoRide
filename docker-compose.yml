@@ -11,10 +11,6 @@ services:
       - mongo
     env_file:
       - ./.env
-    volumes:
-      - .:/var/www/html
-      - ./src:/var/www/html/src
-      - ./public:/var/www/html/public
 
   # Database MySQL
   db:

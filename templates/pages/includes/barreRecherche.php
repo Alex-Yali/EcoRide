@@ -15,7 +15,7 @@
     <!-- Calendrier -->
     <section class="nav-choix">
         <img src="/assets/images/calendrier gris.png" class="icon" alt="image calendrier">
-        <input id="date" type="date" name="date" required>
+        <input id="date" type="date" name="date" min="<?= date('Y-m-d') ?>" required>
     </section>
     <!-- Bouton -->
     <button id="btnNav" type="submit">Rechercher</button>

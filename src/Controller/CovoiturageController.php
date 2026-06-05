@@ -93,7 +93,7 @@ class CovoiturageController extends Controller
             $idCovoit = $_GET['id'] ?? null;
 
             if (!$idCovoit || !is_numeric($idCovoit)) {
-                die("ID invalide : " . var_dump($idCovoit));
+                die("ID invalide : ");
             }
 
             $idCovoit = (int) $idCovoit;

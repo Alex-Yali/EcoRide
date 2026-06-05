@@ -598,7 +598,6 @@ input {
         font-size: 0.75rem;
     }
     .passagerLink, .chauffeurLink {
-        padding: 1rem;
         width: 90%;
     }
     .passagerLink li, .chauffeurLink li {
