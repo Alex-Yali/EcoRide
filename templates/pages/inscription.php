@@ -52,6 +52,11 @@
                 <span id="togglePasswordConfirm" class="eye-icon"><img src="/assets/images/oeil-ouvert.png" class="oeil" alt="oeil ouvert"></span>
                 <span class="error">Les mots de passe ne sont pas identiques</span>
             </section>
+            <section>
+                <input type="checkbox" id="agreeForm" name="agreeForm" required>
+                <label for="agreeForm" id="formCheck">En m'inscrivant à ce site, j'accepte les <a href="/mention/">conditions générales d'utilisation</a></label>
+                <span class="error">Merci de cocher les conditions générales</span>
+            </section>
 
             <!-- Affichage du message d'erreur -->
             <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>

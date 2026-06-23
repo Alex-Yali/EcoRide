@@ -4,12 +4,14 @@ const inputPseudo = document.getElementById("pseudo");
 const inputMail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
 const inputPasswordConfirm = document.getElementById("password_confirm");
+const inputCheckbox = document.getElementById ("agreeForm");
 const btnValidation = document.getElementById("btnInscri");
 
 inputPseudo.addEventListener("keyup", validateForm); 
 inputMail.addEventListener("keyup", validateForm);
 inputPassword.addEventListener("keyup", validateForm);
 inputPasswordConfirm.addEventListener("keyup", validateForm);
+inputCheckbox.addEventListener("click", validateForm);
 
 function validatePseudo(input){
     const error = input.parentElement.querySelector(".error");
@@ -103,13 +105,32 @@ function validateConfirmationPassword(inputPassword, inputPasswordConfirm){
     }
 }
 
+function validateCheckbox(inputCheckbox){
+    const error = inputCheckbox.parentElement.querySelector(".error");
+
+    if (!inputCheckbox.checked) {
+        inputCheckbox.classList.remove("is-valid");
+        inputCheckbox.classList.add("is-invalid");
+
+        if (error) error.style.display = "block";
+        return false;
+    }
+    else {
+        inputCheckbox.classList.add("is-valid");
+        inputCheckbox.classList.remove("is-invalid");
+        if(error) error.style.display = "none";
+        return true;
+    }
+}
+
 function validateForm(){
     const pseudoOk = validatePseudo(inputPseudo);
     const mailOk = validateMail(inputMail);
     const passwordOk = validatePassword(inputPassword);
     const passwordConfirmOk = validateConfirmationPassword (inputPassword, inputPasswordConfirm);
+    const checkboxOk = validateCheckbox(inputCheckbox);
 
-    if(pseudoOk && mailOk && passwordOk && passwordConfirmOk){
+    if(pseudoOk && mailOk && passwordOk && passwordConfirmOk && checkboxOk){
         btnValidation.disabled = false;
     }
     else{
@@ -186,6 +207,7 @@ async function InscrireUtlisateur() {
     const email = inputMail.value;
     const password = inputPassword.value;
     const passwordConfirm = inputPasswordConfirm.value;
+    const checkbox = inputCheckbox.checked;
     const csrf = document.querySelector('input[name="csrf_token"]').value;
 
     try {
@@ -195,7 +217,7 @@ async function InscrireUtlisateur() {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest"
             },
-            body: JSON.stringify({ pseudo, email, password, passwordConfirm, csrf_token: csrf })
+            body: JSON.stringify({ pseudo, email, password, passwordConfirm, checkbox, csrf_token: csrf })
         });
 
         const result = await response.json();

@@ -53,6 +53,18 @@
     gap: 1rem;
 }
 
+#formCheck {
+    font-size: 0.8rem;
+}
+
+#formCheck a {
+    color: inherit;
+}
+
+#agreeForm[type="checkbox"] {
+    accent-color: #267240;
+}
+
 /* --- Responsive --- */
 @media (max-width: 480px) {
     h1 {

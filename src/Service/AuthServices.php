@@ -77,7 +77,7 @@ class AuthServices
         }
     }
 
-    public function inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm)
+    public function inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm, $checkbox)
     {
         $startCredit = 20;
 
@@ -102,6 +102,12 @@ class AuthServices
         // Vérifier si les mots de passe correspondent
         if ($passwordConfirm !== $password) {
             $this->message = "Les mots de passe ne correspondent pas";
+            return false;
+        }
+
+        // Vérifier si checkbox est checker
+        if (!$checkbox) {
+            $this->message = "Merci de cocher les conditions générales";
             return false;
         }
 
