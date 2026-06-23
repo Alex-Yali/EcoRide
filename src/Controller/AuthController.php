@@ -86,6 +86,7 @@ class AuthController extends Controller
             $email = trim($_POST['email'] ?? '');
             $password = trim($_POST['password'] ?? '');
             $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+            $checkbox = isset($_POST['agreeForm']);
 
             $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
                 || (($_SERVER['CONTENT_TYPE'] ?? '') === 'application/json');
@@ -98,6 +99,7 @@ class AuthController extends Controller
                     $email = trim($body['email'] ?? '');
                     $password = $body['password'] ?? '';
                     $passwordConfirm = $body['passwordConfirm'] ?? '';
+                    $checkbox = $body['checkbox'] ?? null;
                     $csrfToken = $body['csrf_token'] ?? '';
                 } else {
                     $csrfToken = $_POST['csrf_token'] ?? '';
@@ -114,7 +116,7 @@ class AuthController extends Controller
                 } else {
                     // Appel fonction d'authentification
                     $authService = new AuthServices();
-                    $user = $authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm);
+                    $user = $authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm, $checkbox);
 
                     if ($user) {
                         if ($isAjax) {
