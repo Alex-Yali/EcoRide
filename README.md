@@ -82,3 +82,4 @@ docker exec -i ecoride-mongo mongoimport --db ecoride --collection preferences -
 - Pour MySQL, utilisez Adminer : [http://localhost:8080](http://localhost:8080)
 - Pour MongoDB, utilisez Mongo-Express : [http://localhost:8081](http://localhost:8081)
 - Ne jamais mettre `localhost` dans le `.env` pour MongoDB ou MySQL en Docker. Utilisez toujours les noms des services (`mongo` et `db`).
+- Pour accéder à l'application en production : https://www.ecoride.page/
