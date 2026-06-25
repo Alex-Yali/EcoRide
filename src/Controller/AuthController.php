@@ -134,6 +134,14 @@ public function inscription(): void
                 . urlencode($captchaToken)
             );
 
+            if ($verify === false) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Erreur communication reCAPTCHA Google"
+                ]);
+                return;
+                }
+
             $captchaResult = json_decode($verify, true);
 
             if (!$captchaResult['success']) {
