@@ -228,8 +228,8 @@ async function InscrireUtlisateur() {
             body: JSON.stringify({ pseudo, email, password, passwordConfirm, checkbox, csrf_token: csrf, captchaToken })
         });
 
-     const text = await response.text();
-console.log(text);
+        const result = await response.json();
+        console.log(result);
 
         if (result.success) {
             window.location.href = "/espace/";
