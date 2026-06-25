@@ -58,6 +58,8 @@
                 <span class="error">Merci de cocher les conditions générales</span>
             </section>
 
+            <section class="g-recaptcha" data-sitekey="6LdLaDQtAAAAAODiuep87sWibNFfAAshKZ-o1cj2"></section>
+
             <!-- Affichage du message d'erreur -->
             <?php require APP_ROOT . "/src/Service/messagesErreur.php" ?>
             <p class="errorMessage"></p>
@@ -74,6 +76,7 @@
         <!-- JS  -->
         <script src="/assets/js/main.js" type="module"></script>
         <script src="/assets/js/pages/inscription.js" type="module"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 
 </html>

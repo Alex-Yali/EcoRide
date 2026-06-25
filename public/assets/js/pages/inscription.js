@@ -203,6 +203,14 @@ if (val.length === 0) {
 btnValidation.addEventListener("click", InscrireUtlisateur);
 
 async function InscrireUtlisateur() {
+
+    const captchaToken = grecaptcha.getResponse();
+
+    if (!captchaToken) {
+        alert("Veuillez valider le captcha");
+        return;
+    }
+
     const pseudo = inputPseudo.value;
     const email = inputMail.value;
     const password = inputPassword.value;
@@ -217,7 +225,7 @@ async function InscrireUtlisateur() {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest"
             },
-            body: JSON.stringify({ pseudo, email, password, passwordConfirm, checkbox, csrf_token: csrf })
+            body: JSON.stringify({ pseudo, email, password, passwordConfirm, checkbox, csrf_token: csrf, captchaToken })
         });
 
         const result = await response.json();
@@ -237,3 +245,4 @@ async function InscrireUtlisateur() {
         console.error("Erreur réseau :", error);
     }
 }
+
