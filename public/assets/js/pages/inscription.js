@@ -229,6 +229,7 @@ async function InscrireUtlisateur() {
         });
 
         const result = await response.json();
+        console.log(result);
 
         if (result.success) {
             window.location.href = "/espace/";
