@@ -77,77 +77,120 @@ class AuthController extends Controller
 
     /* ============================================ Inscription ============================================= */
 
-    public function inscription(): void
-    {
-        try {
-            $message = '';
-            $csrf = generate_csrf_token();
-            $pseudo = trim($_POST['pseudo'] ?? '');
-            $email = trim($_POST['email'] ?? '');
-            $password = trim($_POST['password'] ?? '');
-            $passwordConfirm = trim($_POST['password_confirm'] ?? '');
-            $checkbox = isset($_POST['agreeForm']);
+public function inscription(): void
+{
+    try {
+        $message = '';
+        $csrf = generate_csrf_token();
 
-            $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-                || (($_SERVER['CONTENT_TYPE'] ?? '') === 'application/json');
+        $pseudo = trim($_POST['pseudo'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+        $passwordConfirm = trim($_POST['password_confirm'] ?? '');
+        $checkbox = isset($_POST['agreeForm']);
 
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            || (($_SERVER['CONTENT_TYPE'] ?? '') === 'application/json');
 
-                if ($isAjax) {
-                    $body = json_decode(file_get_contents('php://input'), true);
-                    $pseudo = trim($body['pseudo'] ?? '');
-                    $email = trim($body['email'] ?? '');
-                    $password = $body['password'] ?? '';
-                    $passwordConfirm = $body['passwordConfirm'] ?? '';
-                    $checkbox = $body['checkbox'] ?? null;
-                    $csrfToken = $body['csrf_token'] ?? '';
-                } else {
-                    $csrfToken = $_POST['csrf_token'] ?? '';
-                }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                // Vérification CSRF
-                if (!verify_csrf_token($csrfToken)) {
-                    if ($isAjax) {
-                        header('Content-Type: application/json');
-                        echo json_encode(["success" => false, "message" => "Erreur CSRF"]);
-                        return;
-                    }
-                    $message = "Erreur CSRF";
-                } else {
-                    // Appel fonction d'authentification
-                    $authService = new AuthServices();
-                    $user = $authService->inscriptionUtilisateur($pseudo, $email, $password, $passwordConfirm, $checkbox);
+            if ($isAjax) {
+                $body = json_decode(file_get_contents('php://input'), true);
 
-                    if ($user) {
-                        if ($isAjax) {
-                            header('Content-Type: application/json');
-                            echo json_encode(["success" => true]);
-                            return;
-                        }
-                        // Redirige à l'espace utilisateur
-                        header('Location: /espace/');
-                        exit;
-                    }
-                    if ($isAjax) {
-                        header('Content-Type: application/json');
-                        echo json_encode([
-                            "success" => false,
-                            "message" => $authService->message
-                        ]);
-                        return;
-                    }
-                    $message = $authService->message;
-                }
+                $pseudo = trim($body['pseudo'] ?? '');
+                $email = trim($body['email'] ?? '');
+                $password = $body['password'] ?? '';
+                $passwordConfirm = $body['passwordConfirm'] ?? '';
+                $checkbox = $body['checkbox'] ?? null;
+
+                $csrfToken = $body['csrf_token'] ?? '';
+                $captchaToken = $body['captchaToken'] ?? '';
+            } else {
+                $csrfToken = $_POST['csrf_token'] ?? '';
+                $captchaToken = $_POST['g-recaptcha-response'] ?? '';
             }
-        } catch (\Exception $e) {
-            $message = "Une erreur est survenue : " . $e->getMessage();
+
+            // 🔐 1. CSRF CHECK
+            if (!verify_csrf_token($csrfToken)) {
+                if ($isAjax) {
+                    header('Content-Type: application/json');
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Erreur CSRF"
+                    ]);
+                    return;
+                }
+                $message = "Erreur CSRF";
+                return;
+            }
+
+            // 🤖 2. CAPTCHA CHECK (CORRECTEMENT PLACÉ)
+            $secretKey = $_ENV['RECAPTCHA_SECRET_KEY'];
+
+            $verify = file_get_contents(
+                "https://www.google.com/recaptcha/api/siteverify?secret="
+                . urlencode($secretKey)
+                . "&response="
+                . urlencode($captchaToken)
+            );
+
+            $captchaResult = json_decode($verify, true);
+
+            if (!$captchaResult['success']) {
+                if ($isAjax) {
+                    header('Content-Type: application/json');
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Captcha invalide"
+                    ]);
+                    return;
+                }
+                $message = "Captcha invalide";
+                return;
+            }
+
+            // 👤 3. INSCRIPTION
+            $authService = new AuthServices();
+            $user = $authService->inscriptionUtilisateur(
+                $pseudo,
+                $email,
+                $password,
+                $passwordConfirm,
+                $checkbox
+            );
+
+            if ($user) {
+                if ($isAjax) {
+                    header('Content-Type: application/json');
+                    echo json_encode(["success" => true]);
+                    return;
+                }
+
+                header('Location: /espace/');
+                exit;
+            }
+
+            if ($isAjax) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "success" => false,
+                    "message" => $authService->message
+                ]);
+                return;
+            }
+
+            $message = $authService->message;
         }
 
-        $this->render("pages/inscription", [
-            'message' => $message,
-            'csrf'    => $csrf ?? '',
-        ]);
+    } catch (\Exception $e) {
+        $message = "Une erreur est survenue : " . $e->getMessage();
     }
+
+    $this->render("pages/inscription", [
+        'message' => $message,
+        'csrf'    => $csrf ?? '',
+    ]);
+}
 
     public function deconnexion(): void
     {
