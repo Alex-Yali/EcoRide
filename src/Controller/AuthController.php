@@ -125,7 +125,7 @@ public function inscription(): void
             }
 
             // 🤖 2. CAPTCHA CHECK (CORRECTEMENT PLACÉ)
-            $secretKey = getenv('RECAPTCHA_SECRET_KEY');
+            $secretKey = $_ENV['RECAPTCHA_SECRET_KEY'] ?? $_SERVER['RECAPTCHA_SECRET_KEY'] ?? getenv('RECAPTCHA_SECRET_KEY');
 
             $verify = file_get_contents(
                 "https://www.google.com/recaptcha/api/siteverify?secret="
