@@ -153,8 +153,8 @@ public function inscription(): void
                     ]);
                     return;
                 }
-                $message = "Captcha invalide";
-                return;
+                // $message = "Captcha invalide";
+                // return;
             }
 
             // 👤 3. INSCRIPTION
