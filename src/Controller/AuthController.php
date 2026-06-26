@@ -149,7 +149,8 @@ public function inscription(): void
                     header('Content-Type: application/json');
                     echo json_encode([
                         "success" => false,
-                        "message" => "Captcha invalide"
+                        "message" => "Captcha invalide",
+                        "errors" => $captchaResult['error-codes'] ?? []
                     ]);
                     return;
                 }
