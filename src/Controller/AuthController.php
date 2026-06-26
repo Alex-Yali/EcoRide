@@ -105,6 +105,7 @@ public function inscription(): void
 
                 $csrfToken = $body['csrf_token'] ?? '';
                 $captchaToken = $body['captchaToken'] ?? '';
+                error_log("TOKEN = " . $captchaToken);
             } else {
                 $csrfToken = $_POST['csrf_token'] ?? '';
                 $captchaToken = $_POST['g-recaptcha-response'] ?? '';
