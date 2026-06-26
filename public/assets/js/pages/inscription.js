@@ -210,7 +210,7 @@ async function InscrireUtlisateur() {
         alert("Veuillez valider le captcha");
         return;
     }
-
+console.log("captchaToken :", captchaToken);
     const pseudo = inputPseudo.value;
     const email = inputMail.value;
     const password = inputPassword.value;
