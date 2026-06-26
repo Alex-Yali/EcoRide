@@ -12,6 +12,8 @@ services:
       - mongo
     env_file:
       - ./.env
+    environment:
+      RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY}
 
   # Database MySQL
   db:
